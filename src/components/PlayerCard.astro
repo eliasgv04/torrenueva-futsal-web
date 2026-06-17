@@ -1,0 +1,76 @@
+---
+interface Props {
+  dorsal: number;
+  nombre: string;
+  posicion: string;
+  foto: string;
+}
+
+const { dorsal, nombre, posicion, foto } = Astro.props;
+---
+
+<article class="tarjeta jugador-tarjeta">
+  <div class="jugador-foto-contenedor">
+    <img
+      src={foto}
+      alt={`Foto de ${nombre}`}
+      class="jugador-foto"
+      loading="lazy"
+      width="300"
+      height="400"
+    />
+    <span class="jugador-dorsal" aria-label={`Dorsal ${dorsal}`}>#{dorsal}</span>
+  </div>
+  <div class="tarjeta-cuerpo jugador-info">
+    <p class="jugador-nombre">{nombre}</p>
+    <p class="jugador-posicion">{posicion}</p>
+  </div>
+</article>
+
+<style>
+.jugador-tarjeta { text-align: center; }
+
+.jugador-foto-contenedor {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.jugador-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s;
+}
+.jugador-tarjeta:hover .jugador-foto { transform: scale(1.05); }
+
+.jugador-dorsal {
+  position: absolute;
+  top: .6rem;
+  right: .6rem;
+  background: var(--color-acento);
+  color: var(--color-negro);
+  font-weight: 800;
+  font-size: .9rem;
+  padding: .2rem .55rem;
+  border-radius: var(--radio-borde);
+  line-height: 1.4;
+}
+
+.jugador-info { padding: 1rem; }
+
+.jugador-nombre {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-negro);
+  margin-bottom: .25rem;
+}
+
+.jugador-posicion {
+  font-size: .82rem;
+  color: var(--color-gris-texto);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 500;
+}
+</style>

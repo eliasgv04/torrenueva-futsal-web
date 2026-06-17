@@ -1,0 +1,80 @@
+---
+interface Props {
+  titulo: string;
+  fecha: Date;
+  imagen: string;
+  descripcion: string;
+  slug: string;
+}
+
+const { titulo, fecha, imagen, descripcion, slug } = Astro.props;
+
+const fechaFormateada = fecha.toLocaleDateString('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<article class="tarjeta noticia-tarjeta">
+  <a href={`/noticias/${slug}`} class="tarjeta-enlace-imagen" tabindex="-1" aria-hidden="true">
+    <img
+      src={imagen}
+      alt={titulo}
+      class="tarjeta-imagen"
+      loading="lazy"
+      width="800"
+      height="450"
+    />
+  </a>
+  <div class="tarjeta-cuerpo">
+    <time class="noticia-fecha" datetime={fecha.toISOString()}>{fechaFormateada}</time>
+    <h3 class="noticia-titulo">
+      <a href={`/noticias/${slug}`}>{titulo}</a>
+    </h3>
+    <p class="noticia-descripcion">{descripcion}</p>
+    <a href={`/noticias/${slug}`} class="boton boton-contorno" aria-label={`Leer más sobre ${titulo}`}>
+      Leer más →
+    </a>
+  </div>
+</article>
+
+<style>
+.noticia-tarjeta { display: flex; flex-direction: column; }
+
+.tarjeta-enlace-imagen { display: block; overflow: hidden; }
+.tarjeta-enlace-imagen img {
+  transition: transform .3s ease;
+}
+.tarjeta-enlace-imagen:hover img { transform: scale(1.04); }
+
+.noticia-fecha {
+  font-size: .8rem;
+  color: var(--color-gris-texto);
+  display: block;
+  margin-bottom: .4rem;
+}
+
+.noticia-titulo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: .6rem;
+}
+.noticia-titulo a {
+  color: var(--color-negro);
+  text-decoration: none;
+}
+.noticia-titulo a:hover { color: var(--color-primario); }
+
+.noticia-descripcion {
+  font-size: .9rem;
+  color: var(--color-gris-texto);
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

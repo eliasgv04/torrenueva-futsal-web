@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { getCollection } from 'astro:content';
+
+const noticias = await getCollection('noticias');
+noticias.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+---
+
+<Layout
+  titulo="Noticias"
+  descripcion="Toda la actualidad del Club Torrenueva Futsal: resultados, fichajes, eventos y mucho más."
+>
+  <section class="seccion">
+    <h1 class="titulo-seccion">Noticias</h1>
+    <ul class="cuadricula-2" role="list">
+      {noticias.map(noticia => (
+        <li>
+          <NewsCard
+            titulo={noticia.data.titulo}
+            fecha={noticia.data.fecha}
+            imagen={noticia.data.imagen}
+            descripcion={noticia.data.descripcion}
+            slug={noticia.id.replace(/\.md$/, '')}
+          />
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>

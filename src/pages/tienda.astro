@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import productos from '../data/tienda.json';
+---
+
+<Layout
+  titulo="Tienda"
+  descripcion="Equipación oficial del Club Torrenueva Futsal. Camisetas y ropa del club. Tienda de muestra."
+>
+  <section class="seccion">
+    <h1 class="titulo-seccion">Tienda oficial</h1>
+
+    <div class="aviso aviso-amarillo" role="alert">
+      ⚠️ <strong>Tienda de muestra.</strong> Los productos mostrados son meramente ilustrativos y
+      <strong>no están disponibles para la venta online</strong>. Para adquirir equipación del club
+      contacta directamente con la directiva.
+    </div>
+
+    <ul class="cuadricula-3 productos-lista" role="list">
+      {productos.map(p => (
+        <li>
+          <article class="tarjeta producto-tarjeta">
+            <div class="producto-imagen-contenedor">
+              <img
+                src={p.foto}
+                alt={p.nombre}
+                class="producto-imagen"
+                loading="lazy"
+                width="400"
+                height="500"
+              />
+            </div>
+            <div class="tarjeta-cuerpo">
+              <h2 class="producto-nombre">{p.nombre}</h2>
+              <p class="producto-descripcion">{p.descripcion}</p>
+              <p class="producto-precio">
+                {p.precio.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
+              </p>
+              <p class="producto-aviso-mini">No disponible para venta online</p>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
+
+<style>
+.productos-lista { list-style: none; }
+
+.producto-tarjeta { display: flex; flex-direction: column; }
+
+.producto-imagen-contenedor {
+  overflow: hidden;
+  aspect-ratio: 4/5;
+}
+.producto-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s;
+}
+.producto-tarjeta:hover .producto-imagen { transform: scale(1.05); }
+
+.producto-nombre {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-negro);
+  margin-bottom: .4rem;
+  line-height: 1.3;
+}
+
+.producto-descripcion {
+  font-size: .85rem;
+  color: var(--color-gris-texto);
+  margin-bottom: .75rem;
+}
+
+.producto-precio {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-primario);
+  margin-bottom: .4rem;
+}
+
+.producto-aviso-mini {
+  font-size: .75rem;
+  color: var(--color-gris-texto);
+  font-style: italic;
+}
+</style>

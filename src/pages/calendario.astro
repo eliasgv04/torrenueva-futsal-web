@@ -1,0 +1,167 @@
+---
+import Layout from '../layouts/Layout.astro';
+import partidos from '../data/calendario.json';
+
+interface Partido {
+  fecha: string;
+  rival: string;
+  condicion: 'Local' | 'Visitante';
+  resultado: string | null;
+}
+
+const lista = partidos as Partido[];
+
+function formatearFecha(fechaStr: string) {
+  const fecha = new Date(fechaStr + 'T12:00:00');
+  return fecha.toLocaleDateString('es-ES', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+function parsearResultado(partido: Partido) {
+  if (!partido.resultado) return null;
+  const partes = partido.resultado.split(' - ').map(Number);
+  const [golesNuestros, golesRival] =
+    partido.condicion === 'Local' ? [partes[0], partes[1]] : [partes[1], partes[0]];
+  if (golesNuestros > golesRival) return 'victoria';
+  if (golesNuestros < golesRival) return 'derrota';
+  return 'empate';
+}
+---
+
+<Layout
+  titulo="Calendario"
+  descripcion="Partidos, resultados y próximos encuentros del Club Torrenueva Futsal en la temporada 2025/26."
+>
+  <section class="seccion">
+    <h1 class="titulo-seccion">Calendario 2025/26</h1>
+
+    <div class="leyenda" aria-label="Leyenda de resultados">
+      <span class="leyenda-item"><span class="badge victoria">V</span> Victoria</span>
+      <span class="leyenda-item"><span class="badge empate">E</span> Empate</span>
+      <span class="leyenda-item"><span class="badge derrota">D</span> Derrota</span>
+      <span class="leyenda-item"><span class="badge pendiente">—</span> Pendiente</span>
+    </div>
+
+    <div class="tabla-contenedor">
+      <table class="tabla-partidos" aria-label="Partidos de la temporada">
+        <thead>
+          <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Rival</th>
+            <th scope="col">Condición</th>
+            <th scope="col">Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {lista.map(partido => {
+            const tipo = parsearResultado(partido);
+            return (
+              <tr class={tipo ? `fila-${tipo}` : 'fila-pendiente'}>
+                <td class="celda-fecha">
+                  <time datetime={partido.fecha}>{formatearFecha(partido.fecha)}</time>
+                </td>
+                <td class="celda-rival"><strong>{partido.rival}</strong></td>
+                <td>
+                  <span class={`condicion condicion-${partido.condicion.toLowerCase()}`}>
+                    {partido.condicion}
+                  </span>
+                </td>
+                <td class="celda-resultado">
+                  {partido.resultado ? (
+                    <span class={`badge ${tipo}`} aria-label={`Resultado: ${partido.resultado}, ${tipo}`}>
+                      {partido.resultado}
+                    </span>
+                  ) : (
+                    <span class="badge pendiente" aria-label="Partido pendiente">Pendiente</span>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.leyenda {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  font-size: .85rem;
+  color: var(--color-gris-texto);
+}
+.leyenda-item { display: flex; align-items: center; gap: .4rem; }
+
+/* Tabla */
+.tabla-contenedor { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+.tabla-partidos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .95rem;
+  min-width: 520px;
+}
+
+.tabla-partidos thead th {
+  background: var(--color-primario);
+  color: var(--color-blanco);
+  padding: .75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.tabla-partidos thead th:last-child { text-align: center; }
+
+.tabla-partidos tbody tr {
+  border-bottom: 1px solid var(--color-gris-borde);
+  transition: background .15s;
+}
+.tabla-partidos tbody tr:hover { background: var(--color-gris-claro); }
+
+.tabla-partidos td { padding: .85rem 1rem; vertical-align: middle; }
+
+.celda-fecha { color: var(--color-gris-texto); font-size: .85rem; white-space: nowrap; }
+.celda-rival strong { font-weight: 600; }
+.celda-resultado { text-align: center; }
+
+/* Condición */
+.condicion {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: var(--radio-borde);
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.condicion-local    { background: rgba(26,92,46,.12); color: var(--color-primario); }
+.condicion-visitante { background: rgba(245,197,24,.2); color: #7a5c00; }
+
+/* Badges de resultado */
+.badge {
+  display: inline-block;
+  padding: .25rem .65rem;
+  border-radius: var(--radio-borde);
+  font-weight: 700;
+  font-size: .82rem;
+}
+.victoria  { background: #d4edda; color: #155724; }
+.empate    { background: #fff3cd; color: #856404; }
+.derrota   { background: #f8d7da; color: #721c24; }
+.pendiente { background: var(--color-gris-borde); color: var(--color-gris-texto); }
+
+/* Filas con color de fondo sutil */
+.fila-victoria  { border-left: 3px solid #28a745; }
+.fila-derrota   { border-left: 3px solid #dc3545; }
+.fila-empate    { border-left: 3px solid #ffc107; }
+.fila-pendiente { border-left: 3px solid transparent; }
+</style>

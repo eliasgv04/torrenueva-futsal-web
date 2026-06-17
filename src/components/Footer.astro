@@ -1,0 +1,73 @@
+---
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="pie-interior">
+    <div class="pie-logo">
+      <strong>Torrenueva Futsal</strong>
+      <p>Club de fútbol sala de Torrenueva, Granada</p>
+    </div>
+    <nav aria-label="Navegación del pie de página">
+      <ul class="pie-enlaces" role="list">
+        <li><a href="/noticias">Noticias</a></li>
+        <li><a href="/jugadores">Jugadores</a></li>
+        <li><a href="/calendario">Calendario</a></li>
+        <li><a href="/tienda">Tienda</a></li>
+        <li><a href="/aviso-legal">Aviso legal</a></li>
+      </ul>
+    </nav>
+    <p class="pie-copyright">© {anio} Torrenueva Futsal. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<style>
+.pie {
+  background: var(--color-primario);
+  color: rgba(255,255,255,.85);
+  margin-top: auto;
+}
+
+.pie-interior {
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem 3rem;
+  align-items: start;
+}
+
+.pie-logo strong {
+  font-size: 1.1rem;
+  color: var(--color-acento);
+  display: block;
+  margin-bottom: .25rem;
+}
+.pie-logo p { font-size: .85rem; }
+
+.pie-enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.25rem;
+}
+.pie-enlaces a {
+  color: rgba(255,255,255,.75);
+  font-size: .875rem;
+  transition: color .15s;
+}
+.pie-enlaces a:hover { color: var(--color-acento); text-decoration: none; }
+
+.pie-copyright {
+  grid-column: 1 / -1;
+  font-size: .8rem;
+  color: rgba(255,255,255,.5);
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .pie-interior { grid-template-columns: 1fr; }
+}
+</style>

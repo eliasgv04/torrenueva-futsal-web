@@ -1,0 +1,62 @@
+[
+  {
+    "dorsal": 1,
+    "nombre": "Carlos Martínez Ruiz",
+    "posicion": "Portero",
+    "foto": "https://picsum.photos/seed/player-1/300/400"
+  },
+  {
+    "dorsal": 2,
+    "nombre": "Pablo López Sánchez",
+    "posicion": "Cierre",
+    "foto": "https://picsum.photos/seed/player-2/300/400"
+  },
+  {
+    "dorsal": 5,
+    "nombre": "Alejandro García Moreno",
+    "posicion": "Ala derecho",
+    "foto": "https://picsum.photos/seed/player-3/300/400"
+  },
+  {
+    "dorsal": 7,
+    "nombre": "Miguel Fernández Torres",
+    "posicion": "Ala izquierdo",
+    "foto": "https://picsum.photos/seed/player-4/300/400"
+  },
+  {
+    "dorsal": 8,
+    "nombre": "Javier Rodríguez Castillo",
+    "posicion": "Pívot",
+    "foto": "https://picsum.photos/seed/player-5/300/400"
+  },
+  {
+    "dorsal": 9,
+    "nombre": "David Sánchez Pérez",
+    "posicion": "Ala derecho",
+    "foto": "https://picsum.photos/seed/player-6/300/400"
+  },
+  {
+    "dorsal": 10,
+    "nombre": "Antonio Pérez Vega",
+    "posicion": "Pívot",
+    "foto": "https://picsum.photos/seed/player-7/300/400"
+  },
+  {
+    "dorsal": 11,
+    "nombre": "Roberto Torres Gil",
+    "posicion": "Ala izquierdo",
+    "foto": "https://picsum.photos/seed/player-8/300/400"
+  },
+  {
+    "dorsal": 12,
+    "nombre": "Marcos Ruiz Navas",
+    "posicion": "Portero",
+    "foto": "https://picsum.photos/seed/player-9/300/400"
+  },
+  {
+    "dorsal": 15,
+    "nombre": "Sergio González Molina",
+    "posicion": "Cierre",
+    "foto": "https://picsum.photos/seed/player-10/300/400"
+  }
+]

@@ -1,0 +1,180 @@
+/* ============================================================
+   COLORES DEL CLUB — edita aquí para cambiar todo el sitio
+   ============================================================ */
+:root {
+  --club-verde-oscuro:  #1a5c2e;
+  --club-verde-medio:   #236b37;
+  --club-amarillo:      #f5c518;
+  --club-amarillo-hover:#d4a710;
+
+  /* Aliases funcionales */
+  --color-primario:        var(--club-verde-oscuro);
+  --color-primario-hover:  var(--club-verde-medio);
+  --color-acento:          var(--club-amarillo);
+  --color-acento-hover:    var(--club-amarillo-hover);
+
+  /* Neutros */
+  --color-blanco:      #ffffff;
+  --color-negro:       #111111;
+  --color-gris-claro:  #f5f5f5;
+  --color-gris-borde:  #e0e0e0;
+  --color-gris-texto:  #555555;
+
+  /* Tipografía */
+  --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --tamano-base: 1rem;
+  --tamano-sm:   0.875rem;
+  --tamano-lg:   1.125rem;
+  --tamano-xl:   1.5rem;
+  --tamano-2xl:  2rem;
+  --tamano-3xl:  2.75rem;
+
+  /* Layout */
+  --max-ancho:        1200px;
+  --radio-borde:      0.5rem;
+  --radio-borde-lg:   1rem;
+  --sombra-tarjeta:   0 2px 10px rgba(0,0,0,.08);
+  --sombra-elevada:   0 4px 20px rgba(0,0,0,.15);
+}
+
+/* ============================================================
+   RESET Y BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fuente);
+  font-size: var(--tamano-base);
+  color: var(--color-negro);
+  background: var(--color-blanco);
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-primario);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+ul { list-style: none; }
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+.contenedor {
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.seccion {
+  padding: 4rem 1.5rem;
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+}
+
+.titulo-seccion {
+  font-size: var(--tamano-2xl);
+  font-weight: 700;
+  color: var(--color-primario);
+  margin-bottom: 2rem;
+  padding-bottom: .75rem;
+  border-bottom: 3px solid var(--color-acento);
+  display: inline-block;
+}
+
+.cuadricula-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+.cuadricula-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+.cuadricula-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+
+.boton {
+  display: inline-block;
+  padding: .6rem 1.4rem;
+  border-radius: var(--radio-borde);
+  font-weight: 600;
+  font-size: var(--tamano-sm);
+  cursor: pointer;
+  border: none;
+  transition: background .2s, color .2s, transform .1s;
+  text-decoration: none;
+}
+.boton:hover { transform: translateY(-1px); text-decoration: none; }
+
+.boton-primario {
+  background: var(--color-primario);
+  color: var(--color-blanco);
+}
+.boton-primario:hover { background: var(--color-primario-hover); }
+
+.boton-acento {
+  background: var(--color-acento);
+  color: var(--color-negro);
+}
+.boton-acento:hover { background: var(--color-acento-hover); }
+
+.boton-contorno {
+  background: transparent;
+  color: var(--color-primario);
+  border: 2px solid var(--color-primario);
+}
+.boton-contorno:hover { background: var(--color-primario); color: var(--color-blanco); }
+
+/* ============================================================
+   TARJETA GENÉRICA
+   ============================================================ */
+.tarjeta {
+  background: var(--color-blanco);
+  border-radius: var(--radio-borde-lg);
+  box-shadow: var(--sombra-tarjeta);
+  overflow: hidden;
+  transition: box-shadow .2s, transform .2s;
+}
+.tarjeta:hover { box-shadow: var(--sombra-elevada); transform: translateY(-3px); }
+
+.tarjeta-imagen {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.tarjeta-cuerpo {
+  padding: 1.25rem;
+}
+
+/* ============================================================
+   AVISO / ALERTAS
+   ============================================================ */
+.aviso {
+  padding: 1rem 1.5rem;
+  border-radius: var(--radio-borde);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+.aviso-amarillo {
+  background: #fff8cc;
+  border: 2px solid var(--color-acento);
+  color: #7a5c00;
+}
+
+/* ============================================================
+   IMAGEN PLACEHOLDER
+   ============================================================ */
+.placeholder-imagen {
+  background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-hover) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.4);
+  font-size: 3rem;
+}

@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { getCollection } from 'astro:content';
+
+const noticias = await getCollection('noticias');
+noticias.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+const ultimasNoticias = noticias.slice(0, 3);
+
+const secciones = [
+  { href: '/noticias',   icono: '📰', titulo: 'Noticias',   descripcion: 'Toda la actualidad del club' },
+  { href: '/jugadores',  icono: '👥', titulo: 'Jugadores',  descripcion: 'Conoce a nuestra plantilla' },
+  { href: '/calendario', icono: '📅', titulo: 'Calendario', descripcion: 'Partidos y resultados' },
+  { href: '/tienda',     icono: '👕', titulo: 'Tienda',     descripcion: 'Equipación oficial del club' },
+];
+---
+
+<Layout
+  titulo="Inicio"
+  descripcion="Web oficial del Club Torrenueva Futsal. Noticias, plantilla, calendario de partidos y tienda oficial."
+>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Portada del club">
+    <div class="hero-interior">
+      <p class="hero-subtitulo">Club de Fútbol Sala</p>
+      <h1 class="hero-titulo">Torrenueva<br /><span>Futsal</span></h1>
+      <p class="hero-descripcion">
+        Pasión, esfuerzo y colores. Síguenos en nuestra temporada 2025/26.
+      </p>
+      <div class="hero-acciones">
+        <a href="/noticias" class="boton boton-acento">Últimas noticias</a>
+        <a href="/calendario" class="boton boton-contorno-blanco">Ver calendario</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESOS RÁPIDOS -->
+  <section class="seccion">
+    <h2 class="titulo-seccion">El club</h2>
+    <ul class="cuadricula-4 accesos" role="list">
+      {secciones.map(({ href, icono, titulo, descripcion }) => (
+        <li>
+          <a href={href} class="tarjeta acceso-enlace">
+            <span class="acceso-icono" aria-hidden="true">{icono}</span>
+            <strong class="acceso-titulo">{titulo}</strong>
+            <p class="acceso-descripcion">{descripcion}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ÚLTIMAS NOTICIAS -->
+  <section class="seccion seccion-fondo-alterno">
+    <div class="seccion-cabecera">
+      <h2 class="titulo-seccion">Últimas noticias</h2>
+      <a href="/noticias" class="boton boton-contorno">Ver todas →</a>
+    </div>
+    <ul class="cuadricula-2" role="list">
+      {ultimasNoticias.map(noticia => (
+        <li>
+          <NewsCard
+            titulo={noticia.data.titulo}
+            fecha={noticia.data.fecha}
+            imagen={noticia.data.imagen}
+            descripcion={noticia.data.descripcion}
+            slug={noticia.id.replace(/\.md$/, '')}
+          />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+</Layout>
+
+<style>
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--color-primario) 0%, var(--club-verde-medio) 100%);
+  color: var(--color-blanco);
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+.hero-interior { max-width: 700px; margin: 0 auto; }
+
+.hero-subtitulo {
+  font-size: .9rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+  font-weight: 600;
+  margin-bottom: .75rem;
+}
+
+.hero-titulo {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1.25rem;
+}
+.hero-titulo span { color: var(--color-acento); }
+
+.hero-descripcion {
+  font-size: var(--tamano-lg);
+  opacity: .9;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+.hero-acciones {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.boton-contorno-blanco {
+  display: inline-block;
+  padding: .6rem 1.4rem;
+  border-radius: var(--radio-borde);
+  font-weight: 600;
+  font-size: var(--tamano-sm);
+  border: 2px solid var(--color-blanco);
+  color: var(--color-blanco);
+  background: transparent;
+  transition: background .2s, color .2s;
+  text-decoration: none;
+}
+.boton-contorno-blanco:hover {
+  background: var(--color-blanco);
+  color: var(--color-primario);
+  text-decoration: none;
+}
+
+/* ACCESOS */
+.accesos { list-style: none; }
+.acceso-enlace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.25rem;
+  text-decoration: none;
+  color: var(--color-negro);
+  gap: .5rem;
+  border-top: 4px solid var(--color-acento);
+}
+.acceso-enlace:hover { text-decoration: none; }
+.acceso-icono { font-size: 2rem; }
+.acceso-titulo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primario);
+}
+.acceso-descripcion { font-size: .85rem; color: var(--color-gris-texto); }
+
+/* SECCIÓN FONDO ALTERNO */
+.seccion-fondo-alterno {
+  background: var(--color-gris-claro);
+  max-width: 100%;
+  padding: 4rem 1.5rem;
+}
+.seccion-fondo-alterno > * { max-width: var(--max-ancho); margin-left: auto; margin-right: auto; }
+
+.seccion-cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.seccion-cabecera .titulo-seccion { margin-bottom: 0; }
+</style>

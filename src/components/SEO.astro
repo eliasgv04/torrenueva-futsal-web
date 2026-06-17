@@ -1,0 +1,35 @@
+---
+interface Props {
+  titulo: string;
+  descripcion: string;
+  imagen?: string;
+  tipo?: string;
+}
+
+const {
+  titulo,
+  descripcion,
+  imagen = '/og-default.png',
+  tipo = 'website',
+} = Astro.props;
+
+const urlCanonica = new URL(Astro.url.pathname, Astro.site).toString();
+const tituloCompleto = `${titulo} | Torrenueva Futsal`;
+---
+
+<title>{tituloCompleto}</title>
+<meta name="description" content={descripcion} />
+<link rel="canonical" href={urlCanonica} />
+
+<!-- Open Graph -->
+<meta property="og:type"        content={tipo} />
+<meta property="og:url"         content={urlCanonica} />
+<meta property="og:title"       content={tituloCompleto} />
+<meta property="og:description" content={descripcion} />
+<meta property="og:image"       content={new URL(imagen, Astro.site).toString()} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content={tituloCompleto} />
+<meta name="twitter:description" content={descripcion} />
+<meta name="twitter:image"       content={new URL(imagen, Astro.site).toString()} />

@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PlayerCard from '../components/PlayerCard.astro';
+import jugadores from '../data/jugadores.json';
+
+const porteros  = jugadores.filter(j => j.posicion === 'Portero');
+const jugadores_ = jugadores.filter(j => j.posicion !== 'Portero');
+---
+
+<Layout
+  titulo="Plantilla"
+  descripcion="Conoce a los jugadores del Club Torrenueva Futsal. Dorsales, posiciones y fotos de toda la plantilla."
+>
+  <section class="seccion">
+    <h1 class="titulo-seccion">Plantilla 2025/26</h1>
+
+    <h2 class="subtitulo-grupo">Porteros</h2>
+    <ul class="cuadricula-4" role="list">
+      {porteros.map(j => (
+        <li>
+          <PlayerCard
+            dorsal={j.dorsal}
+            nombre={j.nombre}
+            posicion={j.posicion}
+            foto={j.foto}
+          />
+        </li>
+      ))}
+    </ul>
+
+    <h2 class="subtitulo-grupo">Jugadores de campo</h2>
+    <ul class="cuadricula-4" role="list">
+      {jugadores_.map(j => (
+        <li>
+          <PlayerCard
+            dorsal={j.dorsal}
+            nombre={j.nombre}
+            posicion={j.posicion}
+            foto={j.foto}
+          />
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
+
+<style>
+.subtitulo-grupo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-gris-texto);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin: 2.5rem 0 1.25rem;
+}
+.subtitulo-grupo:first-of-type { margin-top: .5rem; }
+</style>
