@@ -11,24 +11,17 @@ interface Partido {
 
 const lista = partidos as Partido[];
 
-function formatearFecha(fechaStr: string) {
-  const fecha = new Date(fechaStr + 'T12:00:00');
-  return fecha.toLocaleDateString('es-ES', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
+function formatearFecha(f: string) {
+  return new Date(f + 'T12:00:00').toLocaleDateString('es-ES', {
+    weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
   });
 }
 
-function parsearResultado(partido: Partido) {
-  if (!partido.resultado) return null;
-  const partes = partido.resultado.split(' - ').map(Number);
-  const [golesNuestros, golesRival] =
-    partido.condicion === 'Local' ? [partes[0], partes[1]] : [partes[1], partes[0]];
-  if (golesNuestros > golesRival) return 'victoria';
-  if (golesNuestros < golesRival) return 'derrota';
-  return 'empate';
+function tipoResultado(p: Partido) {
+  if (!p.resultado) return null;
+  const partes = p.resultado.split(' - ').map(Number);
+  const [n, r] = p.condicion === 'Local' ? [partes[0], partes[1]] : [partes[1], partes[0]];
+  return n > r ? 'victoria' : n < r ? 'derrota' : 'empate';
 }
 ---
 
@@ -37,131 +30,149 @@ function parsearResultado(partido: Partido) {
   descripcion="Partidos, resultados y próximos encuentros del Club Torrenueva Futsal en la temporada 2025/26."
 >
   <section class="seccion">
-    <h1 class="titulo-seccion">Calendario 2025/26</h1>
+    <h1 class="titulo-seccion">Calendario 2026/27</h1>
 
-    <div class="leyenda" aria-label="Leyenda de resultados">
-      <span class="leyenda-item"><span class="badge victoria">V</span> Victoria</span>
-      <span class="leyenda-item"><span class="badge empate">E</span> Empate</span>
-      <span class="leyenda-item"><span class="badge derrota">D</span> Derrota</span>
-      <span class="leyenda-item"><span class="badge pendiente">—</span> Pendiente</span>
-    </div>
+    {lista.length === 0 ? (
+      <p class="calendario-aviso">
+        El calendario de la temporada 2026/27 todavía no se ha publicado. En cuanto la federación lo confirme, lo añadiremos aquí.
+      </p>
+    ) : (
+      <>
+        <!-- Leyenda -->
+        <div class="leyenda" role="note" aria-label="Leyenda">
+          <span class="leyenda-item"><span class="badge victoria">V</span> Victoria</span>
+          <span class="leyenda-item"><span class="badge empate">E</span> Empate</span>
+          <span class="leyenda-item"><span class="badge derrota">D</span> Derrota</span>
+          <span class="leyenda-item"><span class="badge pendiente">—</span> Pendiente</span>
+        </div>
 
-    <div class="tabla-contenedor">
-      <table class="tabla-partidos" aria-label="Partidos de la temporada">
-        <thead>
-          <tr>
-            <th scope="col">Fecha</th>
-            <th scope="col">Rival</th>
-            <th scope="col">Condición</th>
-            <th scope="col">Resultado</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lista.map(partido => {
-            const tipo = parsearResultado(partido);
-            return (
-              <tr class={tipo ? `fila-${tipo}` : 'fila-pendiente'}>
-                <td class="celda-fecha">
-                  <time datetime={partido.fecha}>{formatearFecha(partido.fecha)}</time>
-                </td>
-                <td class="celda-rival"><strong>{partido.rival}</strong></td>
-                <td>
-                  <span class={`condicion condicion-${partido.condicion.toLowerCase()}`}>
-                    {partido.condicion}
-                  </span>
-                </td>
-                <td class="celda-resultado">
-                  {partido.resultado ? (
-                    <span class={`badge ${tipo}`} aria-label={`Resultado: ${partido.resultado}, ${tipo}`}>
-                      {partido.resultado}
-                    </span>
-                  ) : (
-                    <span class="badge pendiente" aria-label="Partido pendiente">Pendiente</span>
-                  )}
-                </td>
+        <div class="tabla-wrap">
+          <table class="tabla" aria-label="Partidos de la temporada">
+            <thead>
+              <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Rival</th>
+                <th scope="col">Condición</th>
+                <th scope="col" class="col-resultado">Resultado</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+            </thead>
+            <tbody>
+              {lista.map(p => {
+                const tipo = tipoResultado(p);
+                return (
+                  <tr class={`fila fila-${tipo ?? 'pendiente'}`}>
+                    <td class="celda-fecha">
+                      <time datetime={p.fecha}>{formatearFecha(p.fecha)}</time>
+                    </td>
+                    <td class="celda-rival">{p.rival}</td>
+                    <td>
+                      <span class={`condicion condicion-${p.condicion.toLowerCase()}`}>
+                        {p.condicion}
+                      </span>
+                    </td>
+                    <td class="celda-resultado">
+                      {p.resultado
+                        ? <span class={`badge ${tipo}`}>{p.resultado}</span>
+                        : <span class="badge pendiente">Pendiente</span>
+                      }
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )}
   </section>
 </Layout>
 
 <style>
+.calendario-aviso {
+  color: var(--color-texto-sec);
+  font-size: .95rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
 .leyenda {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-  font-size: .85rem;
-  color: var(--color-gris-texto);
+  margin-bottom: 2rem;
+  font-size: .8rem;
+  color: var(--color-texto-sec);
 }
-.leyenda-item { display: flex; align-items: center; gap: .4rem; }
+.leyenda-item { display: flex; align-items: center; gap: .45rem; }
 
 /* Tabla */
-.tabla-contenedor { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tabla-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+}
 
-.tabla-partidos {
+.tabla {
   width: 100%;
   border-collapse: collapse;
-  font-size: .95rem;
+  font-size: .9rem;
   min-width: 520px;
 }
 
-.tabla-partidos thead th {
-  background: var(--color-primario);
-  color: var(--color-blanco);
-  padding: .75rem 1rem;
+.tabla thead th {
+  background: var(--color-superficie-2);
+  color: var(--color-texto-sec);
+  padding: .85rem 1.25rem;
   text-align: left;
-  font-weight: 600;
-  font-size: .85rem;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  letter-spacing: .06em;
+  border-bottom: 1px solid var(--color-borde);
 }
-.tabla-partidos thead th:last-child { text-align: center; }
+.col-resultado { text-align: center; }
 
-.tabla-partidos tbody tr {
-  border-bottom: 1px solid var(--color-gris-borde);
+.tabla tbody .fila {
+  border-bottom: 1px solid var(--color-borde);
   transition: background .15s;
 }
-.tabla-partidos tbody tr:hover { background: var(--color-gris-claro); }
+.tabla tbody .fila:last-child { border-bottom: none; }
+.tabla tbody .fila:hover { background: var(--color-superficie-2); }
 
-.tabla-partidos td { padding: .85rem 1rem; vertical-align: middle; }
+.tabla td { padding: 1rem 1.25rem; vertical-align: middle; }
 
-.celda-fecha { color: var(--color-gris-texto); font-size: .85rem; white-space: nowrap; }
-.celda-rival strong { font-weight: 600; }
+/* Indicador lateral por resultado */
+.fila-victoria { border-left: 3px solid #4caf50; }
+.fila-derrota  { border-left: 3px solid #ef5350; }
+.fila-empate   { border-left: 3px solid var(--color-acento); }
+.fila-pendiente { border-left: 3px solid var(--color-borde); }
+
+.celda-fecha {
+  font-size: .8rem;
+  color: var(--color-texto-sec);
+  white-space: nowrap;
+}
+
+.celda-rival {
+  font-weight: 600;
+  color: var(--color-texto);
+}
+
 .celda-resultado { text-align: center; }
 
 /* Condición */
 .condicion {
   display: inline-block;
-  padding: .2rem .6rem;
+  padding: .2rem .65rem;
   border-radius: var(--radio-borde);
-  font-size: .78rem;
+  font-size: .72rem;
   font-weight: 700;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  letter-spacing: .06em;
 }
-.condicion-local    { background: rgba(26,92,46,.12); color: var(--color-primario); }
-.condicion-visitante { background: rgba(245,197,24,.2); color: #7a5c00; }
-
-/* Badges de resultado */
-.badge {
-  display: inline-block;
-  padding: .25rem .65rem;
-  border-radius: var(--radio-borde);
-  font-weight: 700;
-  font-size: .82rem;
-}
-.victoria  { background: #d4edda; color: #155724; }
-.empate    { background: #fff3cd; color: #856404; }
-.derrota   { background: #f8d7da; color: #721c24; }
-.pendiente { background: var(--color-gris-borde); color: var(--color-gris-texto); }
-
-/* Filas con color de fondo sutil */
-.fila-victoria  { border-left: 3px solid #28a745; }
-.fila-derrota   { border-left: 3px solid #dc3545; }
-.fila-empate    { border-left: 3px solid #ffc107; }
-.fila-pendiente { border-left: 3px solid transparent; }
+.condicion-local     { background: rgba(26,92,46,.2); color: #4caf50; border: 1px solid rgba(26,92,46,.4); }
+.condicion-visitante { background: rgba(245,197,24,.1); color: var(--color-acento); border: 1px solid rgba(245,197,24,.3); }
 </style>

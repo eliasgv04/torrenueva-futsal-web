@@ -5,38 +5,44 @@ import productos from '../data/tienda.json';
 
 <Layout
   titulo="Tienda"
-  descripcion="Equipación oficial del Club Torrenueva Futsal. Camisetas y ropa del club. Tienda de muestra."
+  descripcion="Equipación oficial del Club Torrenueva Futsal. Camisetas de la temporada 2025/26."
 >
   <section class="seccion">
     <h1 class="titulo-seccion">Tienda oficial</h1>
 
-    <div class="aviso aviso-amarillo" role="alert">
-      ⚠️ <strong>Tienda de muestra.</strong> Los productos mostrados son meramente ilustrativos y
-      <strong>no están disponibles para la venta online</strong>. Para adquirir equipación del club
-      contacta directamente con la directiva.
+    <!-- Aviso: tienda de muestra -->
+    <div class="aviso aviso-amarillo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;margin-top:.1rem"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p>
+        <strong>Tienda de muestra.</strong> Los productos mostrados son ilustrativos y
+        <strong>no están disponibles para la venta online.</strong>
+        Para adquirir equipación contacta directamente con el club.
+      </p>
     </div>
 
-    <ul class="cuadricula-3 productos-lista" role="list">
+    <ul class="cuadricula-3" role="list">
       {productos.map(p => (
         <li>
           <article class="tarjeta producto-tarjeta">
-            <div class="producto-imagen-contenedor">
+            <div class="producto-foto-wrap">
               <img
                 src={p.foto}
                 alt={p.nombre}
-                class="producto-imagen"
+                class="producto-foto"
                 loading="lazy"
                 width="400"
                 height="500"
               />
+              <div class="producto-badge-wrap" aria-hidden="true">
+                <span class="producto-no-venta">No disponible online</span>
+              </div>
             </div>
             <div class="tarjeta-cuerpo">
               <h2 class="producto-nombre">{p.nombre}</h2>
-              <p class="producto-descripcion">{p.descripcion}</p>
+              <p class="producto-desc">{p.descripcion}</p>
               <p class="producto-precio">
                 {p.precio.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
               </p>
-              <p class="producto-aviso-mini">No disponible para venta online</p>
             </div>
           </article>
         </li>
@@ -46,46 +52,61 @@ import productos from '../data/tienda.json';
 </Layout>
 
 <style>
-.productos-lista { list-style: none; }
-
 .producto-tarjeta { display: flex; flex-direction: column; }
 
-.producto-imagen-contenedor {
+.producto-foto-wrap {
+  position: relative;
   overflow: hidden;
   aspect-ratio: 4/5;
 }
-.producto-imagen {
+.producto-foto {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .3s;
+  transition: transform .4s ease;
+  filter: grayscale(15%);
 }
-.producto-tarjeta:hover .producto-imagen { transform: scale(1.05); }
+.tarjeta:hover .producto-foto { transform: scale(1.05); filter: grayscale(0%); }
+
+.producto-badge-wrap {
+  position: absolute;
+  bottom: .75rem;
+  left: .75rem;
+}
+.producto-no-venta {
+  display: inline-block;
+  background: rgba(8,8,8,.85);
+  color: var(--color-texto-sec);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .25rem .6rem;
+  border-radius: var(--radio-borde);
+  border: 1px solid var(--color-borde-hover);
+}
 
 .producto-nombre {
+  font-family: var(--fuente-titulo);
   font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-negro);
+  font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--color-texto);
   margin-bottom: .4rem;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
-.producto-descripcion {
-  font-size: .85rem;
-  color: var(--color-gris-texto);
-  margin-bottom: .75rem;
+.producto-desc {
+  font-size: .82rem;
+  color: var(--color-texto-sec);
+  margin-bottom: .85rem;
+  line-height: 1.5;
 }
 
 .producto-precio {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--color-primario);
-  margin-bottom: .4rem;
-}
-
-.producto-aviso-mini {
-  font-size: .75rem;
-  color: var(--color-gris-texto);
-  font-style: italic;
+  font-family: var(--fuente-titulo);
+  font-size: 1.35rem;
+  letter-spacing: .03em;
+  color: var(--color-acento);
 }
 </style>

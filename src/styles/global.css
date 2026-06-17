@@ -2,69 +2,57 @@
    COLORES DEL CLUB — edita aquí para cambiar todo el sitio
    ============================================================ */
 :root {
-  --club-verde-oscuro:  #1a5c2e;
-  --club-verde-medio:   #236b37;
-  --club-amarillo:      #f5c518;
-  --club-amarillo-hover:#d4a710;
+  --club-amarillo:       #f5c518;
+  --club-amarillo-hover: #d4a710;
+  --club-verde:          #1a5c2e;
 
-  /* Aliases funcionales */
-  --color-primario:        var(--club-verde-oscuro);
-  --color-primario-hover:  var(--club-verde-medio);
-  --color-acento:          var(--club-amarillo);
-  --color-acento-hover:    var(--club-amarillo-hover);
+  /* Fondos (tema oscuro) */
+  --color-fondo:         #080808;
+  --color-superficie:    #111111;
+  --color-superficie-2:  #1a1a1a;
+  --color-borde:         #232323;
+  --color-borde-hover:   #333333;
 
-  /* Neutros */
-  --color-blanco:      #ffffff;
-  --color-negro:       #111111;
-  --color-gris-claro:  #f5f5f5;
-  --color-gris-borde:  #e0e0e0;
-  --color-gris-texto:  #555555;
+  /* Texto */
+  --color-texto:         #f0f0f0;
+  --color-texto-sec:     #888888;
+  --color-texto-tenue:   #444444;
+
+  /* Acento */
+  --color-acento:        var(--club-amarillo);
+  --color-acento-hover:  var(--club-amarillo-hover);
 
   /* Tipografía */
-  --fuente: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --tamano-base: 1rem;
-  --tamano-sm:   0.875rem;
-  --tamano-lg:   1.125rem;
-  --tamano-xl:   1.5rem;
-  --tamano-2xl:  2rem;
-  --tamano-3xl:  2.75rem;
+  --fuente-titulo:  'Anton', system-ui, sans-serif;
+  --fuente-display: 'Playfair Display', Georgia, serif;
+  --fuente-cuerpo:  system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   /* Layout */
-  --max-ancho:        1200px;
-  --radio-borde:      0.5rem;
-  --radio-borde-lg:   1rem;
-  --sombra-tarjeta:   0 2px 10px rgba(0,0,0,.08);
-  --sombra-elevada:   0 4px 20px rgba(0,0,0,.15);
+  --max-ancho:    1200px;
+  --radio-borde:  4px;
+  --radio-lg:     8px;
+  --sombra:       0 4px 24px rgba(0, 0, 0, .6);
+  --sombra-hover: 0 8px 32px rgba(0, 0, 0, .8);
 }
 
 /* ============================================================
-   RESET Y BASE
+   RESET
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
+html { font-size: 16px; scroll-behavior: smooth; }
 
 body {
-  font-family: var(--fuente);
-  font-size: var(--tamano-base);
-  color: var(--color-negro);
-  background: var(--color-blanco);
+  font-family: var(--fuente-cuerpo);
+  font-size: 1rem;
+  color: var(--color-texto);
+  background: var(--color-fondo);
   line-height: 1.6;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
+img { max-width: 100%; height: auto; display: block; }
 
-a {
-  color: var(--color-primario);
-  text-decoration: none;
-}
+a { color: var(--color-acento); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 ul { list-style: none; }
@@ -79,102 +67,155 @@ ul { list-style: none; }
 }
 
 .seccion {
-  padding: 4rem 1.5rem;
+  padding: 5rem 1.5rem;
   max-width: var(--max-ancho);
   margin: 0 auto;
 }
 
+/* Título de sección: Anton blanco con línea amarilla */
 .titulo-seccion {
-  font-size: var(--tamano-2xl);
-  font-weight: 700;
-  color: var(--color-primario);
-  margin-bottom: 2rem;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 400; /* Anton ya es bold por diseño */
+  color: var(--color-texto);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
   padding-bottom: .75rem;
-  border-bottom: 3px solid var(--color-acento);
-  display: inline-block;
+  border-bottom: 2px solid var(--color-borde);
+  position: relative;
+}
+.titulo-seccion::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 48px;
+  height: 2px;
+  background: var(--color-acento);
 }
 
-.cuadricula-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-.cuadricula-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-.cuadricula-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+/* Grids */
+.cuadricula-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+.cuadricula-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+.cuadricula-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; }
 
+/* ============================================================
+   BOTONES
+   ============================================================ */
 .boton {
   display: inline-block;
-  padding: .6rem 1.4rem;
+  padding: .65rem 1.5rem;
   border-radius: var(--radio-borde);
-  font-weight: 600;
-  font-size: var(--tamano-sm);
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   cursor: pointer;
-  border: none;
-  transition: background .2s, color .2s, transform .1s;
+  border: 2px solid transparent;
+  transition: background .18s, color .18s, border-color .18s, transform .1s;
   text-decoration: none;
+  font-family: var(--fuente-cuerpo);
 }
 .boton:hover { transform: translateY(-1px); text-decoration: none; }
 
 .boton-primario {
-  background: var(--color-primario);
-  color: var(--color-blanco);
-}
-.boton-primario:hover { background: var(--color-primario-hover); }
-
-.boton-acento {
   background: var(--color-acento);
-  color: var(--color-negro);
+  color: #000;
+  border-color: var(--color-acento);
 }
-.boton-acento:hover { background: var(--color-acento-hover); }
+.boton-primario:hover {
+  background: var(--color-acento-hover);
+  border-color: var(--color-acento-hover);
+}
 
 .boton-contorno {
   background: transparent;
-  color: var(--color-primario);
-  border: 2px solid var(--color-primario);
+  color: var(--color-texto);
+  border-color: var(--color-borde-hover);
 }
-.boton-contorno:hover { background: var(--color-primario); color: var(--color-blanco); }
+.boton-contorno:hover {
+  border-color: var(--color-acento);
+  color: var(--color-acento);
+}
+
+.boton-contorno-blanco {
+  display: inline-block;
+  padding: .65rem 1.5rem;
+  border-radius: var(--radio-borde);
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 2px solid rgba(255,255,255,.4);
+  color: #fff;
+  background: transparent;
+  transition: border-color .18s, background .18s, color .18s, transform .1s;
+  text-decoration: none;
+}
+.boton-contorno-blanco:hover {
+  border-color: var(--color-acento);
+  color: var(--color-acento);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
 
 /* ============================================================
-   TARJETA GENÉRICA
+   TARJETA
    ============================================================ */
 .tarjeta {
-  background: var(--color-blanco);
-  border-radius: var(--radio-borde-lg);
-  box-shadow: var(--sombra-tarjeta);
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
   overflow: hidden;
-  transition: box-shadow .2s, transform .2s;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
 }
-.tarjeta:hover { box-shadow: var(--sombra-elevada); transform: translateY(-3px); }
+.tarjeta:hover {
+  border-color: var(--color-acento);
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-hover);
+}
 
 .tarjeta-imagen {
   width: 100%;
-  aspect-ratio: 16/9;
+  aspect-ratio: 1/1;
   object-fit: cover;
 }
 
-.tarjeta-cuerpo {
-  padding: 1.25rem;
-}
+.tarjeta-cuerpo { padding: 1.25rem; }
 
 /* ============================================================
-   AVISO / ALERTAS
+   AVISO
    ============================================================ */
 .aviso {
   padding: 1rem 1.5rem;
   border-radius: var(--radio-borde);
-  font-weight: 600;
-  margin-bottom: 2rem;
+  font-size: .9rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
 }
 .aviso-amarillo {
-  background: #fff8cc;
-  border: 2px solid var(--color-acento);
-  color: #7a5c00;
+  background: rgba(245, 197, 24, .08);
+  border: 1px solid rgba(245, 197, 24, .3);
+  color: var(--color-texto);
 }
+.aviso-amarillo strong { color: var(--color-acento); }
 
 /* ============================================================
-   IMAGEN PLACEHOLDER
+   ETIQUETA / BADGE
    ============================================================ */
-.placeholder-imagen {
-  background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-hover) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255,255,255,.4);
-  font-size: 3rem;
+.badge {
+  display: inline-block;
+  padding: .2rem .65rem;
+  border-radius: var(--radio-borde);
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
 }
+.victoria  { background: rgba(40,167,69,.15);  color: #4caf50; border: 1px solid rgba(40,167,69,.3); }
+.empate    { background: rgba(245,197,24,.1);  color: var(--color-acento); border: 1px solid rgba(245,197,24,.3); }
+.derrota   { background: rgba(220,53,69,.12);  color: #ef5350; border: 1px solid rgba(220,53,69,.3); }
+.pendiente { background: rgba(255,255,255,.05); color: var(--color-texto-sec); border: 1px solid var(--color-borde); }

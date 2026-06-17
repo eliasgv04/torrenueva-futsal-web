@@ -1,69 +1,53 @@
 ---
 interface Props {
-  dorsal: number;
   nombre: string;
-  posicion: string;
+  cargo: string;
   foto: string;
 }
 
-const { dorsal, nombre, posicion, foto } = Astro.props;
+const { nombre, cargo, foto } = Astro.props;
 ---
 
-<article class="tarjeta jugador-tarjeta">
-  <div class="jugador-foto-wrap">
+<article class="tarjeta staff-tarjeta">
+  <div class="staff-foto-wrap">
     <img
       src={foto}
       alt={`Foto de ${nombre}`}
-      class="jugador-foto"
+      class="staff-foto"
       loading="lazy"
       width="300"
       height="400"
     />
-    <span class="jugador-dorsal" aria-label={`Dorsal ${dorsal}`}>{dorsal}</span>
   </div>
   <div class="tarjeta-cuerpo">
-    <p class="jugador-nombre">{nombre}</p>
-    <p class="jugador-posicion">{posicion}</p>
+    <p class="staff-nombre">{nombre}</p>
+    <p class="staff-cargo">{cargo}</p>
   </div>
 </article>
 
 <style>
-.jugador-tarjeta { text-align: center; }
+.staff-tarjeta { text-align: center; }
 
-.jugador-foto-wrap {
+.staff-foto-wrap {
   position: relative;
   overflow: hidden;
   aspect-ratio: 3/4;
 }
-.jugador-foto {
+.staff-foto {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform .4s ease;
   filter: grayscale(20%);
 }
-.jugador-tarjeta:hover .jugador-foto {
+.staff-tarjeta:hover .staff-foto {
   transform: scale(1.06);
   filter: grayscale(0%);
 }
 
-.jugador-dorsal {
-  position: absolute;
-  top: .6rem;
-  left: .6rem;
-  background: var(--color-acento);
-  color: #000;
-  font-family: var(--fuente-titulo);
-  font-size: 1.1rem;
-  letter-spacing: .04em;
-  padding: .15rem .55rem .1rem;
-  border-radius: var(--radio-borde);
-  line-height: 1.4;
-}
-
 .tarjeta-cuerpo { padding: 1rem 1.1rem 1.2rem; }
 
-.jugador-nombre {
+.staff-nombre {
   font-family: var(--fuente-titulo);
   font-size: .95rem;
   letter-spacing: .04em;
@@ -72,7 +56,7 @@ const { dorsal, nombre, posicion, foto } = Astro.props;
   line-height: 1.2;
 }
 
-.jugador-posicion {
+.staff-cargo {
   font-size: .75rem;
   color: var(--color-acento);
   text-transform: uppercase;

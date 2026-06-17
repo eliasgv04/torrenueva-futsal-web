@@ -1,23 +1,23 @@
 [
   {
-    "id": "camiseta-primera",
-    "nombre": "Camiseta Oficial 1.ª Equipación 2025/26",
-    "descripcion": "Verde oscuro con detalles en amarillo. Tejido técnico transpirable.",
-    "precio": 45.00,
-    "foto": "https://picsum.photos/seed/camiseta-1/400/500"
+    "id": "camiseta-local",
+    "nombre": "Camiseta Local 2025/26",
+    "descripcion": "Equipación oficial local del Torrenueva Futsal.",
+    "precio": 20.00,
+    "foto": "/images/CamisetaLocal.jpeg"
   },
   {
-    "id": "camiseta-segunda",
-    "nombre": "Camiseta Oficial 2.ª Equipación 2025/26",
-    "descripcion": "Blanca con franjas verdes. Ideal para desplazamientos.",
-    "precio": 40.00,
-    "foto": "https://picsum.photos/seed/camiseta-2/400/500"
+    "id": "camiseta-campeones",
+    "nombre": "Camiseta Edición Campeones",
+    "descripcion": "Edición especial conmemorativa de campeones.",
+    "precio": 20.00,
+    "foto": "/images/CamisetaCampeones.jpeg"
   },
   {
-    "id": "camiseta-entreno",
-    "nombre": "Camiseta de Entrenamiento 2025/26",
-    "descripcion": "Verde claro con escudo bordado. Perfecta para los entrenamientos diarios.",
-    "precio": 30.00,
-    "foto": "https://picsum.photos/seed/camiseta-3/400/500"
+    "id": "camiseta-portero",
+    "nombre": "Camiseta Portero 2025/26",
+    "descripcion": "Equipación oficial de portero del Torrenueva Futsal.",
+    "precio": 20.00,
+    "foto": "/images/CamisetaPortero.jpeg"
   }
 ]

@@ -4,67 +4,151 @@ const anio = new Date().getFullYear();
 
 <footer class="pie">
   <div class="pie-interior">
-    <div class="pie-logo">
-      <strong>Torrenueva Futsal</strong>
-      <p>Club de fútbol sala de Torrenueva, Granada</p>
+
+    <!-- Marca -->
+    <div class="pie-marca">
+      <div class="pie-logo-texto">
+        <span class="pie-playfair">torrenueva</span>
+        <span class="pie-anton">FUTSAL</span>
+      </div>
+      <p class="pie-subtitulo">Club de Fútbol Sala · Torrenueva, Ciudad Real</p>
     </div>
-    <nav aria-label="Navegación del pie de página">
+
+    <!-- Navegación -->
+    <nav aria-label="Pie de página">
+      <p class="pie-nav-titulo">Secciones</p>
       <ul class="pie-enlaces" role="list">
         <li><a href="/noticias">Noticias</a></li>
-        <li><a href="/jugadores">Jugadores</a></li>
+        <li><a href="/plantilla">Plantilla</a></li>
         <li><a href="/calendario">Calendario</a></li>
         <li><a href="/tienda">Tienda</a></li>
         <li><a href="/aviso-legal">Aviso legal</a></li>
       </ul>
     </nav>
-    <p class="pie-copyright">© {anio} Torrenueva Futsal. Todos los derechos reservados.</p>
+
+  </div>
+
+  <div class="pie-patrocinadores">
+    <p class="pie-patrocinadores-titulo">Patrocinadores</p>
+    <div class="pie-patrocinadores-imgwrap">
+      <img src="/images/Patrocinadores.png" alt="Patrocinadores del Torrenueva Futsal" class="pie-patrocinadores-img" />
+    </div>
+  </div>
+
+  <div class="pie-copyright">
+    <p>© {anio} Torrenueva Futsal. Todos los derechos reservados.</p>
   </div>
 </footer>
 
 <style>
 .pie {
-  background: var(--color-primario);
-  color: rgba(255,255,255,.85);
+  background: #050505;
+  border-top: 1px solid #1e1e1e;
   margin-top: auto;
 }
 
 .pie-interior {
   max-width: var(--max-ancho);
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 1.5rem;
+  padding: 3rem 1.5rem 2rem;
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1.5rem 3rem;
+  gap: 2rem 4rem;
   align-items: start;
 }
 
-.pie-logo strong {
-  font-size: 1.1rem;
+/* Logo pie */
+.pie-logo-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  margin-bottom: .75rem;
+}
+.pie-playfair {
+  font-family: var(--fuente-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.3rem;
   color: var(--color-acento);
   display: block;
-  margin-bottom: .25rem;
+  letter-spacing: .01em;
 }
-.pie-logo p { font-size: .85rem; }
+.pie-anton {
+  font-family: var(--fuente-titulo);
+  font-size: .68rem;
+  color: #fff;
+  display: block;
+  letter-spacing: .08em;
+  margin-top: -3px; /* FUTSAL se monta ligeramente sobre torrenueva */
+}
+
+.pie-subtitulo {
+  font-size: .8rem;
+  color: var(--color-texto-tenue);
+  margin-top: .5rem;
+}
+
+/* Nav pie */
+.pie-nav-titulo {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-texto-tenue);
+  margin-bottom: .75rem;
+}
 
 .pie-enlaces {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: .5rem 1.25rem;
+  gap: .5rem 1.5rem;
 }
 .pie-enlaces a {
-  color: rgba(255,255,255,.75);
-  font-size: .875rem;
+  font-size: .85rem;
+  color: var(--color-texto-sec);
   transition: color .15s;
 }
 .pie-enlaces a:hover { color: var(--color-acento); text-decoration: none; }
 
-.pie-copyright {
-  grid-column: 1 / -1;
-  font-size: .8rem;
-  color: rgba(255,255,255,.5);
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,.1);
+/* Patrocinadores */
+.pie-patrocinadores {
+  border-top: 1px solid #1a1a1a;
+  padding: 2rem 1.5rem;
   text-align: center;
+}
+.pie-patrocinadores-titulo {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-texto-tenue);
+  margin-bottom: 1.25rem;
+}
+.pie-patrocinadores-imgwrap {
+  width: 100%;
+  max-width: 1100px;
+  aspect-ratio: 11 / 1;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.pie-patrocinadores-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+/* Copyright */
+.pie-copyright {
+  border-top: 1px solid #1a1a1a;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+.pie-copyright p {
+  font-size: .75rem;
+  color: var(--color-texto-tenue);
 }
 
 @media (max-width: 600px) {

@@ -1,0 +1,12 @@
+[
+  {
+    "nombre": "Raúl Bernalte",
+    "cargo": "Entrenador",
+    "foto": "/images/Plantilla/Raul.jpeg"
+  },
+  {
+    "nombre": "Víctor Juan",
+    "cargo": "Delegado",
+    "foto": "/images/Plantilla/Victor.jpeg"
+  }
+]

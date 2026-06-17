@@ -14,14 +14,14 @@ noticias.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
   <section class="seccion">
     <h1 class="titulo-seccion">Noticias</h1>
     <ul class="cuadricula-2" role="list">
-      {noticias.map(noticia => (
+      {noticias.map(n => (
         <li>
           <NewsCard
-            titulo={noticia.data.titulo}
-            fecha={noticia.data.fecha}
-            imagen={noticia.data.imagen}
-            descripcion={noticia.data.descripcion}
-            slug={noticia.id.replace(/\.md$/, '')}
+            titulo={n.data.titulo}
+            fecha={n.data.fecha}
+            imagen={n.data.imagen}
+            descripcion={n.data.descripcion}
+            slug={n.id.replace(/\.md$/, '')}
           />
         </li>
       ))}

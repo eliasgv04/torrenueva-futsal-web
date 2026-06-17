@@ -5,13 +5,33 @@ import { getCollection } from 'astro:content';
 
 const noticias = await getCollection('noticias');
 noticias.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
-const ultimasNoticias = noticias.slice(0, 3);
+const ultimas = noticias.slice(0, 3);
 
 const secciones = [
-  { href: '/noticias',   icono: '📰', titulo: 'Noticias',   descripcion: 'Toda la actualidad del club' },
-  { href: '/jugadores',  icono: '👥', titulo: 'Jugadores',  descripcion: 'Conoce a nuestra plantilla' },
-  { href: '/calendario', icono: '📅', titulo: 'Calendario', descripcion: 'Partidos y resultados' },
-  { href: '/tienda',     icono: '👕', titulo: 'Tienda',     descripcion: 'Equipación oficial del club' },
+  {
+    href: '/noticias',
+    titulo: 'Noticias',
+    descripcion: 'Toda la actualidad del club',
+    svg: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"/></svg>`,
+  },
+  {
+    href: '/plantilla',
+    titulo: 'Plantilla',
+    descripcion: 'Conoce a nuestros jugadores',
+    svg: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  },
+  {
+    href: '/calendario',
+    titulo: 'Calendario',
+    descripcion: 'Partidos y resultados',
+    svg: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  },
+  {
+    href: '/tienda',
+    titulo: 'Tienda',
+    descripcion: 'Equipación oficial',
+    svg: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+  },
 ];
 ---
 
@@ -20,148 +40,215 @@ const secciones = [
   descripcion="Web oficial del Club Torrenueva Futsal. Noticias, plantilla, calendario de partidos y tienda oficial."
 >
 
-  <!-- HERO -->
-  <section class="hero" aria-label="Portada del club">
-    <div class="hero-interior">
-      <p class="hero-subtitulo">Club de Fútbol Sala</p>
-      <h1 class="hero-titulo">Torrenueva<br /><span>Futsal</span></h1>
-      <p class="hero-descripcion">
-        Pasión, esfuerzo y colores. Síguenos en nuestra temporada 2025/26.
-      </p>
+  <!-- ── HERO ── -->
+  <section class="hero" aria-label="Portada">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-contenido">
+      <img src="/images/Escudo.PNG" alt="Escudo Torrenueva Futsal" width="150" height="150" class="hero-escudo" />
+      <p class="hero-label">Club de Fútbol Sala · Torrenueva</p>
+      <div class="hero-logo">
+        <h1 class="hero-playfair">torrenueva</h1>
+        <span class="hero-anton">FUTSAL</span>
+      </div>
+      <p class="hero-subtitulo">Pasión, esfuerzo y colores. Temporada 2026/27.</p>
       <div class="hero-acciones">
-        <a href="/noticias" class="boton boton-acento">Últimas noticias</a>
+        <a href="/noticias"   class="boton boton-primario">Últimas noticias</a>
         <a href="/calendario" class="boton boton-contorno-blanco">Ver calendario</a>
       </div>
     </div>
+    <!-- Decoración: línea amarilla en el borde inferior -->
+    <div class="hero-linea" aria-hidden="true"></div>
   </section>
 
-  <!-- ACCESOS RÁPIDOS -->
+  <!-- ── ACCESOS RÁPIDOS ── -->
   <section class="seccion">
     <h2 class="titulo-seccion">El club</h2>
-    <ul class="cuadricula-4 accesos" role="list">
-      {secciones.map(({ href, icono, titulo, descripcion }) => (
+    <ul class="cuadricula-4" role="list">
+      {secciones.map(({ href, titulo, descripcion, svg }) => (
         <li>
-          <a href={href} class="tarjeta acceso-enlace">
-            <span class="acceso-icono" aria-hidden="true">{icono}</span>
+          <a href={href} class="tarjeta acceso" aria-label={titulo}>
+            <span class="acceso-icono" set:html={svg} aria-hidden="true" />
             <strong class="acceso-titulo">{titulo}</strong>
-            <p class="acceso-descripcion">{descripcion}</p>
+            <p class="acceso-desc">{descripcion}</p>
           </a>
         </li>
       ))}
     </ul>
   </section>
 
-  <!-- ÚLTIMAS NOTICIAS -->
-  <section class="seccion seccion-fondo-alterno">
-    <div class="seccion-cabecera">
-      <h2 class="titulo-seccion">Últimas noticias</h2>
-      <a href="/noticias" class="boton boton-contorno">Ver todas →</a>
+  <!-- ── ÚLTIMAS NOTICIAS ── -->
+  <section class="seccion-noticias">
+    <div class="contenedor">
+      <div class="seccion-cabecera">
+        <h2 class="titulo-seccion">Últimas noticias</h2>
+        <a href="/noticias" class="boton boton-contorno">Ver todas</a>
+      </div>
+      <ul class="cuadricula-2" role="list">
+        {ultimas.map(n => (
+          <li>
+            <NewsCard
+              titulo={n.data.titulo}
+              fecha={n.data.fecha}
+              imagen={n.data.imagen}
+              descripcion={n.data.descripcion}
+              slug={n.id.replace(/\.md$/, '')}
+            />
+          </li>
+        ))}
+      </ul>
     </div>
-    <ul class="cuadricula-2" role="list">
-      {ultimasNoticias.map(noticia => (
-        <li>
-          <NewsCard
-            titulo={noticia.data.titulo}
-            fecha={noticia.data.fecha}
-            imagen={noticia.data.imagen}
-            descripcion={noticia.data.descripcion}
-            slug={noticia.id.replace(/\.md$/, '')}
-          />
-        </li>
-      ))}
-    </ul>
   </section>
 
 </Layout>
 
 <style>
-/* HERO */
+/* ── HERO ── */
 .hero {
-  background: linear-gradient(135deg, var(--color-primario) 0%, var(--club-verde-medio) 100%);
-  color: var(--color-blanco);
-  padding: 5rem 1.5rem;
-  text-align: center;
-}
-.hero-interior { max-width: 700px; margin: 0 auto; }
-
-.hero-subtitulo {
-  font-size: .9rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--color-acento);
-  font-weight: 600;
-  margin-bottom: .75rem;
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.hero-titulo {
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 900;
-  line-height: 1.05;
+/* Imagen de fondo B&N */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/FondoPrincipal.jpeg');
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(100%) brightness(.5);
+  transform: scale(1.02);
+}
+
+/* Degradado oscuro encima */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top,  rgba(8,8,8,1) 0%, rgba(8,8,8,.3) 60%, transparent 100%),
+    linear-gradient(to right, rgba(8,8,8,.8) 0%, transparent 60%);
+}
+
+.hero-contenido {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 1.5rem;
+  text-align: left;
+}
+
+.hero-escudo {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
   margin-bottom: 1.25rem;
 }
-.hero-titulo span { color: var(--color-acento); }
 
-.hero-descripcion {
-  font-size: var(--tamano-lg);
-  opacity: .9;
-  max-width: 500px;
-  margin: 0 auto 2rem;
+.hero-label {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+  margin-bottom: 1rem;
+}
+
+/* Tratamiento tipográfico marca: Playfair italic amarillo grande + Anton blanco pequeño debajo */
+.hero-logo {
+  position: relative;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+}
+.hero-playfair {
+  font-family: var(--fuente-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  color: var(--color-acento);
+  display: block;
+  position: relative;
+  z-index: 1;
+  line-height: .95;
+  margin: 0;
+}
+.hero-anton {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(2.6rem, 5.5vw, 3.6rem);
+  color: #fff;
+  display: block;
+  position: relative;
+  z-index: 2;
+  letter-spacing: .08em;
+  line-height: 1;
+  margin-top: -.55em; /* FUTSAL se monta sobre torrenueva */
+}
+
+.hero-subtitulo {
+  font-size: 1rem;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 2.5rem;
+  max-width: 420px;
+  letter-spacing: .02em;
 }
 
 .hero-acciones {
   display: flex;
   gap: 1rem;
-  justify-content: center;
   flex-wrap: wrap;
 }
 
-.boton-contorno-blanco {
-  display: inline-block;
-  padding: .6rem 1.4rem;
-  border-radius: var(--radio-borde);
-  font-weight: 600;
-  font-size: var(--tamano-sm);
-  border: 2px solid var(--color-blanco);
-  color: var(--color-blanco);
-  background: transparent;
-  transition: background .2s, color .2s;
-  text-decoration: none;
-}
-.boton-contorno-blanco:hover {
-  background: var(--color-blanco);
-  color: var(--color-primario);
-  text-decoration: none;
+/* Línea amarilla decorativa inferior */
+.hero-linea {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--color-acento);
+  z-index: 3;
 }
 
-/* ACCESOS */
-.accesos { list-style: none; }
-.acceso-enlace {
+/* ── ACCESOS ── */
+.acceso {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 2rem 1.25rem;
+  gap: .6rem;
+  padding: 1.75rem 1.25rem;
   text-decoration: none;
-  color: var(--color-negro);
-  gap: .5rem;
-  border-top: 4px solid var(--color-acento);
+  color: var(--color-texto);
+  border-top: 2px solid var(--color-borde);
+  transition: border-color .2s, transform .2s;
 }
-.acceso-enlace:hover { text-decoration: none; }
-.acceso-icono { font-size: 2rem; }
-.acceso-titulo {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--color-primario);
-}
-.acceso-descripcion { font-size: .85rem; color: var(--color-gris-texto); }
+.acceso:hover { border-top-color: var(--color-acento); transform: translateY(-3px); text-decoration: none; }
 
-/* SECCIÓN FONDO ALTERNO */
-.seccion-fondo-alterno {
-  background: var(--color-gris-claro);
-  max-width: 100%;
-  padding: 4rem 1.5rem;
+.acceso-icono { color: var(--color-acento); display: flex; }
+
+.acceso-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 1.05rem;
+  letter-spacing: .05em;
+  color: var(--color-texto);
+  font-weight: 400;
 }
-.seccion-fondo-alterno > * { max-width: var(--max-ancho); margin-left: auto; margin-right: auto; }
+
+.acceso-desc {
+  font-size: .82rem;
+  color: var(--color-texto-sec);
+  line-height: 1.4;
+}
+
+/* ── NOTICIAS ── */
+.seccion-noticias {
+  background: var(--color-superficie);
+  border-top: 1px solid var(--color-borde);
+  border-bottom: 1px solid var(--color-borde);
+  padding: 5rem 0;
+}
+.seccion-noticias .contenedor { max-width: var(--max-ancho); margin: 0 auto; padding: 0 1.5rem; }
 
 .seccion-cabecera {
   display: flex;
@@ -169,7 +256,7 @@ const secciones = [
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 .seccion-cabecera .titulo-seccion { margin-bottom: 0; }
 </style>
