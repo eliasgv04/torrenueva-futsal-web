@@ -1,0 +1,138 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  titulo="Nuestra historia"
+  descripcion="Conoce la historia del Club Torrenueva Futsal, desde su fundación en 2018 hasta la actualidad."
+>
+  <section class="seccion historia">
+    <h1 class="titulo-seccion">Nuestra historia</h1>
+
+    <div class="historia-bloque">
+      <div class="historia-texto">
+        <h2>Los inicios (2018)</h2>
+        <p>
+          El Torrenueva Futsal nació en 2018 con la creación de un equipo juvenil que dio continuidad
+          a una brillante generación procedente de la categoría cadete, logrando en su primera
+          temporada el subcampeonato provincial.
+        </p>
+        <p>
+          Sin embargo, al finalizar aquella campaña, el proyecto tuvo que detenerse debido a que
+          muchos de sus jugadores se marcharon a estudiar fuera del municipio.
+        </p>
+      </div>
+      <figure class="historia-foto">
+        <img src="/images/Historia1.jpeg" alt="Los inicios del Torrenueva Futsal en 2018" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="historia-bloque historia-bloque-invertido">
+      <div class="historia-texto">
+        <h2>El regreso tras la pandemia</h2>
+        <p>
+          Tras la pandemia, el club regresó con ilusión renovada y comenzó una nueva etapa en
+          Primera Autonómica Sala. Los dos primeros años estuvieron marcados por el aprendizaje y
+          la adaptación a una competición exigente.
+        </p>
+        <p>
+          El trabajo constante, el sacrificio y la confianza en una plantilla formada casi en su
+          totalidad por jugadores de Torrenueva permitieron que el equipo creciera temporada tras
+          temporada.
+        </p>
+      </div>
+      <figure class="historia-foto">
+        <img src="/images/Historia2.jpeg" alt="El regreso del club tras la pandemia" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="historia-bloque">
+      <div class="historia-texto">
+        <h2>El ascenso histórico</h2>
+        <p>
+          El gran premio llegó en la tercera campaña, cuando el Torrenueva Futsal se proclamó
+          campeón de liga y consiguió un histórico ascenso a Primera Preferente. Fue un año
+          inolvidable para el club y para todo el pueblo, que se volcó con el equipo llenando el
+          pabellón y acompañándolo en cada paso.
+        </p>
+        <p>
+          Un éxito construido desde casa, con alrededor del <strong>95% de jugadores locales</strong>
+          defendiendo los colores de su municipio.
+        </p>
+      </div>
+      <figure class="historia-foto">
+        <img src="/images/Historia3.jpeg" alt="Celebración del ascenso a Primera Preferente" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="historia-bloque historia-bloque-invertido">
+      <div class="historia-texto">
+        <h2>El club hoy</h2>
+        <p>
+          La experiencia en Primera Preferente permitió al club competir contra algunos de los
+          mejores equipos de Castilla-La Mancha. Aunque la temporada terminó con el descenso de
+          categoría, el equipo luchó y compitió hasta el final, demostrando el carácter y la
+          ambición que siempre han definido al Torrenueva Futsal.
+        </p>
+        <p>
+          Hoy, el Torrenueva Futsal es mucho más que un equipo. Es un proyecto deportivo y social
+          que representa los valores de esfuerzo, humildad, compañerismo y sentido de pertenencia.
+          Con una cantera en crecimiento, una afición fiel y un pueblo detrás, el club sigue
+          trabajando cada día para llevar el nombre de Torrenueva lo más alto posible y continuar
+          escribiendo nuevas páginas en su historia.
+        </p>
+      </div>
+      <figure class="historia-foto">
+        <img src="/images/Historia4.jpeg" alt="El Torrenueva Futsal en la actualidad" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.historia { max-width: 980px; }
+
+.historia-bloque {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+.historia-bloque:first-of-type { margin-top: 2.5rem; }
+.historia-bloque-invertido .historia-texto { order: 2; }
+.historia-bloque-invertido .historia-foto  { order: 1; }
+
+.historia-texto h2 {
+  font-family: var(--fuente-titulo);
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--color-texto);
+  margin-bottom: 1rem;
+}
+.historia-texto p {
+  color: var(--color-texto-sec);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+.historia-texto strong { color: var(--color-acento); }
+
+.historia-foto img {
+  width: 100%;
+  aspect-ratio: 7/5;
+  object-fit: cover;
+  border-radius: var(--radio-lg);
+  filter: grayscale(15%);
+}
+
+@media (max-width: 760px) {
+  .historia-bloque,
+  .historia-bloque-invertido .historia-texto,
+  .historia-bloque-invertido .historia-foto {
+    order: initial;
+  }
+  .historia-bloque { grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 3rem; }
+}
+</style>
