@@ -2,48 +2,126 @@
 import Layout from '../layouts/Layout.astro';
 import PlayerCard from '../components/PlayerCard.astro';
 import StaffCard from '../components/StaffCard.astro';
-import jugadores from '../data/jugadores.json';
-import cuerpoTecnico from '../data/cuerpo-tecnico.json';
 
-const porteros   = jugadores.filter(j => j.posicion === 'Portero');
-const jugadores_ = jugadores.filter(j => j.posicion !== 'Portero');
+import jugadoresSenior from '../data/jugadores-senior.json';
+import cuerpoTecnicoSenior from '../data/cuerpo-tecnico-senior.json';
+import jugadoresJuvenil from '../data/jugadores-juvenil.json';
+import cuerpoTecnicoJuvenil from '../data/cuerpo-tecnico-juvenil.json';
+
+const equipos = [
+  {
+    id: 'senior',
+    nombre: 'Torrenueva Futsal',
+    jugadores: jugadoresSenior,
+    cuerpoTecnico: cuerpoTecnicoSenior,
+  },
+  {
+    id: 'juvenil',
+    nombre: 'Torrenueva Futsal Juvenil',
+    jugadores: jugadoresJuvenil,
+    cuerpoTecnico: cuerpoTecnicoJuvenil,
+  },
+];
 ---
 
 <Layout
   titulo="Plantilla"
-  descripcion="Conoce a los jugadores y al cuerpo técnico del Club Torrenueva Futsal. Dorsales, posiciones y fotos de toda la plantilla 2025/26."
+  descripcion="Conoce a los jugadores y al cuerpo técnico del Club Torrenueva Futsal. Dorsales, posiciones y fotos de la plantilla 2026/27."
 >
   <section class="seccion">
     <h1 class="titulo-seccion">Plantilla 2026/27</h1>
 
-    <h2 class="grupo-label">Porteros</h2>
-    <ul class="cuadricula-4" role="list">
-      {porteros.map(j => (
-        <li>
-          <PlayerCard dorsal={j.dorsal} nombre={j.nombre} posicion={j.posicion} foto={j.foto} />
-        </li>
+    <div class="selector-equipo" role="tablist" aria-label="Selecciona equipo">
+      {equipos.map((eq, i) => (
+        <button
+          type="button"
+          class={`selector-btn${i === 0 ? ' activo' : ''}`}
+          data-equipo-btn={eq.id}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          {eq.nombre}
+        </button>
       ))}
-    </ul>
+    </div>
 
-    <h2 class="grupo-label">Jugadores de campo</h2>
-    <ul class="cuadricula-4" role="list">
-      {jugadores_.map(j => (
-        <li>
-          <PlayerCard dorsal={j.dorsal} nombre={j.nombre} posicion={j.posicion} foto={j.foto} />
-        </li>
-      ))}
-    </ul>
+    {equipos.map((eq, i) => {
+      const porteros = eq.jugadores.filter(j => j.posicion === 'Portero');
+      const resto = eq.jugadores.filter(j => j.posicion !== 'Portero');
+      return (
+        <div class="equipo-panel" data-equipo-panel={eq.id} hidden={i !== 0}>
+          {eq.jugadores.length === 0 ? (
+            <p class="plantilla-aviso">
+              La plantilla de {eq.nombre} todavía no se ha anunciado. En cuanto la confirmemos, la verás aquí.
+            </p>
+          ) : (
+            <>
+              {porteros.length > 0 && (
+                <>
+                  <h2 class="grupo-label">Porteros</h2>
+                  <ul class="cuadricula-4" role="list">
+                    {porteros.map(j => (
+                      <li>
+                        <PlayerCard dorsal={j.dorsal} nombre={j.nombre} posicion={j.posicion} foto={j.foto} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
 
-    <h2 class="grupo-label">Cuerpo técnico</h2>
-    <ul class="cuadricula-4" role="list">
-      {cuerpoTecnico.map(s => (
-        <li>
-          <StaffCard nombre={s.nombre} cargo={s.cargo} foto={s.foto} />
-        </li>
-      ))}
-    </ul>
+              {resto.length > 0 && (
+                <>
+                  <h2 class="grupo-label">Jugadores de campo</h2>
+                  <ul class="cuadricula-4" role="list">
+                    {resto.map(j => (
+                      <li>
+                        <PlayerCard dorsal={j.dorsal} nombre={j.nombre} posicion={j.posicion} foto={j.foto} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {eq.cuerpoTecnico.length > 0 && (
+                <>
+                  <h2 class="grupo-label">Cuerpo técnico</h2>
+                  <ul class="cuadricula-4" role="list">
+                    {eq.cuerpoTecnico.map(s => (
+                      <li>
+                        <StaffCard nombre={s.nombre} cargo={s.cargo} foto={s.foto} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </>
+          )}
+        </div>
+      );
+    })}
   </section>
 </Layout>
+
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>('[data-equipo-btn]');
+  const paneles = document.querySelectorAll<HTMLElement>('[data-equipo-panel]');
+
+  botones.forEach(boton => {
+    boton.addEventListener('click', () => {
+      const id = boton.dataset.equipoBtn;
+
+      botones.forEach(b => {
+        const activo = b === boton;
+        b.classList.toggle('activo', activo);
+        b.setAttribute('aria-selected', String(activo));
+      });
+
+      paneles.forEach(panel => {
+        panel.hidden = panel.dataset.equipoPanel !== id;
+      });
+    });
+  });
+</script>
 
 <style>
 .grupo-label {
@@ -55,4 +133,39 @@ const jugadores_ = jugadores.filter(j => j.posicion !== 'Portero');
   margin: 3rem 0 1.25rem;
 }
 .grupo-label:first-of-type { margin-top: 0; }
+
+.selector-equipo {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.selector-btn {
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--color-texto-sec);
+  background: transparent;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  padding: .6rem 1.2rem;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.selector-btn:hover { color: var(--color-texto); border-color: var(--color-borde-hover); }
+.selector-btn.activo {
+  color: #000;
+  background: var(--color-acento);
+  border-color: var(--color-acento);
+}
+
+.plantilla-aviso {
+  color: var(--color-texto-sec);
+  font-size: .95rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
 </style>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import partidos from '../data/calendario.json';
+import partidosSenior from '../data/calendario-senior.json';
+import partidosJuvenil from '../data/calendario-juvenil.json';
 
 interface Partido {
   fecha: string;
@@ -9,7 +10,10 @@ interface Partido {
   resultado: string | null;
 }
 
-const lista = partidos as Partido[];
+const equipos = [
+  { id: 'senior',  nombre: 'Torrenueva Futsal',         partidos: partidosSenior as Partido[] },
+  { id: 'juvenil', nombre: 'Torrenueva Futsal Juvenil',  partidos: partidosJuvenil as Partido[] },
+];
 
 function formatearFecha(f: string) {
   return new Date(f + 'T12:00:00').toLocaleDateString('es-ES', {
@@ -27,67 +31,132 @@ function tipoResultado(p: Partido) {
 
 <Layout
   titulo="Calendario"
-  descripcion="Partidos, resultados y próximos encuentros del Club Torrenueva Futsal en la temporada 2025/26."
+  descripcion="Partidos, resultados y próximos encuentros del Club Torrenueva Futsal en la temporada 2026/27."
 >
   <section class="seccion">
     <h1 class="titulo-seccion">Calendario 2026/27</h1>
 
-    {lista.length === 0 ? (
-      <p class="calendario-aviso">
-        El calendario de la temporada 2026/27 todavía no se ha publicado. En cuanto la federación lo confirme, lo añadiremos aquí.
-      </p>
-    ) : (
-      <>
-        <!-- Leyenda -->
-        <div class="leyenda" role="note" aria-label="Leyenda">
-          <span class="leyenda-item"><span class="badge victoria">V</span> Victoria</span>
-          <span class="leyenda-item"><span class="badge empate">E</span> Empate</span>
-          <span class="leyenda-item"><span class="badge derrota">D</span> Derrota</span>
-          <span class="leyenda-item"><span class="badge pendiente">—</span> Pendiente</span>
-        </div>
+    <div class="selector-equipo" role="tablist" aria-label="Selecciona equipo">
+      {equipos.map((eq, i) => (
+        <button
+          type="button"
+          class={`selector-btn${i === 0 ? ' activo' : ''}`}
+          data-equipo-btn={eq.id}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          {eq.nombre}
+        </button>
+      ))}
+    </div>
 
-        <div class="tabla-wrap">
-          <table class="tabla" aria-label="Partidos de la temporada">
-            <thead>
-              <tr>
-                <th scope="col">Fecha</th>
-                <th scope="col">Rival</th>
-                <th scope="col">Condición</th>
-                <th scope="col" class="col-resultado">Resultado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {lista.map(p => {
-                const tipo = tipoResultado(p);
-                return (
-                  <tr class={`fila fila-${tipo ?? 'pendiente'}`}>
-                    <td class="celda-fecha">
-                      <time datetime={p.fecha}>{formatearFecha(p.fecha)}</time>
-                    </td>
-                    <td class="celda-rival">{p.rival}</td>
-                    <td>
-                      <span class={`condicion condicion-${p.condicion.toLowerCase()}`}>
-                        {p.condicion}
-                      </span>
-                    </td>
-                    <td class="celda-resultado">
-                      {p.resultado
-                        ? <span class={`badge ${tipo}`}>{p.resultado}</span>
-                        : <span class="badge pendiente">Pendiente</span>
-                      }
-                    </td>
+    {equipos.map((eq, i) => (
+      <div class="equipo-panel" data-equipo-panel={eq.id} hidden={i !== 0}>
+        {eq.partidos.length === 0 ? (
+          <p class="calendario-aviso">
+            El calendario de {eq.nombre} todavía no se ha publicado. En cuanto la federación lo confirme, lo añadiremos aquí.
+          </p>
+        ) : (
+          <>
+            <!-- Leyenda -->
+            <div class="leyenda" role="note" aria-label="Leyenda">
+              <span class="leyenda-item"><span class="badge victoria">V</span> Victoria</span>
+              <span class="leyenda-item"><span class="badge empate">E</span> Empate</span>
+              <span class="leyenda-item"><span class="badge derrota">D</span> Derrota</span>
+              <span class="leyenda-item"><span class="badge pendiente">—</span> Pendiente</span>
+            </div>
+
+            <div class="tabla-wrap">
+              <table class="tabla" aria-label={`Partidos de ${eq.nombre}`}>
+                <thead>
+                  <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Rival</th>
+                    <th scope="col">Condición</th>
+                    <th scope="col" class="col-resultado">Resultado</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </>
-    )}
+                </thead>
+                <tbody>
+                  {eq.partidos.map(p => {
+                    const tipo = tipoResultado(p);
+                    return (
+                      <tr class={`fila fila-${tipo ?? 'pendiente'}`}>
+                        <td class="celda-fecha">
+                          <time datetime={p.fecha}>{formatearFecha(p.fecha)}</time>
+                        </td>
+                        <td class="celda-rival">{p.rival}</td>
+                        <td>
+                          <span class={`condicion condicion-${p.condicion.toLowerCase()}`}>
+                            {p.condicion}
+                          </span>
+                        </td>
+                        <td class="celda-resultado">
+                          {p.resultado
+                            ? <span class={`badge ${tipo}`}>{p.resultado}</span>
+                            : <span class="badge pendiente">Pendiente</span>
+                          }
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
+    ))}
   </section>
 </Layout>
 
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>('[data-equipo-btn]');
+  const paneles = document.querySelectorAll<HTMLElement>('[data-equipo-panel]');
+
+  botones.forEach(boton => {
+    boton.addEventListener('click', () => {
+      const id = boton.dataset.equipoBtn;
+
+      botones.forEach(b => {
+        const activo = b === boton;
+        b.classList.toggle('activo', activo);
+        b.setAttribute('aria-selected', String(activo));
+      });
+
+      paneles.forEach(panel => {
+        panel.hidden = panel.dataset.equipoPanel !== id;
+      });
+    });
+  });
+</script>
+
 <style>
+.selector-equipo {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+.selector-btn {
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--color-texto-sec);
+  background: transparent;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  padding: .6rem 1.2rem;
+  cursor: pointer;
+  transition: color .15s, border-color .15s, background .15s;
+}
+.selector-btn:hover { color: var(--color-texto); border-color: var(--color-borde-hover); }
+.selector-btn.activo {
+  color: #000;
+  background: var(--color-acento);
+  border-color: var(--color-acento);
+}
+
 .calendario-aviso {
   color: var(--color-texto-sec);
   font-size: .95rem;
