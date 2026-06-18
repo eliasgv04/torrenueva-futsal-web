@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  titulo="Página no encontrada"
+  descripcion="La página que buscas no existe o se ha movido."
+>
+  <section class="seccion error-404">
+    <img src="/images/Escudo.PNG" alt="Escudo Torrenueva Futsal" width="110" height="110" class="error-404-escudo" />
+    <p class="error-404-codigo">Error 404</p>
+    <h1 class="error-404-titulo">Esta página no existe</h1>
+    <p class="error-404-texto">
+      Puede que el enlace esté mal escrito o que la página se haya movido. Vuelve al inicio para seguir navegando.
+    </p>
+    <a href="/" class="boton boton-primario">Volver al inicio</a>
+  </section>
+</Layout>
+
+<style>
+.error-404 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 5rem 1.5rem;
+}
+
+.error-404-escudo {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  filter: grayscale(40%);
+  opacity: .85;
+}
+
+.error-404-codigo {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+  margin-bottom: .75rem;
+}
+
+.error-404-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: .03em;
+  color: var(--color-texto);
+  margin-bottom: 1rem;
+}
+
+.error-404-texto {
+  color: var(--color-texto-sec);
+  max-width: 440px;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+</style>
