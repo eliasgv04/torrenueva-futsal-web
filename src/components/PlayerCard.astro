@@ -1,6 +1,6 @@
 ---
 interface Props {
-  dorsal: number;
+  dorsal: number | null;
   nombre: string;
   posicion: string;
   foto: string;
@@ -19,7 +19,9 @@ const { dorsal, nombre, posicion, foto } = Astro.props;
       width="300"
       height="400"
     />
-    <span class="jugador-dorsal" aria-label={`Dorsal ${dorsal}`}>{dorsal}</span>
+    {dorsal != null && (
+      <span class="jugador-dorsal" aria-label={`Dorsal ${dorsal}`}>{dorsal}</span>
+    )}
   </div>
   <div class="tarjeta-cuerpo">
     <p class="jugador-nombre">{nombre}</p>

@@ -6,6 +6,12 @@
     "foto": "/images/Plantilla/Jose.jpeg"
   },
   {
+    "dorsal": 4,
+    "nombre": "Salva Vivar",
+    "posicion": "Cierre",
+    "foto": "/images/Plantilla/Salva.jpeg"
+  },
+  {
     "dorsal": 8,
     "nombre": "Álvaro León",
     "posicion": "Ala zurdo",
@@ -16,5 +22,17 @@
     "nombre": "Antonio González",
     "posicion": "Pívot",
     "foto": "/images/Plantilla/Antonio.jpeg"
+  },
+  {
+    "dorsal": 18,
+    "nombre": "Marc Ros",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/Marc.jpeg"
+  },
+  {
+    "dorsal": null,
+    "nombre": "Adrián Vivar",
+    "posicion": "Pívot",
+    "foto": "/images/Plantilla/Adri.jpeg"
   }
 ]
