@@ -62,7 +62,14 @@ const equipos = [
                   <ul class="cuadricula-4" role="list">
                     {porteros.map(j => (
                       <li>
-                        <PlayerCard dorsal={j.dorsal} nombre={j.nombre} posicion={j.posicion} foto={j.foto} />
+                        <PlayerCard
+                          dorsal={j.dorsal}
+                          nombre={j.nombre}
+                          posicion={j.posicion}
+                          foto={j.foto}
+                          fotoZoom={eq.id === 'juvenil' ? 1.18 : 1}
+                          fotoPosicion={eq.id === 'juvenil' ? 'center 18%' : 'center center'}
+                        />
                       </li>
                     ))}
                   </ul>
@@ -75,7 +82,14 @@ const equipos = [
                   <ul class="cuadricula-4" role="list">
                     {resto.map(j => (
                       <li>
-                        <PlayerCard dorsal={j.dorsal} nombre={j.nombre} posicion={j.posicion} foto={j.foto} />
+                        <PlayerCard
+                          dorsal={j.dorsal}
+                          nombre={j.nombre}
+                          posicion={j.posicion}
+                          foto={j.foto}
+                          fotoZoom={eq.id === 'juvenil' ? 2 : 1}
+                          fotoPosicion={eq.id === 'juvenil' ? 'center 18%' : 'center center'}
+                        />
                       </li>
                     ))}
                   </ul>

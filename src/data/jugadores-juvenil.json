@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "dorsal": null,
+    "nombre": "Félix Jesús Simón",
+    "posicion": "Pívot",
+    "foto": "/images/Plantilla/felix.jpeg"
+  },
+  {
+    "dorsal": null,
+    "nombre": "Álvaro Bérmudez",
+    "posicion": "Cierre",
+    "foto": "/images/Plantilla/simpson.jpeg"
+  },
+  {
+    "dorsal": null,
+    "nombre": "Álvaro Gormaz",
+    "posicion": "Cierre",
+    "foto": "/images/Plantilla/gormaz.jpeg"
+  }
+]
