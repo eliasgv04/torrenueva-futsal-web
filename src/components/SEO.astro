@@ -4,6 +4,7 @@ interface Props {
   descripcion: string;
   imagen?: string;
   tipo?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -11,25 +12,40 @@ const {
   descripcion,
   imagen = '/images/og-default.jpeg',
   tipo = 'website',
+  noindex = false,
 } = Astro.props;
 
 const urlCanonica = new URL(Astro.url.pathname, Astro.site).toString();
 const tituloCompleto = `${titulo} | Torrenueva Futsal`;
+const urlImagen = new URL(imagen, Astro.site).toString();
+const robots = noindex ? 'noindex, nofollow' : 'index, follow';
 ---
 
 <title>{tituloCompleto}</title>
 <meta name="description" content={descripcion} />
+<meta name="robots" content={robots} />
 <link rel="canonical" href={urlCanonica} />
 
 <!-- Open Graph -->
-<meta property="og:type"        content={tipo} />
-<meta property="og:url"         content={urlCanonica} />
-<meta property="og:title"       content={tituloCompleto} />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:type" content={tipo} />
+<meta property="og:url" content={urlCanonica} />
+<meta property="og:title" content={tituloCompleto} />
 <meta property="og:description" content={descripcion} />
-<meta property="og:image"       content={new URL(imagen, Astro.site).toString()} />
+<meta property="og:image" content={urlImagen} />
 
 <!-- Twitter Card -->
-<meta name="twitter:card"        content="summary_large_image" />
-<meta name="twitter:title"       content={tituloCompleto} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={tituloCompleto} />
 <meta name="twitter:description" content={descripcion} />
-<meta name="twitter:image"       content={new URL(imagen, Astro.site).toString()} />
+<meta name="twitter:image" content={urlImagen} />
+
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'SportsClub',
+  name: 'Torrenueva Futsal',
+  url: Astro.site?.toString(),
+  logo: new URL('/favicon.png', Astro.site).toString(),
+  sport: 'Futsal',
+  description: descripcion,
+})} />

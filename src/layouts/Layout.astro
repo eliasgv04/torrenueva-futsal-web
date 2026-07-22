@@ -9,9 +9,10 @@ interface Props {
   descripcion: string;
   imagen?: string;
   tipo?: string;
+  noindex?: boolean;
 }
 
-const { titulo, descripcion, imagen, tipo } = Astro.props;
+const { titulo, descripcion, imagen, tipo, noindex } = Astro.props;
 ---
 
 <!doctype html>
@@ -29,7 +30,7 @@ const { titulo, descripcion, imagen, tipo } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@1,600&display=swap"
       rel="stylesheet"
     />
-    <SEO titulo={titulo} descripcion={descripcion} imagen={imagen} tipo={tipo} />
+    <SEO titulo={titulo} descripcion={descripcion} imagen={imagen} tipo={tipo} noindex={noindex} />
   </head>
   <body>
     <Header />
