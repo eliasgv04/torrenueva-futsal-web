@@ -1,5 +1,5 @@
 ---
-titulo: "Bienvenido, Félix Jesús"
+titulo: "Bienvenido, Álvaro"
 fecha: 2026-07-02
 imagen: "/images/simpson.jpeg"
 descripcion: "Seguimos dando forma a nuestra plantilla juvenil con otro de los jugadores que finaliza su etapa en las Escuelas Deportivas y da el salto al juvenil. Hoy es el turno de Álvaro Bermúdez, que será nuestro segundo capitán."

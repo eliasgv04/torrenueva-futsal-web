@@ -24,6 +24,18 @@
     "foto": "/images/Plantilla/Antonio.jpeg"
   },
   {
+    "dorsal": 23,
+    "nombre": "Alberto Rubio",
+    "posicion": "Ala zurdo",
+    "foto": "/images/Plantilla/alberto.jpeg"
+  },
+  {
+    "dorsal": 7,
+    "nombre": "Victor Manuel Simón",
+    "posicion": "Pívot",
+    "foto": "/images/Plantilla/victorManuel.JPG"
+  },
+  {
     "dorsal": 18,
     "nombre": "Marc Ros",
     "posicion": "Ala diestro",

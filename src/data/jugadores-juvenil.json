@@ -7,6 +7,18 @@
   },
   {
     "dorsal": null,
+    "nombre": "Adrián Morales",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/adriLoti.JPG"
+  },
+  {
+    "dorsal": null,
+    "nombre": "Carlos Simón",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/carlitosSimon.JPG"
+  },
+  {
+    "dorsal": null,
     "nombre": "Álvaro Bérmudez",
     "posicion": "Cierre",
     "foto": "/images/Plantilla/simpson.jpeg"
