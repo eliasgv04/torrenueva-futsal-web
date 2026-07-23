@@ -22,6 +22,56 @@ const fechaFormateada = noticia.data.fecha.toLocaleDateString('es-ES', {
 
 const urlCompleta = new URL(Astro.url.pathname, Astro.site).toString();
 const urlWhatsapp = `https://wa.me/?text=${encodeURIComponent(`${noticia.data.titulo} ${urlCompleta}`)}`;
+const fechaIso = noticia.data.fecha.toISOString();
+const fechaModificacionIso = noticia.data.fecha.toISOString();
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Inicio',
+      item: new URL('/', Astro.site).toString(),
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Noticias',
+      item: new URL('/noticias/', Astro.site).toString(),
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: noticia.data.titulo,
+      item: urlCompleta,
+    },
+  ],
+};
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: noticia.data.titulo,
+  description: noticia.data.descripcion,
+  image: [new URL(noticia.data.imagen, Astro.site).toString()],
+  datePublished: fechaIso,
+  dateModified: fechaModificacionIso,
+  author: noticia.data.autor ? { '@type': 'Person', name: noticia.data.autor } : {
+    '@type': 'Organization',
+    name: 'Torrenueva Futsal',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Torrenueva Futsal',
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/favicon.png', Astro.site).toString(),
+    },
+  },
+  mainEntityOfPage: urlCompleta,
+  inLanguage: 'es-ES',
+};
 ---
 
 <Layout
@@ -30,6 +80,7 @@ const urlWhatsapp = `https://wa.me/?text=${encodeURIComponent(`${noticia.data.ti
   imagen={noticia.data.imagen}
   tipo="article"
 >
+  <script type="application/ld+json" set:html={JSON.stringify([breadcrumbSchema, articleSchema])} />
   <article class="articulo">
 
     <!-- Imagen principal -->

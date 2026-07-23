@@ -19,6 +19,27 @@ const urlCanonica = new URL(Astro.url.pathname, Astro.site).toString();
 const tituloCompleto = `${titulo} | Torrenueva Futsal`;
 const urlImagen = new URL(imagen, Astro.site).toString();
 const robots = noindex ? 'noindex, nofollow' : 'index, follow';
+const datosEstructurados = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SportsClub',
+    name: 'Torrenueva Futsal',
+    url: Astro.site?.toString(),
+    logo: new URL('/favicon.png', Astro.site).toString(),
+    sport: 'Futsal',
+    description: descripcion,
+    sameAs: [
+      'https://www.instagram.com/torrenuevafutsal/',
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Torrenueva Futsal',
+    url: Astro.site?.toString(),
+    inLanguage: 'es-ES',
+  },
+];
 ---
 
 <title>{tituloCompleto}</title>
@@ -40,12 +61,4 @@ const robots = noindex ? 'noindex, nofollow' : 'index, follow';
 <meta name="twitter:description" content={descripcion} />
 <meta name="twitter:image" content={urlImagen} />
 
-<script type="application/ld+json" set:html={JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'SportsClub',
-  name: 'Torrenueva Futsal',
-  url: Astro.site?.toString(),
-  logo: new URL('/favicon.png', Astro.site).toString(),
-  sport: 'Futsal',
-  description: descripcion,
-})} />
+<script type="application/ld+json" set:html={JSON.stringify(datosEstructurados)} />

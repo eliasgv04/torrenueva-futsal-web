@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://torrenuevafutsal.com/:path*",
+      "permanent": true,
+      "has": [
+        {
+          "type": "host",
+          "value": "torrenuevafutsal.es"
+        }
+      ]
+    }
+  ]
+}
