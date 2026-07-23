@@ -16,7 +16,7 @@ const {
 } = Astro.props;
 
 const urlCanonica = new URL(Astro.url.pathname, Astro.site).toString();
-const tituloCompleto = `${titulo} | Torrenueva Futsal`;
+const tituloCompleto = titulo.includes('Torrenueva Futsal') ? titulo : `${titulo} | Torrenueva Futsal`;
 const urlImagen = new URL(imagen, Astro.site).toString();
 const robots = noindex ? 'noindex, nofollow' : 'index, follow';
 const datosEstructurados = [
