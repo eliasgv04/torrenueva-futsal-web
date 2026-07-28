@@ -46,5 +46,11 @@
     "nombre": "Adrián Vivar",
     "posicion": "Pívot",
     "foto": "/images/Plantilla/Adri.jpeg"
+  },
+  {
+    "dorsal": 14,
+    "nombre": "Carlos Jesús Ortiz",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/carlos.JPG"
   }
 ]

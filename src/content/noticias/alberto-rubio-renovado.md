@@ -3,7 +3,7 @@
 titulo: "Alberto Rubio renovado para la temporada 26/27"
 fecha: 2026-07-15
 imagen: "/images/albertoRubio.JPG"
-descripcion: "Hblar de Alberto Rubio es hablar de compromiso con el Torrenueva Futsal y hoy anunciamos que seguirá vistiendo nuestra camiseta un año más."
+descripcion: "Hablar de Alberto Rubio es hablar de compromiso con el Torrenueva Futsal y hoy anunciamos que seguirá vistiendo nuestra camiseta un año más."
 autor: "Redacción Torrenueva Futsal"
 ---
 

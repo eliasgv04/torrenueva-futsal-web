@@ -141,7 +141,7 @@ Antes de publicar la web, edita `astro.config.mjs` y sustituye la URL de ejemplo
 
 ```js
 export default defineConfig({
-  site: 'https://torrenuevafutsal.es', // pon aquí tu dominio real
+  site: 'https://torrenuevafutsal.com', 
   ...
 });
 ```
