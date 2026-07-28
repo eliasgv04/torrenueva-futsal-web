@@ -361,9 +361,22 @@ const secciones = [
 
 @media (max-width: 700px) {
   .social-fijo {
-    left: .75rem;
+    right: .75rem;
+    left: auto;
     bottom: .95rem;
-    padding: .7rem .8rem;
+    width: fit-content;
+    max-width: calc(100vw - 1.5rem);
+    padding: .65rem .75rem;
+    align-items: flex-end;
+  }
+
+  .social-fijo-titulo {
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .social-fijo-enlaces {
+    justify-content: flex-end;
   }
 
   .social-fijo-enlaces a {
@@ -379,7 +392,8 @@ const secciones = [
 
 @media (max-width: 480px) {
   .social-fijo {
-    left: .5rem;
+    right: .5rem;
+    left: auto;
     bottom: .7rem;
   }
 }
