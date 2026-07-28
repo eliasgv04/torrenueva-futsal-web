@@ -1,6 +1,6 @@
 
 ---
-titulo: "Alberto Rubio renovado para la temporada 26/27"
+titulo: "Presentamos a la nueva Junta Directiva del Torrenueva Futsal"
 fecha: 2026-07-22
 imagen: "/images/directiva.JPG"
 descripcion: "Nueva Junta Directiva, misma pasión por nuestro club. "
