@@ -131,7 +131,7 @@ const secciones = [
 .social-fijo {
   position: fixed;
   left: 1rem;
-  bottom: 1rem;
+  bottom: 1.75rem;
   z-index: 160;
   display: flex;
   flex-direction: column;
@@ -237,26 +237,8 @@ const secciones = [
   position: relative;
   margin-bottom: 1.5rem;
   line-height: 1;
-
-@media (max-width: 700px) {
-  .social-fijo {
-    left: .75rem;
-    bottom: .75rem;
-    padding: .7rem .8rem;
-  }
-
-  .social-fijo-enlaces a {
-    width: 36px;
-    height: 36px;
-  }
 }
 
-@media (max-width: 480px) {
-  .social-fijo {
-    left: .5rem;
-    bottom: .5rem;
-  }
-}
 .hero-playfair {
   font-family: var(--fuente-display);
   font-style: italic;
@@ -269,6 +251,7 @@ const secciones = [
   line-height: .95;
   margin: 0;
 }
+
 .hero-anton {
   font-family: var(--fuente-titulo);
   font-size: clamp(2.6rem, 5.5vw, 3.6rem);
@@ -307,19 +290,41 @@ const secciones = [
 }
 
 /* ── ACCESOS ── */
+.seccion > .cuadricula-4 {
+  align-items: stretch;
+}
+
+.seccion > .cuadricula-4 > li {
+  display: flex;
+}
+
+.seccion > .cuadricula-4 > li > .acceso {
+  width: 100%;
+}
+
 .acceso {
   display: flex;
   flex-direction: column;
-  gap: .6rem;
-  padding: 1.75rem 1.25rem;
+  align-items: flex-start;
+  gap: .7rem;
+  height: 172px;
+  padding: 1.5rem;
   text-decoration: none;
   color: var(--color-texto);
-  border-top: 2px solid var(--color-borde);
-  transition: border-color .2s, transform .2s;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
 }
-.acceso:hover { border-top-color: var(--color-acento); transform: translateY(-3px); text-decoration: none; }
 
-.acceso-icono { color: var(--color-acento); display: flex; }
+.acceso:hover {
+  border-color: var(--color-acento);
+  transform: translateY(-3px);
+  text-decoration: none;
+  box-shadow: var(--sombra-hover);
+}
+
+.acceso-icono { color: var(--color-acento); display: flex; margin-bottom: .15rem; }
 
 .acceso-titulo {
   font-family: var(--fuente-titulo);
@@ -353,4 +358,29 @@ const secciones = [
   margin-bottom: 2.5rem;
 }
 .seccion-cabecera .titulo-seccion { margin-bottom: 0; }
+
+@media (max-width: 700px) {
+  .social-fijo {
+    left: .75rem;
+    bottom: .95rem;
+    padding: .7rem .8rem;
+  }
+
+  .social-fijo-enlaces a {
+    width: 36px;
+    height: 36px;
+  }
+
+  .acceso {
+    height: auto;
+    min-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-fijo {
+    left: .5rem;
+    bottom: .7rem;
+  }
+}
 </style>
