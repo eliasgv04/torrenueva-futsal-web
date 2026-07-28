@@ -83,7 +83,7 @@ const articleSchema = {
   <script type="application/ld+json" set:html={JSON.stringify([breadcrumbSchema, articleSchema])} />
   <article class="articulo">
 
-    <!-- Imagen principal -->
+    <!-- Imagen superior tipo fondo -->
     <div class="articulo-hero">
       <img
         src={noticia.data.imagen}
@@ -131,6 +131,17 @@ const articleSchema = {
       <div class="prose">
         <Content />
       </div>
+
+      <figure class="articulo-imagen-completa">
+        <img
+          src={noticia.data.imagen}
+          alt={noticia.data.titulo}
+          class="articulo-imagen-completa-img"
+          width="1200"
+          height="675"
+          loading="lazy"
+        />
+      </figure>
     </div>
 
   </article>
@@ -174,6 +185,18 @@ const articleSchema = {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, var(--color-fondo) 0%, transparent 60%);
+}
+
+.articulo-imagen-completa {
+  margin-top: 2rem;
+}
+
+.articulo-imagen-completa-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radio-lg);
+  border: 1px solid var(--color-borde);
 }
 
 /* Wrap texto */
