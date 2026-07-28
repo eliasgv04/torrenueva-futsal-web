@@ -132,14 +132,14 @@ const secciones = [
   position: fixed;
   left: 1rem;
   bottom: 1rem;
-  z-index: 120;
+  z-index: 160;
   display: flex;
   flex-direction: column;
-  gap: .6rem;
+  gap: .55rem;
   padding: .8rem .9rem;
   border-radius: 999px;
   background: rgba(5, 5, 5, .82);
-  border: 1px solid rgba(255, 255, 255, .08);
+  border: 1px solid rgba(245, 197, 24, .42);
   box-shadow: var(--sombra);
   backdrop-filter: blur(10px);
 }
@@ -149,7 +149,7 @@ const secciones = [
   font-weight: 700;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--color-texto-tenue);
+  color: var(--color-acento);
   text-align: center;
 }
 
@@ -168,7 +168,7 @@ const secciones = [
   border-radius: 50%;
   color: var(--color-texto);
   border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(255, 255, 255, .03);
+  background: rgba(255, 255, 255, .04);
   transition: transform .15s, border-color .15s, color .15s, background .15s;
 }
 
@@ -254,23 +254,8 @@ const secciones = [
 @media (max-width: 480px) {
   .social-fijo {
     left: .5rem;
-    right: .5rem;
     bottom: .5rem;
-    flex-direction: row;
-    justify-content: space-between;
-    border-radius: 18px;
   }
-
-  .social-fijo-titulo {
-    align-self: center;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  .social-fijo-enlaces {
-    gap: .35rem;
-  }
-}
 }
 .hero-playfair {
   font-family: var(--fuente-display);
