@@ -30,7 +30,7 @@
     "foto": "/images/Plantilla/alberto.jpeg"
   },
   {
-    "dorsal": 7,
+    "dorsal": 11,
     "nombre": "Victor Manuel Simón",
     "posicion": "Pívot",
     "foto": "/images/Plantilla/victorManuel.JPG"
@@ -42,15 +42,21 @@
     "foto": "/images/Plantilla/Marc.jpeg"
   },
   {
-    "dorsal": null,
+    "dorsal": 10,
     "nombre": "Adrián Vivar",
     "posicion": "Pívot",
     "foto": "/images/Plantilla/Adri.jpeg"
   },
   {
-    "dorsal": 14,
+    "dorsal": 2,
     "nombre": "Carlos Jesús Ortiz",
     "posicion": "Ala diestro",
     "foto": "/images/Plantilla/carlos.jpeg"
+  },
+  {
+    "dorsal": 3,
+    "nombre": "Josevi Tercero",
+    "posicion": "Cierre",
+    "foto": "/images/Plantilla/Josevi.jpeg"
   }
 ]

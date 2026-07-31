@@ -1,32 +1,38 @@
 [
   {
-    "dorsal": null,
+    "dorsal": 9,
     "nombre": "Félix Jesús Simón",
     "posicion": "Pívot",
     "foto": "/images/Plantilla/felix.jpeg"
   },
   {
-    "dorsal": null,
+    "dorsal": 11,
     "nombre": "Adrián Morales",
     "posicion": "Ala diestro",
     "foto": "/images/Plantilla/adriLoti.JPG"
   },
   {
-    "dorsal": null,
+    "dorsal": 20,
     "nombre": "Carlos Simón",
     "posicion": "Ala diestro",
     "foto": "/images/Plantilla/carlitosSimon.JPG"
   },
   {
-    "dorsal": null,
+    "dorsal": 5,
     "nombre": "Álvaro Bérmudez",
     "posicion": "Cierre",
     "foto": "/images/Plantilla/simpson.jpeg"
   },
   {
-    "dorsal": null,
+    "dorsal": 19,
     "nombre": "Álvaro Gormaz",
     "posicion": "Cierre",
     "foto": "/images/Plantilla/gormaz.jpeg"
+  },
+  {
+    "dorsal": 21,
+    "nombre": "Ignacio Castellanos",
+    "posicion": "Portero",
+    "foto": "/images/Plantilla/Ignacio.JPG"
   }
 ]
