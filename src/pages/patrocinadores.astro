@@ -1,0 +1,357 @@
+---
+import Layout from '../layouts/Layout.astro';
+import patrocinadores from '../data/patrocinadores.json';
+
+// Patrocinadores "normales" desactivados temporalmente: todavía no tenemos
+// todos los logos definitivos. Reactivar poniendo "activo": true en
+// src/data/patrocinadores.json cuando estén todos listos.
+const secciones = [
+  {
+    titulo: 'Patrocinadores principales',
+    lista: patrocinadores.principales.lista,
+    clase: 'tier-1',
+    activo: patrocinadores.principales.activo,
+  },
+  {
+    titulo: 'Colaboradores destacados',
+    lista: patrocinadores.colaboradores.lista,
+    clase: 'tier-2',
+    activo: patrocinadores.colaboradores.activo,
+  },
+  {
+    titulo: 'Patrocinadores',
+    lista: patrocinadores.apoyo.lista,
+    clase: 'tier-3',
+    activo: patrocinadores.apoyo.activo,
+  },
+].filter((seccion) => seccion.activo);
+---
+
+<Layout
+  titulo="Patrocinadores del Torrenueva Futsal"
+  descripcion="Patrocinadores y colaboradores del Torrenueva Futsal. Una página oscura y visual para mostrar logos monocromos con enlace web de cada empresa."
+>
+  <section class="sponsors-hero">
+    <div class="sponsors-hero-fondo" aria-hidden="true"></div>
+    <div class="sponsors-hero-overlay" aria-hidden="true"></div>
+    <div class="sponsors-hero-contenido contenedor">
+      <p class="sponsors-label">Apoyo al club</p>
+      <h1 class="sponsors-titulo">Patrocinadores</h1>
+      <p class="sponsors-intro">
+        Espacio reservado para agradecer a todas las empresas que hacen posible que el sueño de que el Fútbol Sala 
+        en Torrenueva siga más vivo que nunca y sin su apoyo nada de esto sería posible. GRACIAS.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion sponsors-seccion">
+    <div class="sponsors-bloque-intro">
+      <h2 class="titulo-seccion">Patrocinadores Torrenueva Futsal</h2>
+      <p>
+        Visita ya todas las empresas que hacen posible que el Torrenueva Futsal siga existiendo.
+      </p>
+    </div>
+
+    {secciones.length === 0 && (
+      <p class="sponsors-proximamente">Muy pronto, más. Todavía no tenemos todos los logos.</p>
+    )}
+
+    {secciones.map((seccion) => (
+      <article class={`sponsor-tier ${seccion.clase}`}>
+        <div class="sponsor-tier-cabecera">
+          <div>
+            <h2>{seccion.titulo}</h2>
+          </div>
+          <p>{seccion.descripcion}</p>
+        </div>
+
+        <ul class="sponsor-grid" role="list">
+          {seccion.lista.map((patrocinador) => (
+            <li>
+              <a
+                class="sponsor-card"
+                href={patrocinador.url || '#'}
+                target={patrocinador.url ? '_blank' : undefined}
+                rel={patrocinador.url ? 'noopener noreferrer' : undefined}
+                aria-label={patrocinador.url ? `Ir a la web de ${patrocinador.nombre}` : `${patrocinador.nombre} sin enlace aún`}
+              >
+                <span class="sponsor-logo-wrap">
+                  <img
+                    src={patrocinador.logo}
+                    alt={patrocinador.nombre}
+                    loading="lazy"
+                    width="520"
+                    height="240"
+                    class="sponsor-logo"
+                  />
+                </span>
+                <span class="sponsor-nombre">{patrocinador.nombre}</span>
+                <span class="sponsor-cta">{patrocinador.url ? 'Visitar web' : ''}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </section>
+</Layout>
+
+<style>
+.sponsors-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 58vh;
+  display: flex;
+  align-items: center;
+  background: #040404;
+}
+
+.sponsors-hero-fondo {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(245, 197, 24, .16), transparent 35%),
+    radial-gradient(circle at 80% 30%, rgba(255, 255, 255, .06), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, .05), transparent 45%),
+    url('/images/FondoPrincipal.jpeg') center/cover no-repeat;
+  filter: grayscale(100%) brightness(.34) contrast(1.05);
+  transform: scale(1.03);
+}
+
+.sponsors-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(4,4,4,1) 0%, rgba(4,4,4,.65) 48%, rgba(4,4,4,.2) 100%),
+    linear-gradient(to right, rgba(4,4,4,.88) 0%, rgba(4,4,4,.38) 60%, transparent 100%);
+}
+
+.sponsors-hero-contenido {
+  position: relative;
+  z-index: 1;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.sponsors-label {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+  margin-bottom: .9rem;
+}
+
+.sponsors-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 400;
+  line-height: .95;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.sponsors-intro {
+  max-width: 680px;
+  font-size: 1.02rem;
+  color: rgba(255, 255, 255, .82);
+  margin-bottom: 2rem;
+}
+
+.sponsors-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .85rem;
+  max-width: 760px;
+}
+
+.sponsors-meta-item {
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 999px;
+  padding: .85rem 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.sponsors-meta-cantidad {
+  display: block;
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  color: #fff;
+  line-height: 1;
+}
+
+.sponsors-meta-etiqueta {
+  display: block;
+  margin-top: .2rem;
+  font-size: .75rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--color-texto-sec);
+}
+
+.sponsors-seccion {
+  padding-top: 4rem;
+}
+
+.sponsors-bloque-intro {
+  display: grid;
+  gap: .75rem;
+  margin-bottom: 2rem;
+}
+
+.sponsors-bloque-intro p {
+  max-width: 760px;
+  color: var(--color-texto-sec);
+}
+
+.sponsors-proximamente {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--color-texto-sec);
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.sponsor-tier {
+  margin-bottom: 2.5rem;
+  padding: 1.4rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: var(--sombra);
+}
+
+.sponsor-tier-cabecera {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, .9fr);
+  gap: 1rem 2rem;
+  align-items: end;
+  margin-bottom: 1.3rem;
+}
+
+.sponsor-tier-cabecera h2 {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.sponsor-tier-cabecera p {
+  color: var(--color-texto-sec);
+  font-size: .94rem;
+}
+
+.sponsor-tier-kicker {
+  color: var(--color-acento) !important;
+  font-size: .72rem !important;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+
+.sponsor-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.tier-1 .sponsor-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.tier-2 .sponsor-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.tier-3 .sponsor-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.sponsor-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 240px;
+  padding: 1.1rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.08);
+  color: #fff;
+  text-decoration: none;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.sponsor-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 197, 24, .5);
+  background: linear-gradient(180deg, rgba(245,197,24,.08), rgba(255,255,255,.03));
+  box-shadow: var(--sombra-hover);
+  text-decoration: none;
+}
+
+.sponsor-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  padding: 1rem;
+  border-radius: 14px;
+  background: radial-gradient(circle at top, rgba(255,255,255,.06), rgba(255,255,255,.01));
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.sponsor-logo {
+  width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: .95;
+}
+
+.tier-1 .sponsor-logo {
+  max-height: 140px;
+}
+
+.tier-3 .sponsor-logo {
+  max-height: 96px;
+}
+
+.sponsor-nombre {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--fuente-titulo);
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.sponsor-cta {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-top: .7rem;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+}
+
+@media (max-width: 900px) {
+  .sponsors-meta { grid-template-columns: 1fr; }
+  .sponsor-tier-cabecera { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .sponsor-tier { padding: 1rem; }
+  .sponsor-card { min-height: 210px; }
+  .sponsor-logo-wrap { min-height: 130px; }
+}
+</style>

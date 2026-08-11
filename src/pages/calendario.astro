@@ -5,8 +5,11 @@ import partidosJuvenil from '../data/calendario-juvenil.json';
 
 interface Partido {
   fecha: string;
+  hora?: string;
   rival: string;
+  escudo?: string;
   condicion: 'Local' | 'Visitante';
+  lugar?: string;
   resultado: string | null;
 }
 
@@ -26,6 +29,16 @@ function tipoResultado(p: Partido) {
   const partes = p.resultado.split(' - ').map(Number);
   const [n, r] = p.condicion === 'Local' ? [partes[0], partes[1]] : [partes[1], partes[0]];
   return n > r ? 'victoria' : n < r ? 'derrota' : 'empate';
+}
+
+const ICONOS: Record<'pin' | 'calendario' | 'reloj', string> = {
+  pin: '<path d="M12 22s7-7.58 7-12.5A7 7 0 0 0 5 9.5C5 14.42 12 22 12 22Z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  calendario: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
+  reloj: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+};
+
+function icono(tipo: keyof typeof ICONOS) {
+  return `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONOS[tipo]}</svg>`;
 }
 ---
 
@@ -50,62 +63,95 @@ function tipoResultado(p: Partido) {
       ))}
     </div>
 
-    {equipos.map((eq, i) => (
-      <div class="equipo-panel" data-equipo-panel={eq.id} hidden={i !== 0}>
-        {eq.partidos.length === 0 ? (
-          <p class="calendario-aviso">
-            El calendario de {eq.nombre} todavía no se ha publicado. En cuanto la federación lo confirme, lo añadiremos aquí.
-          </p>
-        ) : (
-          <>
-            <!-- Leyenda -->
-            <div class="leyenda" role="note" aria-label="Leyenda">
-              <span class="leyenda-item"><span class="badge victoria">V</span> Victoria</span>
-              <span class="leyenda-item"><span class="badge empate">E</span> Empate</span>
-              <span class="leyenda-item"><span class="badge derrota">D</span> Derrota</span>
-              <span class="leyenda-item"><span class="badge pendiente">—</span> Pendiente</span>
-            </div>
+    {equipos.map((eq, i) => {
+      const hayResultados = eq.partidos.some(p => p.resultado);
+      return (
+        <div class="equipo-panel" data-equipo-panel={eq.id} hidden={i !== 0}>
+          {eq.partidos.length === 0 ? (
+            <p class="calendario-aviso">
+              El calendario de {eq.nombre} todavía no se ha publicado. En cuanto la federación lo confirme, lo añadiremos aquí.
+            </p>
+          ) : (
+            <>
+              {hayResultados && (
+                <div class="leyenda" role="note" aria-label="Leyenda">
+                  <span class="leyenda-item"><span class="badge victoria">V</span> Victoria</span>
+                  <span class="leyenda-item"><span class="badge empate">E</span> Empate</span>
+                  <span class="leyenda-item"><span class="badge derrota">D</span> Derrota</span>
+                </div>
+              )}
 
-            <div class="tabla-wrap">
-              <table class="tabla" aria-label={`Partidos de ${eq.nombre}`}>
-                <thead>
-                  <tr>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Rival</th>
-                    <th scope="col">Condición</th>
-                    <th scope="col" class="col-resultado">Resultado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {eq.partidos.map(p => {
-                    const tipo = tipoResultado(p);
-                    return (
-                      <tr class={`fila fila-${tipo ?? 'pendiente'}`}>
-                        <td class="celda-fecha">
-                          <time datetime={p.fecha}>{formatearFecha(p.fecha)}</time>
-                        </td>
-                        <td class="celda-rival">{p.rival}</td>
-                        <td>
-                          <span class={`condicion condicion-${p.condicion.toLowerCase()}`}>
-                            {p.condicion}
-                          </span>
-                        </td>
-                        <td class="celda-resultado">
-                          {p.resultado
-                            ? <span class={`badge ${tipo}`}>{p.resultado}</span>
-                            : <span class="badge pendiente">Pendiente</span>
-                          }
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-      </div>
-    ))}
+              <div class="partidos-lista">
+                {eq.partidos.map(p => {
+                  const tipo = tipoResultado(p);
+                  return (
+                    <article class="partido-card">
+                      <div class="partido-escudo-wrap">
+                        {p.escudo
+                          ? <img src={p.escudo} alt={`Escudo ${p.rival}`} width="64" height="64" class="partido-escudo" />
+                          : <span class="partido-escudo-placeholder" aria-hidden="true">{p.rival.charAt(0)}</span>
+                        }
+                      </div>
+
+                      <div class="partido-cuerpo">
+                        <div class="partido-cabecera">
+                          <h3 class="partido-rival">{p.rival}</h3>
+                          <span class={`condicion condicion-${p.condicion.toLowerCase()}`}>{p.condicion}</span>
+                        </div>
+
+                        <ul class="partido-meta" role="list">
+                          {p.lugar && (
+                            <li class="partido-meta-item">
+                              <span class="partido-meta-icono" set:html={icono('pin')} />
+                              <span>{p.lugar}</span>
+                            </li>
+                          )}
+                          <li class="partido-meta-item">
+                            <span class="partido-meta-icono" set:html={icono('calendario')} />
+                            <time datetime={p.fecha}>{formatearFecha(p.fecha)}</time>
+                          </li>
+                          {p.hora && (
+                            <li class="partido-meta-item">
+                              <span class="partido-meta-icono" set:html={icono('reloj')} />
+                              <span>{p.hora}h</span>
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+
+                      <div class="partido-estado">
+                        {p.resultado ? (
+                          <span class={`resultado-badge ${tipo}`}>{p.resultado}</span>
+                        ) : (
+                          <div class="cuenta-atras" data-cuenta-atras={`${p.fecha}T${p.hora ?? '00:00'}:00`}>
+                            <div class="cuenta-atras-bloque">
+                              <span class="cuenta-atras-num" data-dias>–</span>
+                              <span class="cuenta-atras-label">días</span>
+                            </div>
+                            <div class="cuenta-atras-bloque">
+                              <span class="cuenta-atras-num" data-horas>–</span>
+                              <span class="cuenta-atras-label">h</span>
+                            </div>
+                            <div class="cuenta-atras-bloque">
+                              <span class="cuenta-atras-num" data-minutos>–</span>
+                              <span class="cuenta-atras-label">min</span>
+                            </div>
+                            <div class="cuenta-atras-bloque">
+                              <span class="cuenta-atras-num" data-segundos>–</span>
+                              <span class="cuenta-atras-label">seg</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </div>
+      );
+    })}
   </section>
 </Layout>
 
@@ -128,6 +174,44 @@ function tipoResultado(p: Partido) {
       });
     });
   });
+
+  function actualizarCuentasAtras() {
+    const contenedores = document.querySelectorAll<HTMLElement>('[data-cuenta-atras]');
+    const ahora = Date.now();
+
+    contenedores.forEach(el => {
+      const objetivo = new Date(el.dataset.cuentaAtras!).getTime();
+      let restante = objetivo - ahora;
+
+      if (restante <= 0) {
+        if (!el.classList.contains('en-juego')) {
+          el.classList.add('en-juego');
+          el.innerHTML = '<span class="cuenta-atras-en-juego">¡Partido en juego!</span>';
+        }
+        return;
+      }
+
+      const dias = Math.floor(restante / 86400000);
+      restante -= dias * 86400000;
+      const horas = Math.floor(restante / 3600000);
+      restante -= horas * 3600000;
+      const minutos = Math.floor(restante / 60000);
+      restante -= minutos * 60000;
+      const segundos = Math.floor(restante / 1000);
+
+      const dEl = el.querySelector('[data-dias]');
+      const hEl = el.querySelector('[data-horas]');
+      const mEl = el.querySelector('[data-minutos]');
+      const sEl = el.querySelector('[data-segundos]');
+      if (dEl) dEl.textContent = String(dias);
+      if (hEl) hEl.textContent = String(horas).padStart(2, '0');
+      if (mEl) mEl.textContent = String(minutos).padStart(2, '0');
+      if (sEl) sEl.textContent = String(segundos).padStart(2, '0');
+    });
+  }
+
+  actualizarCuentasAtras();
+  setInterval(actualizarCuentasAtras, 1000);
 </script>
 
 <style>
@@ -170,78 +254,198 @@ function tipoResultado(p: Partido) {
   display: flex;
   gap: 1.5rem;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   font-size: .8rem;
   color: var(--color-texto-sec);
 }
 .leyenda-item { display: flex; align-items: center; gap: .45rem; }
 
-/* Tabla */
-.tabla-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+/* Lista de partidos */
+.partidos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.partido-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
   border: 1px solid var(--color-borde);
-  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra);
+  transition: border-color .18s, transform .18s, box-shadow .18s;
+}
+.partido-card:hover {
+  border-color: rgba(245, 197, 24, .4);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-hover);
 }
 
-.tabla {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: .9rem;
-  min-width: 520px;
+/* Escudo */
+.partido-escudo-wrap {
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, rgba(255,255,255,.09), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.12);
 }
-
-.tabla thead th {
-  background: var(--color-superficie-2);
+.partido-escudo {
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: .96;
+}
+.partido-escudo-placeholder {
+  font-family: var(--fuente-titulo);
+  font-size: 1.7rem;
   color: var(--color-texto-sec);
-  padding: .85rem 1.25rem;
-  text-align: left;
-  font-size: .7rem;
-  font-weight: 700;
-  letter-spacing: .12em;
+}
+
+/* Cuerpo */
+.partido-cuerpo {
+  flex: 1;
+  min-width: 0;
+}
+
+.partido-cabecera {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-bottom: .65rem;
+}
+
+.partido-rival {
+  font-family: var(--fuente-titulo);
+  font-size: 1.2rem;
+  font-weight: 400;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--color-borde);
-}
-.col-resultado { text-align: center; }
-
-.tabla tbody .fila {
-  border-bottom: 1px solid var(--color-borde);
-  transition: background .15s;
-}
-.tabla tbody .fila:last-child { border-bottom: none; }
-.tabla tbody .fila:hover { background: var(--color-superficie-2); }
-
-.tabla td { padding: 1rem 1.25rem; vertical-align: middle; }
-
-/* Indicador lateral por resultado */
-.fila-victoria { border-left: 3px solid #4caf50; }
-.fila-derrota  { border-left: 3px solid #ef5350; }
-.fila-empate   { border-left: 3px solid var(--color-acento); }
-.fila-pendiente { border-left: 3px solid var(--color-borde); }
-
-.celda-fecha {
-  font-size: .8rem;
-  color: var(--color-texto-sec);
-  white-space: nowrap;
-}
-
-.celda-rival {
-  font-weight: 600;
+  letter-spacing: .02em;
   color: var(--color-texto);
 }
 
-.celda-resultado { text-align: center; }
+.partido-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.4rem;
+  font-size: .82rem;
+  color: var(--color-texto-sec);
+}
+.partido-meta-item {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+.partido-meta-icono {
+  display: flex;
+  color: var(--color-acento);
+  flex-shrink: 0;
+}
+.partido-meta-icono :global(svg) { display: block; }
 
 /* Condición */
 .condicion {
   display: inline-block;
   padding: .2rem .65rem;
   border-radius: var(--radio-borde);
-  font-size: .72rem;
+  font-size: .68rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
 .condicion-local     { background: rgba(26,92,46,.2); color: #4caf50; border: 1px solid rgba(26,92,46,.4); }
 .condicion-visitante { background: rgba(245,197,24,.1); color: var(--color-acento); border: 1px solid rgba(245,197,24,.3); }
+
+/* Estado: cuenta atrás o resultado */
+.partido-estado {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cuenta-atras {
+  display: flex;
+  gap: .55rem;
+}
+.cuenta-atras-bloque {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 44px;
+  padding: .5rem .3rem;
+  border-radius: 12px;
+  background: rgba(245, 197, 24, .08);
+  border: 1px solid rgba(245, 197, 24, .25);
+}
+.cuenta-atras-num {
+  font-family: var(--fuente-titulo);
+  font-size: 1.25rem;
+  color: var(--color-acento);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cuenta-atras-label {
+  margin-top: .25rem;
+  font-size: .58rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.cuenta-atras-en-juego {
+  font-family: var(--fuente-titulo);
+  color: var(--color-acento);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.resultado-badge {
+  font-family: var(--fuente-titulo);
+  font-size: 1.5rem;
+  padding: .55rem 1.2rem;
+  border-radius: 14px;
+  letter-spacing: .03em;
+}
+.resultado-badge.victoria { background: rgba(76,175,80,.15);  color: #4caf50;         border: 1px solid rgba(76,175,80,.4); }
+.resultado-badge.derrota  { background: rgba(239,83,80,.15);  color: #ef5350;         border: 1px solid rgba(239,83,80,.4); }
+.resultado-badge.empate   { background: rgba(245,197,24,.12); color: var(--color-acento); border: 1px solid rgba(245,197,24,.35); }
+
+/* Leyenda (badges pequeños, reutilizados solo si hay resultados) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 .4rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+}
+.badge.victoria { background: rgba(76,175,80,.15); color: #4caf50; }
+.badge.derrota  { background: rgba(239,83,80,.15); color: #ef5350; }
+.badge.empate   { background: rgba(245,197,24,.12); color: var(--color-acento); }
+
+@media (max-width: 680px) {
+  .partido-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .partido-estado {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .cuenta-atras { width: 100%; }
+  .cuenta-atras-bloque { flex: 1; }
+}
 </style>

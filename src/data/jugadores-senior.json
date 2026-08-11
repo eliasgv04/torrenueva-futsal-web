@@ -58,5 +58,17 @@
     "nombre": "Josevi Tercero",
     "posicion": "Cierre",
     "foto": "/images/Plantilla/Josevi.jpeg"
+  },
+  {
+    "dorsal": 13,
+    "nombre": "Rubén Carrasco",
+    "posicion": "Portero",
+    "foto": "/images/Plantilla/carrascoPlantilla.jpeg"
+  },
+  {
+    "dorsal": 77,
+    "nombre": "Jesús García",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/jesusPlantilla.jpeg"
   }
 ]

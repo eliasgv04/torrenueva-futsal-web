@@ -1,0 +1,107 @@
+{
+  "principales": {
+    "activo": true,
+    "lista": [
+      {
+        "nombre": "Confecciones Carconga",
+        "logo": "/images/patrocinadores/carconga.png",
+        "url": "https://confeccionescarconga.com/"
+      },
+      {
+        "nombre": "Cooperativa San Isidro",
+        "logo": "/images/patrocinadores/cooperativa.PNG",
+        "url": "https://share.google/ocunDFqPtcIsLVamJ"
+      }
+    ]
+  },
+  "colaboradores": {
+    "activo": true,
+    "lista": [
+      {
+        "nombre": "Ttes Benjamín de Francisco S.L.",
+        "logo": "/images/patrocinadores/benjamin.PNG",
+        "url": ""
+      },
+      {
+        "nombre": "Construcciones TLG S.L.",
+        "logo": "/images/patrocinadores/tlg.PNG",
+        "url": "https://construccionestlg.es/"
+      },
+      {
+        "nombre": "Ecos Los Teles",
+        "logo": "/images/patrocinadores/teles.PNG",
+        "url": "https://share.google/vVEXz3XQJvdbc0fsG"
+      },
+      {
+        "nombre": "Supermercado Las Palmeras",
+        "logo": "/images/patrocinadores/palmeras.PNG",
+        "url": "https://share.google/2FnsIBb4ckfgo5eYR"
+      },
+      {
+        "nombre": "Construcciones HGC",
+        "logo": "/images/patrocinadores/hgc.PNG",
+        "url": "https://hgcontruccionyreformas.com/"
+      },
+      {
+        "nombre": "Ayuntamiento Torrenueva",
+        "logo": "/images/patrocinadores/ayuntamiento.PNG",
+        "url": "https://www.ayuntamientotorrenueva.es/"
+      },
+      {
+        "nombre": "Hotel La Caminera",
+        "logo": "/images/patrocinadores/caminera.PNG",
+        "url": "https://www.hotellacaminera.com/?gad_source=1&gad_campaignid=1531000275&gbraid=0AAAAACqaWnCu6Jw6-_e71a_3v8PS6_Ft2&gclid=CjwKCAjwj7HTBhBiEiwA8s35OlfDpYjUby-IlyToIfCCXnkQ_GzQIn0i7fFgSWnIL50VL0pYeqC1XhoCKlEQAvD_BwE"
+      },
+      {
+        "nombre": "El Oeste",
+        "logo": "/images/patrocinadores/oeste.PNG",
+        "url": "https://share.google/hEBJ6Kb5131Atmmrh"
+      }
+    ]
+  },
+  "apoyo": {
+    "activo": false,
+    "lista": [
+      {
+        "nombre": "Patrocinador 9",
+        "logo": "/images/patrocinadores/apoyo-1.png",
+        "url": ""
+      },
+      {
+        "nombre": "Patrocinador 10",
+        "logo": "/images/patrocinadores/apoyo-2.png",
+        "url": ""
+      },
+      {
+        "nombre": "Patrocinador 11",
+        "logo": "/images/patrocinadores/apoyo-3.png",
+        "url": ""
+      },
+      {
+        "nombre": "Patrocinador 12",
+        "logo": "/images/patrocinadores/apoyo-4.png",
+        "url": ""
+      },
+      {
+        "nombre": "Patrocinador 13",
+        "logo": "/images/patrocinadores/apoyo-5.png",
+        "url": ""
+      },
+      {
+        "nombre": "Patrocinador 14",
+        "logo": "/images/patrocinadores/apoyo-6.png",
+        "url": ""
+      },
+      {
+        "nombre": "Patrocinador 15",
+        "logo": "/images/patrocinadores/apoyo-7.png",
+        "url": ""
+      },
+      {
+        "nombre": "Patrocinador 16",
+        "logo": "/images/patrocinadores/apoyo-8.png",
+        "url": ""
+      }
+    ]
+  }
+}

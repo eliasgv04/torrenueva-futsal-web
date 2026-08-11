@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "fecha": "2026-09-01",
+    "hora": "21:00",
+    "rival": "Moral F.S.",
+    "escudo": "/images/escudos/moral.png",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  }
+]
