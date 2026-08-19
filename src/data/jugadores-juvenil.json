@@ -34,5 +34,17 @@
     "nombre": "Ignacio Castellanos",
     "posicion": "Portero",
     "foto": "/images/Plantilla/Ignacio.JPG"
+  },
+  {
+    "dorsal": 77,
+    "nombre": "Sergio Fresneda",
+    "posicion": "Pívot",
+    "foto": "/images/Plantilla/Sergio.JPG"
+  },
+  {
+    "dorsal": 22,
+    "nombre": "Andrés Castro",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/Andres.JPG"
   }
 ]
