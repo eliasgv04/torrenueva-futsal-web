@@ -52,7 +52,7 @@ import productos from '../data/tienda.json';
 </Layout>
 
 <style>
-.producto-tarjeta { display: flex; flex-direction: column; }
+.producto-tarjeta { display: flex; flex-direction: column; height: 100%; }
 
 .producto-foto-wrap {
   position: relative;
@@ -101,6 +101,7 @@ import productos from '../data/tienda.json';
   color: var(--color-texto-sec);
   margin-bottom: .85rem;
   line-height: 1.5;
+  flex-grow: 1;
 }
 
 .producto-precio {

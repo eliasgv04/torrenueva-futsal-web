@@ -1,23 +1,30 @@
 [
   {
     "id": "camiseta-local",
-    "nombre": "Camiseta Local 2025/26",
-    "descripcion": "Equipación oficial local del Torrenueva Futsal.",
+    "nombre": "Primera Equipación 26/27",
+    "descripcion": "Con el trazado de nuestras calles y nuestra Casa de la Cultura en la espalda.",
     "precio": 20.00,
-    "foto": "/images/CamisetaLocal.jpeg"
+    "foto": "/images/1equipacion.JPG"
   },
   {
-    "id": "camiseta-campeones",
-    "nombre": "Camiseta Edición Campeones",
-    "descripcion": "Edición especial conmemorativa de campeones.",
+    "id": "camiseta-borrica",
+    "nombre": "Segunda Equipación 26/27 · La Borricá",
+    "descripcion": "Homenaje a nuestra emblemática fiesta, con la calavera formando todo el patrón de la camiseta.",
     "precio": 20.00,
-    "foto": "/images/CamisetaCampeones.jpeg"
+    "foto": "/images/2equipacion.JPG"
   },
   {
     "id": "camiseta-portero",
-    "nombre": "Camiseta Portero 2025/26",
-    "descripcion": "Equipación oficial de portero del Torrenueva Futsal.",
+    "nombre": "Camiseta Portero 26/27",
+    "descripcion": "Equipación oficial de portero, con el trazado de nuestras calles y nuestra Casa de la Cultura en la espalda.",
     "precio": 20.00,
-    "foto": "/images/CamisetaPortero.jpeg"
+    "foto": "/images/porteroequipacion.JPG"
+  },
+  {
+    "id": "abono-26-27",
+    "nombre": "Carnet de Abonado 26/27",
+    "descripcion": "Acceso a los partidos como local de nuestros dos equipos, sénior y juvenil.",
+    "precio": 25.00,
+    "foto": "/images/abono-tienda.PNG"
   }
 ]
