@@ -70,5 +70,11 @@
     "nombre": "Jesús García",
     "posicion": "Ala diestro",
     "foto": "/images/Plantilla/jesusPlantilla.jpeg"
+  },
+  {
+    "dorsal": 17,
+    "nombre": "Guille Prieto",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/Guille-plantilla.JPG"
   }
 ]

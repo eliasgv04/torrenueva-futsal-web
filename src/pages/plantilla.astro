@@ -67,8 +67,8 @@ const equipos = [
                           nombre={j.nombre}
                           posicion={j.posicion}
                           foto={j.foto}
-                          fotoZoom={eq.id === 'juvenil' ? 1.18 : 1}
-                          fotoPosicion={eq.id === 'juvenil' ? 'center 18%' : 'center center'}
+                          fotoZoom={j.fotoZoom ?? (eq.id === 'juvenil' ? 1.18 : 1)}
+                          fotoPosicion={j.fotoPosicion ?? (eq.id === 'juvenil' ? 'center 18%' : 'center center')}
                         />
                       </li>
                     ))}
@@ -87,8 +87,8 @@ const equipos = [
                           nombre={j.nombre}
                           posicion={j.posicion}
                           foto={j.foto}
-                          fotoZoom={eq.id === 'juvenil' ? 2 : 1}
-                          fotoPosicion={eq.id === 'juvenil' ? 'center 18%' : 'center center'}
+                          fotoZoom={j.fotoZoom ?? (eq.id === 'juvenil' ? 2 : 1)}
+                          fotoPosicion={j.fotoPosicion ?? (eq.id === 'juvenil' ? 'center 18%' : 'center center')}
                         />
                       </li>
                     ))}
