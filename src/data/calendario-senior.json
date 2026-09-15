@@ -1,9 +1,210 @@
 [
   {
-    "fecha": "2026-09-01",
-    "hora": "21:00",
-    "rival": "Moral F.S.",
+    "fecha": "2026-10-10",
+    "rival": "Torralbeño FS",
+    "escudo": "/images/escudos/Torralba.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-10-17",
+    "rival": "Chillón FS",
+    "escudo": "/images/escudos/Chillon.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-10-24",
+    "rival": "Piedrabuena FS",
+    "escudo": "/images/escudos/Piedrabuena.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-10-31",
+    "rival": "CD Ciudad de Puertollano",
+    "escudo": "/images/escudos/CiudadDePuertollano.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-11-07",
+    "rival": "Carrión FS",
+    "escudo": "/images/escudos/Carrion.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-11-14",
+    "rival": "FS Renacer Argamasilla",
+    "escudo": "/images/escudos/Argamasilla.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-11-28",
+    "rival": "Moral FS B",
     "escudo": "/images/escudos/moral.png",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-12-05",
+    "rival": "Corraleño FS",
+    "escudo": "/images/escudos/Corraleno.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-12-12",
+    "rival": "Porzuna FS",
+    "escudo": "/images/escudos/Porzuna.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-12-19",
+    "rival": "Puertollano FS",
+    "escudo": "/images/escudos/Puertollano.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-01-09",
+    "rival": "Villarrubia FS",
+    "escudo": "/images/escudos/Villarrubia.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-01-16",
+    "rival": "Daimiel FS B",
+    "escudo": "/images/escudos/Daimiel.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-01-23",
+    "rival": "CD San Carlos FS",
+    "escudo": "/images/escudos/SanCarlos.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-01-30",
+    "rival": "Salesianos Ciudad Real",
+    "escudo": "/images/escudos/Salesianos.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-02-13",
+    "rival": "Torralbeño FS",
+    "escudo": "/images/escudos/Torralba.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-02-20",
+    "rival": "Chillón FS",
+    "escudo": "/images/escudos/Chillon.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-02-27",
+    "rival": "Piedrabuena FS",
+    "escudo": "/images/escudos/Piedrabuena.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-03-06",
+    "rival": "CD Ciudad de Puertollano",
+    "escudo": "/images/escudos/CiudadDePuertollano.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-03-13",
+    "rival": "Carrión FS",
+    "escudo": "/images/escudos/Carrion.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-03-20",
+    "rival": "FS Renacer Argamasilla",
+    "escudo": "/images/escudos/Argamasilla.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-04-10",
+    "rival": "Moral FS B",
+    "escudo": "/images/escudos/moral.png",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-04-17",
+    "rival": "Corraleño FS",
+    "escudo": "/images/escudos/Corraleno.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-04-24",
+    "rival": "Porzuna FS",
+    "escudo": "/images/escudos/Porzuna.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-05-01",
+    "rival": "Puertollano FS",
+    "escudo": "/images/escudos/Puertollano.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-05-08",
+    "rival": "Villarrubia FS",
+    "escudo": "/images/escudos/Villarrubia.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-05-15",
+    "rival": "Daimiel FS B",
+    "escudo": "/images/escudos/Daimiel.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-05-22",
+    "rival": "CD San Carlos FS",
+    "escudo": "/images/escudos/SanCarlos.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-05-29",
+    "rival": "Salesianos Ciudad Real",
+    "escudo": "/images/escudos/Salesianos.PNG",
     "condicion": "Local",
     "lugar": "Pabellón Municipal de Torrenueva",
     "resultado": null
