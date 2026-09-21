@@ -36,7 +36,7 @@
     "foto": "/images/Plantilla/Ignacio.JPG"
   },
   {
-    "dorsal": 77,
+    "dorsal": 88,
     "nombre": "Sergio Fresneda",
     "posicion": "Pívot",
     "foto": "/images/Plantilla/Sergio.JPG"
@@ -46,5 +46,21 @@
     "nombre": "Andrés Castro",
     "posicion": "Ala diestro",
     "foto": "/images/Plantilla/Andres.JPG"
+  },
+  {
+    "dorsal": 77,
+    "nombre": "Jesús Fernández",
+    "posicion": "Pívot",
+    "foto": "/images/Plantilla/JesusFernandez-plantilla.JPG",
+    "fotoZoom": 1,
+    "fotoPosicion": "center center"
+  },
+  {
+    "dorsal": 26,
+    "nombre": "Javier Alcaide",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/JavierAlcaide-plantilla.JPG",
+    "fotoZoom": 1,
+    "fotoPosicion": "center center"
   }
 ]
