@@ -64,5 +64,11 @@
     "nombre": "Juanpa Chinchilla",
     "posicion": "Cierre",
     "foto": "/images/Plantilla/Juanpa.jpg"
+  },
+  {
+    "dorsal": 99,
+    "nombre": "Héctor",
+    "posicion": "Portero",
+    "foto": "/images/Plantilla/Hector.jpg"
   }
 ]
