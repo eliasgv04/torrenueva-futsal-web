@@ -1,6 +1,12 @@
-[{
+[
+  {
     "nombre": "Adrián Vivar",
     "cargo": "Entrenador",
-    "foto": "/images/Plantilla/adriEntrenadorJuv.jpg"
+    "foto": "/images/Plantilla/AdrianVivarEntrenadorJuv.jpg"
+  },
+  {
+    "nombre": "Chinchi",
+    "cargo": "Delegado",
+    "foto": "/images/Plantilla/Chinchi.jpg"
   }
 ]

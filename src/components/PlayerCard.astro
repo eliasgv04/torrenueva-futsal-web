@@ -9,6 +9,8 @@ interface Props {
 }
 
 const { dorsal, nombre, posicion, foto, fotoZoom = 1, fotoPosicion = 'center center' } = Astro.props;
+
+const primerNombre = nombre.trim().split(/\s+/).slice(0, -1).join(' ') || nombre;
 ---
 
 <article class="tarjeta jugador-tarjeta">
@@ -25,15 +27,27 @@ const { dorsal, nombre, posicion, foto, fotoZoom = 1, fotoPosicion = 'center cen
     {dorsal != null && (
       <span class="jugador-dorsal" aria-label={`Dorsal ${dorsal}`}>{dorsal}</span>
     )}
-  </div>
-  <div class="tarjeta-cuerpo">
-    <p class="jugador-nombre">{nombre}</p>
-    <p class="jugador-posicion">{posicion}</p>
+    <div class="jugador-degradado" aria-hidden="true"></div>
+    <div class="jugador-info">
+      <p class="jugador-nombre">{primerNombre}</p>
+      <p class="jugador-posicion">{posicion}</p>
+    </div>
   </div>
 </article>
 
 <style>
-.jugador-tarjeta { text-align: center; }
+.jugador-tarjeta {
+  text-align: center;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.jugador-tarjeta:hover {
+  transform: translateY(-7px) scale(1.015);
+  border-color: var(--club-verde);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, .6),
+    0 0 0 2px var(--club-amarillo),
+    0 0 26px rgba(245, 197, 24, .3);
+}
 
 .jugador-foto-wrap {
   position: relative;
@@ -56,34 +70,63 @@ const { dorsal, nombre, posicion, foto, fotoZoom = 1, fotoPosicion = 'center cen
 
 .jugador-dorsal {
   position: absolute;
-  top: .6rem;
-  left: .6rem;
-  background: var(--color-acento);
-  color: #000;
-  font-family: var(--fuente-titulo);
-  font-size: 1.1rem;
-  letter-spacing: .04em;
-  padding: .15rem .55rem .1rem;
-  border-radius: var(--radio-borde);
-  line-height: 1.4;
+  z-index: 2;
+  top: .4rem;
+  left: .55rem;
+  color: var(--club-verde);
+  font-family: var(--fuente-dorsal);
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: .02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .55), 0 0 2px rgba(0, 0, 0, .4);
 }
 
-.tarjeta-cuerpo { padding: 1rem 1.1rem 1.2rem; }
+.jugador-degradado {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(0, 0, 0, .92) 0%, rgba(0, 0, 0, .55) 45%, transparent 100%);
+  pointer-events: none;
+}
+
+.jugador-info {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 .9rem .85rem;
+  min-height: 1.9rem;
+  display: grid;
+}
+
+.jugador-nombre,
+.jugador-posicion {
+  grid-area: 1 / 1;
+  transition: opacity .25s ease;
+}
 
 .jugador-nombre {
-  font-family: var(--fuente-titulo);
-  font-size: .95rem;
-  letter-spacing: .04em;
-  color: var(--color-texto);
-  margin-bottom: .3rem;
-  line-height: 1.2;
+  font-family: var(--fuente-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.3;
+  opacity: 1;
 }
 
 .jugador-posicion {
-  font-size: .75rem;
+  align-self: center;
+  font-family: var(--fuente-titulo);
+  font-size: 1.15rem;
   color: var(--color-acento);
   text-transform: uppercase;
-  letter-spacing: .1em;
+  letter-spacing: .12em;
   font-weight: 700;
+  opacity: 0;
 }
+
+.jugador-tarjeta:hover .jugador-nombre { opacity: 0; }
+.jugador-tarjeta:hover .jugador-posicion { opacity: 1; }
 </style>

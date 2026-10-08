@@ -3,64 +3,66 @@
     "dorsal": 9,
     "nombre": "Félix Jesús Simón",
     "posicion": "Pívot",
-    "foto": "/images/Plantilla/felix.jpeg"
+    "foto": "/images/Plantilla/Felix.jpg"
   },
   {
     "dorsal": 11,
     "nombre": "Adrián Morales",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/adriLoti.JPG"
+    "foto": "/images/Plantilla/AdrianMorales.jpg"
   },
   {
     "dorsal": 20,
     "nombre": "Carlos Simón",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/carlitosSimon.JPG"
+    "foto": "/images/Plantilla/CarlosSimon.jpg"
   },
   {
     "dorsal": 5,
     "nombre": "Álvaro Bérmudez",
     "posicion": "Cierre",
-    "foto": "/images/Plantilla/simpson.jpeg"
+    "foto": "/images/Plantilla/AlvaroBermudez.jpg"
   },
   {
     "dorsal": 19,
     "nombre": "Álvaro Gormaz",
     "posicion": "Cierre",
-    "foto": "/images/Plantilla/gormaz.jpeg"
+    "foto": "/images/Plantilla/AlvaroGormaz.jpg"
   },
   {
     "dorsal": 21,
     "nombre": "Ignacio Castellanos",
     "posicion": "Portero",
-    "foto": "/images/Plantilla/Ignacio.JPG"
+    "foto": "/images/Plantilla/Ignacio.jpg"
   },
   {
     "dorsal": 88,
     "nombre": "Sergio Fresneda",
     "posicion": "Pívot",
-    "foto": "/images/Plantilla/Sergio.JPG"
+    "foto": "/images/Plantilla/Sergio-juv.jpg"
   },
   {
     "dorsal": 22,
     "nombre": "Andrés Castro",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/Andres.JPG"
+    "foto": "/images/Plantilla/Andres-juv.jpg"
   },
   {
     "dorsal": 77,
     "nombre": "Jesús Fernández",
     "posicion": "Pívot",
-    "foto": "/images/Plantilla/JesusFernandez-plantilla.JPG",
-    "fotoZoom": 1,
-    "fotoPosicion": "center center"
+    "foto": "/images/Plantilla/JesusFernandezJuv.jpg"
   },
   {
     "dorsal": 26,
     "nombre": "Javier Alcaide",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/JavierAlcaide-plantilla.JPG",
-    "fotoZoom": 1,
-    "fotoPosicion": "center center"
+    "foto": "/images/Plantilla/JavierAlcaide.jpg"
+  },
+  {
+    "dorsal": 4,
+    "nombre": "Juanpa Chinchilla",
+    "posicion": "Cierre",
+    "foto": "/images/Plantilla/Juanpa.jpg"
   }
 ]

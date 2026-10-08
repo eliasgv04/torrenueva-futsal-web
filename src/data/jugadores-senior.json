@@ -3,31 +3,31 @@
     "dorsal": 1,
     "nombre": "José Antonio Tamayo",
     "posicion": "Portero",
-    "foto": "/images/Plantilla/Jose.jpeg"
+    "foto": "/images/Plantilla/Jose.jpg"
   },
   {
     "dorsal": 4,
     "nombre": "Salva Vivar",
     "posicion": "Cierre",
-    "foto": "/images/Plantilla/Salva.jpeg"
+    "foto": "/images/Plantilla/Salva.jpg"
   },
   {
     "dorsal": 8,
     "nombre": "Álvaro León",
     "posicion": "Ala zurdo",
-    "foto": "/images/Plantilla/Alvaro.jpeg"
+    "foto": "/images/Plantilla/AlvaroLeon.jpg"
   },
   {
     "dorsal": 9,
     "nombre": "Antonio González",
     "posicion": "Pívot",
-    "foto": "/images/Plantilla/Antonio.jpeg"
+    "foto": "/images/Plantilla/Antonio.jpg"
   },
   {
     "dorsal": 23,
     "nombre": "Alberto Rubio",
     "posicion": "Ala zurdo",
-    "foto": "/images/Plantilla/alberto.jpeg"
+    "foto": "/images/Plantilla/Alberto.jpg"
   },
   {
     "dorsal": 11,
@@ -39,42 +39,48 @@
     "dorsal": 18,
     "nombre": "Marc Ros",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/Marc.jpeg"
+    "foto": "/images/Plantilla/Marc.jpg"
   },
   {
     "dorsal": 10,
     "nombre": "Adrián Vivar",
     "posicion": "Pívot",
-    "foto": "/images/Plantilla/Adri.jpeg"
+    "foto": "/images/Plantilla/AdrianVivar.jpg"
   },
   {
     "dorsal": 2,
     "nombre": "Carlos Jesús Ortiz",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/carlos.jpeg"
+    "foto": "/images/Plantilla/CarlosJesus.jpg"
   },
   {
     "dorsal": 3,
     "nombre": "Josevi Tercero",
     "posicion": "Cierre",
-    "foto": "/images/Plantilla/Josevi.jpeg"
+    "foto": "/images/Plantilla/Josevi.jpg"
   },
   {
     "dorsal": 13,
     "nombre": "Rubén Carrasco",
     "posicion": "Portero",
-    "foto": "/images/Plantilla/carrascoPlantilla.jpeg"
+    "foto": "/images/Plantilla/Carrasco.jpg"
   },
   {
     "dorsal": 77,
     "nombre": "Jesús García",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/jesusPlantilla.jpeg"
+    "foto": "/images/Plantilla/JesusGarcia.jpg"
   },
   {
     "dorsal": 17,
     "nombre": "Guille Prieto",
     "posicion": "Ala diestro",
-    "foto": "/images/Plantilla/Guille-plantilla.JPG"
+    "foto": "/images/Plantilla/Guille.jpg"
+  },
+  {
+    "dorsal": 6,
+    "nombre": "Borja Castellanos",
+    "posicion": "Pívot",
+    "foto": "/images/Plantilla/Borja.jpg"
   }
 ]

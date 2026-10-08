@@ -25,6 +25,7 @@
   /* Tipografía */
   --fuente-titulo:  'Anton', system-ui, sans-serif;
   --fuente-display: 'Playfair Display', Georgia, serif;
+  --fuente-dorsal:  'Bebas Neue', var(--fuente-titulo);
   --fuente-cuerpo:  system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   /* Layout */

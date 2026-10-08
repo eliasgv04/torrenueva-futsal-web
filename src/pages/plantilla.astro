@@ -46,8 +46,12 @@ const equipos = [
     </div>
 
     {equipos.map((eq, i) => {
+      const ordenPosicion = ['Cierre', 'Ala zurdo', 'Ala diestro', 'Pívot'];
       const porteros = eq.jugadores.filter(j => j.posicion === 'Portero');
-      const resto = eq.jugadores.filter(j => j.posicion !== 'Portero');
+      const resto = eq.jugadores
+        .filter(j => j.posicion !== 'Portero')
+        .slice()
+        .sort((a, b) => ordenPosicion.indexOf(a.posicion) - ordenPosicion.indexOf(b.posicion));
       return (
         <div class="equipo-panel" data-equipo-panel={eq.id} hidden={i !== 0}>
           {eq.jugadores.length === 0 ? (
@@ -67,8 +71,8 @@ const equipos = [
                           nombre={j.nombre}
                           posicion={j.posicion}
                           foto={j.foto}
-                          fotoZoom={j.fotoZoom ?? (eq.id === 'juvenil' ? 1.18 : 1)}
-                          fotoPosicion={j.fotoPosicion ?? (eq.id === 'juvenil' ? 'center 18%' : 'center center')}
+                          fotoZoom={j.fotoZoom ?? 1}
+                          fotoPosicion={j.fotoPosicion ?? 'center center'}
                         />
                       </li>
                     ))}
@@ -87,8 +91,8 @@ const equipos = [
                           nombre={j.nombre}
                           posicion={j.posicion}
                           foto={j.foto}
-                          fotoZoom={j.fotoZoom ?? (eq.id === 'juvenil' ? 2 : 1)}
-                          fotoPosicion={j.fotoPosicion ?? (eq.id === 'juvenil' ? 'center 18%' : 'center center')}
+                          fotoZoom={j.fotoZoom ?? 1}
+                          fotoPosicion={j.fotoPosicion ?? 'center center'}
                         />
                       </li>
                     ))}
