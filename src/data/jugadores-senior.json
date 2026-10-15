@@ -33,7 +33,7 @@
     "dorsal": 11,
     "nombre": "Victor Manuel Simón",
     "posicion": "Pívot",
-    "foto": "/images/Plantilla/victorManuel.JPG"
+    "foto": "/images/Plantilla/VictorManuelSimon.jpg"
   },
   {
     "dorsal": 18,
@@ -82,5 +82,11 @@
     "nombre": "Borja Castellanos",
     "posicion": "Pívot",
     "foto": "/images/Plantilla/Borja.jpg"
+  },
+  {
+    "dorsal": 7,
+    "nombre": "Pedro Martín",
+    "posicion": "Ala zurdo",
+    "foto": "/images/Plantilla/Zipi.jpg"
   }
 ]
