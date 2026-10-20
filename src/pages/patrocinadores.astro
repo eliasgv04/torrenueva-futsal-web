@@ -1,35 +1,46 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import patrocinadores from '../data/patrocinadores.json';
+import datos from '../data/patrocinadores.json';
 
-// Patrocinadores "normales" desactivados temporalmente: todavía no tenemos
-// todos los logos definitivos. Reactivar poniendo "activo": true en
-// src/data/patrocinadores.json cuando estén todos listos.
-const secciones = [
-  {
-    titulo: 'Patrocinadores principales',
-    lista: patrocinadores.principales.lista,
-    clase: 'tier-1',
-    activo: patrocinadores.principales.activo,
-  },
-  {
-    titulo: 'Colaboradores destacados',
-    lista: patrocinadores.colaboradores.lista,
-    clase: 'tier-2',
-    activo: patrocinadores.colaboradores.activo,
-  },
-  {
-    titulo: 'Patrocinadores',
-    lista: patrocinadores.apoyo.lista,
-    clase: 'tier-3',
-    activo: patrocinadores.apoyo.activo,
-  },
-].filter((seccion) => seccion.activo);
+// Todo sale de src/data/patrocinadores.json: para añadir o quitar un
+// patrocinador solo hay que editar ese archivo.
+interface Patrocinador {
+  nombre: string;
+  logo: string;
+  url?: string;
+  descripcion?: string;
+}
+type Categoria = { activo: boolean; lista: Patrocinador[] };
+
+const CATEGORIAS = [
+  { id: 'principales', titulo: 'Patrocinadores principales', etiqueta: 'Patrocinador principal' },
+  { id: 'colaboradores', titulo: 'Colaboradores', etiqueta: 'Colaborador' },
+  { id: 'apoyo', titulo: 'Patrocinadores', etiqueta: 'Patrocinador' },
+];
+
+const porCategoria = datos as Record<string, Categoria>;
+const secciones = CATEGORIAS
+  .map((c, nivel) => ({ ...c, nivel, activo: porCategoria[c.id]?.activo, lista: porCategoria[c.id]?.lista ?? [] }))
+  .filter((s) => s.activo && s.lista.length > 0);
+
+const patrocinadores = secciones.flatMap((s) =>
+  s.lista.map((p) => ({
+    nombre: p.nombre,
+    logo: p.logo,
+    url: p.url || '',
+    descripcion: p.descripcion || '',
+    categoria: s.etiqueta,
+    nivel: s.nivel,
+  })),
+);
+
+const datosEscena = JSON.stringify({ patrocinadores, escudo: '/images/Escudo.PNG' }).replace(/</g, '\\u003c');
+const EMAIL = 'torrenuevafutsal2021@gmail.com';
 ---
 
 <Layout
   titulo="Patrocinadores del Torrenueva Futsal"
-  descripcion="Patrocinadores y colaboradores del Torrenueva Futsal. Una página oscura y visual para mostrar logos monocromos con enlace web de cada empresa."
+  descripcion="Patrocinadores y colaboradores del Confecciones Carconga Torrenueva Futsal. Recorre la pared de nuestro pabellón y visita a las empresas que hacen posible el club."
 >
   <section class="sponsors-hero">
     <div class="sponsors-hero-fondo" aria-hidden="true"></div>
@@ -38,86 +49,269 @@ const secciones = [
       <p class="sponsors-label">Apoyo al club</p>
       <h1 class="sponsors-titulo">Patrocinadores</h1>
       <p class="sponsors-intro">
-        Espacio reservado para agradecer a todas las empresas que hacen posible que el sueño de que el Fútbol Sala 
-        en Torrenueva siga más vivo que nunca y sin su apoyo nada de esto sería posible. GRACIAS.
+        Gracias a todas las empresas que hacen posible que el sueño del fútbol sala en Torrenueva
+        siga más vivo que nunca. Sin su apoyo nada de esto sería posible. GRACIAS.
       </p>
     </div>
   </section>
 
-  <section class="seccion sponsors-seccion">
-    <div class="sponsors-bloque-intro">
-      <h2 class="titulo-seccion">Patrocinadores Torrenueva Futsal</h2>
-      <p>
-        Visita ya todas las empresas que hacen posible que el Torrenueva Futsal siga existiendo.
+  <section class="pabellon" aria-labelledby="pabellon-titulo">
+    <div class="contenedor">
+      <h2 id="pabellon-titulo" class="titulo-seccion">Nuestro pabellón</h2>
+      <p class="pabellon-intro">
+        Pasea por el Pabellón Municipal de Torrenueva: mira a tu alrededor, muévete por la pista
+        y pulsa una valla para conocer a cada patrocinador.
       </p>
-    </div>
 
-    {secciones.length === 0 && (
-      <p class="sponsors-proximamente">Muy pronto, más. Todavía no tenemos todos los logos.</p>
-    )}
-
-    {secciones.map((seccion) => (
-      <article class={`sponsor-tier ${seccion.clase}`}>
-        <div class="sponsor-tier-cabecera">
-          <div>
-            <h2>{seccion.titulo}</h2>
-          </div>
-          <p>{seccion.descripcion}</p>
+      <div class="pabellon-escena" data-escena hidden>
+        <div class="pabellon-carga" data-carga role="status">
+          <span class="pabellon-carga-balon" aria-hidden="true"></span>
+          <span>Cargando pabellón…</span>
+          <span class="pabellon-carga-barra" aria-hidden="true"><span data-carga-barra></span></span>
         </div>
 
-        <ul class="sponsor-grid" role="list">
-          {seccion.lista.map((patrocinador) => (
+        <p id="ayuda-teclado" class="visually-hidden">
+          Pulsa Intro para ver la ficha. Usa las flechas o W, A, S, D para moverte por la pista.
+        </p>
+        <div class="pabellon-vallas">
+          {patrocinadores.map((p, i) => (
+            <button type="button" class="valla-btn" data-indice={i} aria-haspopup="dialog" aria-describedby="ayuda-teclado">
+              <span class="valla-nombre">{p.nombre}</span>
+            </button>
+          ))}
+        </div>
+
+        <p class="pabellon-ayuda" aria-hidden="true">
+          <span class="ayuda-raton">Arrastra para mirar · Clic en la pista para moverte · Ctrl + rueda para avanzar</span>
+          <span class="ayuda-tactil">Desliza para mirar · Toca la pista para moverte</span>
+        </p>
+        <a class="pabellon-lista-btn" href="#lista-patrocinadores">Ver lista</a>
+      </div>
+
+      <p class="pabellon-aviso" data-aviso hidden>
+        Tu navegador no puede mostrar el pabellón en 3D. Aquí abajo tienes a todos nuestros patrocinadores.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion lista" id="lista-patrocinadores" aria-labelledby="lista-titulo">
+    <h2 id="lista-titulo" class="titulo-seccion">Todos nuestros patrocinadores</h2>
+
+    {secciones.map((s) => (
+      <div class="sponsor-categoria">
+        <h3>{s.titulo}</h3>
+        <ul class={`sponsor-grid nivel-${s.nivel}`} role="list">
+          {s.lista.map((p) => (
             <li>
-              <a
-                class="sponsor-card"
-                href={patrocinador.url || '#'}
-                target={patrocinador.url ? '_blank' : undefined}
-                rel={patrocinador.url ? 'noopener noreferrer' : undefined}
-                aria-label={patrocinador.url ? `Ir a la web de ${patrocinador.nombre}` : `${patrocinador.nombre} sin enlace aún`}
-              >
-                <span class="sponsor-logo-wrap">
-                  <img
-                    src={patrocinador.logo}
-                    alt={patrocinador.nombre}
-                    loading="lazy"
-                    width="520"
-                    height="240"
-                    class="sponsor-logo"
-                  />
-                </span>
-                <span class="sponsor-nombre">{patrocinador.nombre}</span>
-                <span class="sponsor-cta">{patrocinador.url ? 'Visitar web' : ''}</span>
-              </a>
+              {p.url ? (
+                <a class="sponsor-card" href={p.url} target="_blank" rel="noopener noreferrer">
+                  <span class="sponsor-lona">
+                    <img src={p.logo} alt={`Logo de ${p.nombre}`} class="sponsor-logo" data-logo loading="lazy" width="400" height="160" />
+                  </span>
+                  <span class="sponsor-nombre">{p.nombre}</span>
+                  {p.descripcion && <span class="sponsor-desc">{p.descripcion}</span>}
+                  <span class="sponsor-cta">Visitar web <span class="visually-hidden">(se abre en una pestaña nueva)</span></span>
+                </a>
+              ) : (
+                <div class="sponsor-card">
+                  <span class="sponsor-lona">
+                    <img src={p.logo} alt={`Logo de ${p.nombre}`} class="sponsor-logo" data-logo loading="lazy" width="400" height="160" />
+                  </span>
+                  <span class="sponsor-nombre">{p.nombre}</span>
+                  {p.descripcion && <span class="sponsor-desc">{p.descripcion}</span>}
+                </div>
+              )}
             </li>
           ))}
         </ul>
-      </article>
+      </div>
     ))}
   </section>
+
+  <section class="seccion unete" aria-labelledby="unete-titulo">
+    <div class="unete-caja">
+      <p class="sponsors-label">Súmate al proyecto</p>
+      <h2 id="unete-titulo">¿Quieres ser patrocinador?</h2>
+      <p>
+        Pon tu marca en la pared de nuestro pabellón y acompaña al club cada fin de semana.
+        Escríbenos y te contamos todas las opciones.
+      </p>
+      <div class="unete-acciones">
+        <a class="boton boton-primario" href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        <a class="boton boton-contorno" href="https://www.instagram.com/torrenuevafutsal/" target="_blank" rel="noopener noreferrer">
+          Instagram <span class="visually-hidden">(se abre en una pestaña nueva)</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="ficha" data-ficha aria-labelledby="ficha-nombre">
+    <div class="ficha-cuerpo">
+      <button type="button" class="ficha-cerrar" data-ficha-cerrar aria-label="Cerrar ficha">×</button>
+      <div class="ficha-lona"><img data-ficha-logo alt="" /></div>
+      <p class="ficha-categoria" data-ficha-categoria></p>
+      <h2 class="ficha-nombre" id="ficha-nombre" data-ficha-nombre></h2>
+      <p class="ficha-desc" data-ficha-desc hidden></p>
+      <a class="boton boton-primario ficha-visitar" data-ficha-visitar target="_blank" rel="noopener noreferrer">Visitar</a>
+    </div>
+  </dialog>
+
+  <script is:inline type="application/json" id="datos-pabellon" set:html={datosEscena}></script>
 </Layout>
+
+<script>
+  import { prepararLogo } from '../scripts/logos.js';
+
+  interface DatoPatrocinador {
+    nombre: string;
+    logo: string;
+    url: string;
+    descripcion: string;
+    categoria: string;
+    nivel: number;
+  }
+
+  const datos: { patrocinadores: DatoPatrocinador[]; escudo: string } = JSON.parse(
+    document.getElementById('datos-pabellon')?.textContent || '{"patrocinadores":[]}',
+  );
+
+  // Recorta los logos y oscurece los que son blancos para que se lean sobre la lona clara.
+  function adaptarLogo(img: HTMLImageElement) {
+    const procesar = () => {
+      if (img.dataset.procesado) return;
+      img.dataset.procesado = '1';
+      try {
+        img.src = prepararLogo(img, { maxLado: 600 }).toDataURL('image/png');
+      } catch {
+        // Si el navegador no deja leer el lienzo, se queda el logo original.
+      }
+    };
+    if (img.complete && img.naturalWidth) procesar();
+    else img.addEventListener('load', procesar, { once: true });
+  }
+  document.querySelectorAll<HTMLImageElement>('img[data-logo]').forEach(adaptarLogo);
+
+  // Ficha del patrocinador
+  const ficha = document.querySelector<HTMLDialogElement>('[data-ficha]')!;
+  const fichaLogo = ficha.querySelector<HTMLImageElement>('[data-ficha-logo]')!;
+  const fichaNombre = ficha.querySelector<HTMLElement>('[data-ficha-nombre]')!;
+  const fichaCategoria = ficha.querySelector<HTMLElement>('[data-ficha-categoria]')!;
+  const fichaDesc = ficha.querySelector<HTMLElement>('[data-ficha-desc]')!;
+  const fichaVisitar = ficha.querySelector<HTMLAnchorElement>('[data-ficha-visitar]')!;
+
+  function abrirFicha(indice: number) {
+    const p = datos.patrocinadores[indice];
+    if (!p) return;
+    delete fichaLogo.dataset.procesado;
+    fichaLogo.alt = `Logo de ${p.nombre}`;
+    fichaLogo.src = p.logo;
+    adaptarLogo(fichaLogo);
+    fichaNombre.textContent = p.nombre;
+    fichaCategoria.textContent = p.categoria;
+    fichaDesc.textContent = p.descripcion;
+    fichaDesc.hidden = !p.descripcion;
+    if (p.url) {
+      fichaVisitar.href = p.url;
+      fichaVisitar.hidden = false;
+      fichaVisitar.setAttribute('aria-label', `Visitar la web de ${p.nombre} (se abre en una pestaña nueva)`);
+    } else {
+      fichaVisitar.hidden = true;
+      fichaVisitar.removeAttribute('href');
+    }
+    ficha.showModal();
+  }
+  ficha.querySelector('[data-ficha-cerrar]')!.addEventListener('click', () => ficha.close());
+  ficha.addEventListener('click', (e) => {
+    if (e.target === ficha) ficha.close();
+  });
+
+  // Escena 3D
+  const escena = document.querySelector<HTMLElement>('[data-escena]')!;
+  const aviso = document.querySelector<HTMLElement>('[data-aviso]')!;
+  const carga = escena.querySelector<HTMLElement>('[data-carga]')!;
+  const barra = escena.querySelector<HTMLElement>('[data-carga-barra]')!;
+  const botones = [...escena.querySelectorAll<HTMLButtonElement>('.valla-btn')];
+  const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  botones.forEach((b, i) => b.addEventListener('click', () => abrirFicha(i)));
+
+  function mostrarVersion2D() {
+    escena.hidden = true;
+    aviso.hidden = false;
+  }
+
+  function webglDisponible() {
+    try {
+      const c = document.createElement('canvas');
+      return Boolean(window.WebGL2RenderingContext && c.getContext('webgl2'));
+    } catch {
+      return false;
+    }
+  }
+
+  async function iniciarEscena() {
+    try {
+      const { iniciarPabellon } = await import('../scripts/pabellon3d.js');
+      const control = await iniciarPabellon({
+        contenedor: escena,
+        patrocinadores: datos.patrocinadores,
+        escudo: datos.escudo,
+        botones,
+        reducirMovimiento,
+        alProgresar: (p: number) => {
+          barra.style.transform = `scaleX(${p})`;
+        },
+        alAbrir: abrirFicha,
+        alFallar: mostrarVersion2D,
+      });
+      carga.hidden = true;
+      escena.classList.add('is-lista');
+      botones.forEach((b, i) => {
+        b.addEventListener('focus', () => control.enfocar(i));
+        b.addEventListener('blur', () => control.enfocar(null));
+      });
+    } catch (error) {
+      console.warn('No se pudo cargar el pabellón 3D', error);
+      mostrarVersion2D();
+    }
+  }
+
+  if (datos.patrocinadores.length && webglDisponible()) {
+    escena.hidden = false;
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        if (entradas.some((e) => e.isIntersecting)) {
+          observador.disconnect();
+          iniciarEscena();
+        }
+      },
+      { rootMargin: '300px' },
+    );
+    observador.observe(escena);
+  } else {
+    mostrarVersion2D();
+  }
+</script>
 
 <style>
 .sponsors-hero {
   position: relative;
   overflow: hidden;
-  min-height: 58vh;
+  min-height: 36vh;
   display: flex;
   align-items: center;
   background: #040404;
 }
-
 .sponsors-hero-fondo {
   position: absolute;
   inset: 0;
   background:
     radial-gradient(circle at 20% 20%, rgba(245, 197, 24, .16), transparent 35%),
-    radial-gradient(circle at 80% 30%, rgba(255, 255, 255, .06), transparent 28%),
     linear-gradient(135deg, rgba(255, 255, 255, .05), transparent 45%),
     url('/images/FondoPrincipal.jpeg') center/cover no-repeat;
   filter: grayscale(100%) brightness(.34) contrast(1.05);
   transform: scale(1.03);
 }
-
 .sponsors-hero-overlay {
   position: absolute;
   inset: 0;
@@ -125,14 +319,12 @@ const secciones = [
     linear-gradient(to top, rgba(4,4,4,1) 0%, rgba(4,4,4,.65) 48%, rgba(4,4,4,.2) 100%),
     linear-gradient(to right, rgba(4,4,4,.88) 0%, rgba(4,4,4,.38) 60%, transparent 100%);
 }
-
 .sponsors-hero-contenido {
   position: relative;
   z-index: 1;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2rem;
 }
-
 .sponsors-label {
   font-size: .78rem;
   font-weight: 700;
@@ -141,7 +333,6 @@ const secciones = [
   color: var(--color-acento);
   margin-bottom: .9rem;
 }
-
 .sponsors-titulo {
   font-family: var(--fuente-titulo);
   font-size: clamp(3rem, 8vw, 6rem);
@@ -150,208 +341,360 @@ const secciones = [
   text-transform: uppercase;
   margin-bottom: 1rem;
 }
-
 .sponsors-intro {
   max-width: 680px;
   font-size: 1.02rem;
   color: rgba(255, 255, 255, .82);
-  margin-bottom: 2rem;
 }
 
-.sponsors-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: .85rem;
-  max-width: 760px;
-}
-
-.sponsors-meta-item {
-  background: rgba(255, 255, 255, .05);
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 999px;
-  padding: .85rem 1rem;
-  backdrop-filter: blur(10px);
-}
-
-.sponsors-meta-cantidad {
-  display: block;
-  font-family: var(--fuente-titulo);
-  font-size: 1.5rem;
-  color: #fff;
-  line-height: 1;
-}
-
-.sponsors-meta-etiqueta {
-  display: block;
-  margin-top: .2rem;
-  font-size: .75rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+/* ---------- Pabellón 3D ---------- */
+.pabellon { padding: 2.5rem 0 1rem; }
+.pabellon-intro {
+  max-width: 720px;
   color: var(--color-texto-sec);
+  margin-bottom: 1.5rem;
 }
-
-.sponsors-seccion {
-  padding-top: 4rem;
-}
-
-.sponsors-bloque-intro {
-  display: grid;
-  gap: .75rem;
-  margin-bottom: 2rem;
-}
-
-.sponsors-bloque-intro p {
-  max-width: 760px;
-  color: var(--color-texto-sec);
-}
-
-.sponsors-proximamente {
-  padding: 2.5rem 1.5rem;
-  text-align: center;
-  border-radius: 20px;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.08);
-  color: var(--color-texto-sec);
-  font-family: var(--fuente-titulo);
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-}
-
-.sponsor-tier {
-  margin-bottom: 2.5rem;
-  padding: 1.4rem;
-  border-radius: 20px;
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.08);
+.pabellon-escena {
+  position: relative;
+  height: clamp(420px, 74vh, 760px);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #06080b;
+  border: 1px solid rgba(245, 197, 24, .28);
   box-shadow: var(--sombra);
 }
+.pabellon-escena[hidden] { display: none; }
+.pabellon-escena :global(.pabellon-lienzo) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+  cursor: grab;
+}
 
-.sponsor-tier-cabecera {
+.pabellon-carga {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(240px, .9fr);
-  gap: 1rem 2rem;
-  align-items: end;
-  margin-bottom: 1.3rem;
-}
-
-.sponsor-tier-cabecera h2 {
-  font-family: var(--fuente-titulo);
-  font-size: clamp(1.35rem, 2.5vw, 2rem);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-}
-
-.sponsor-tier-cabecera p {
+  place-content: center;
+  justify-items: center;
+  gap: .9rem;
   color: var(--color-texto-sec);
-  font-size: .94rem;
+  font-size: .9rem;
+  letter-spacing: .06em;
+  background: radial-gradient(circle at 50% 40%, #12161c, #06080b 70%);
 }
+.pabellon-carga[hidden] { display: none; }
+.pabellon-carga-balon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, .15);
+  border-top-color: var(--color-acento);
+  animation: girar 1s linear infinite;
+}
+.pabellon-carga-barra {
+  width: 180px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .1);
+  overflow: hidden;
+}
+.pabellon-carga-barra > span {
+  display: block;
+  height: 100%;
+  background: var(--color-acento);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
 
-.sponsor-tier-kicker {
-  color: var(--color-acento) !important;
-  font-size: .72rem !important;
-  font-weight: 700;
-  letter-spacing: .16em;
+.pabellon-vallas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  visibility: hidden;
+}
+.pabellon-escena.is-lista .pabellon-vallas { visibility: visible; }
+.valla-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 4px;
+  pointer-events: none;
+}
+.valla-btn:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 5px;
+}
+.valla-nombre {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translate(-50%, 6px);
+  white-space: nowrap;
+  padding: .35rem .8rem;
+  border-radius: 999px;
+  background: rgba(6, 8, 11, .9);
+  border: 1px solid rgba(245, 197, 24, .55);
+  color: var(--color-acento);
+  font-family: var(--fuente-titulo);
+  font-size: .85rem;
+  letter-spacing: .06em;
   text-transform: uppercase;
-  margin-bottom: .4rem;
+  opacity: 0;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.valla-btn.is-activa .valla-nombre,
+.valla-btn:focus-visible .valla-nombre {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.valla-btn.is-detras .valla-nombre { display: none; }
+
+.pabellon-ayuda,
+.pabellon-lista-btn {
+  position: absolute;
+  z-index: 2;
+  bottom: 1rem;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.pabellon-ayuda {
+  left: 1rem;
+  max-width: calc(100% - 10rem);
+  line-height: 1.5;
+  padding: .45rem .8rem;
+  border-radius: 999px;
+  background: rgba(6, 8, 11, .7);
+  color: rgba(255, 255, 255, .8);
+  pointer-events: none;
+}
+.pabellon-lista-btn {
+  right: 1rem;
+  padding: .5rem .9rem;
+  border-radius: 999px;
+  background: rgba(6, 8, 11, .82);
+  border: 1px solid rgba(245, 197, 24, .5);
+  color: var(--color-acento);
+  text-decoration: none;
+}
+.pabellon-lista-btn:hover { background: var(--color-acento); color: #000; text-decoration: none; }
+
+.pabellon-aviso {
+  padding: 1.2rem 1.4rem;
+  border-radius: 12px;
+  border: 1px solid rgba(245, 197, 24, .35);
+  background: rgba(245, 197, 24, .06);
+  color: var(--color-texto);
 }
 
+/* ---------- Lista (también es la versión 2D) ---------- */
+.lista { scroll-margin-top: 90px; }
+.sponsor-categoria + .sponsor-categoria { margin-top: 2.5rem; }
+.sponsor-categoria h3 {
+  font-family: var(--fuente-titulo);
+  font-weight: 400;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+  margin-bottom: 1rem;
+}
 .sponsor-grid {
   display: grid;
   gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
 }
-
-.tier-1 .sponsor-grid {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.tier-2 .sponsor-grid {
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-}
-
-.tier-3 .sponsor-grid {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-}
-
+.sponsor-grid.nivel-0 { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 .sponsor-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 240px;
-  padding: 1.1rem;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  border: 1px solid rgba(255,255,255,.08);
+  gap: .75rem;
+  height: 100%;
+  padding: .9rem;
+  border-radius: 14px;
+  background: #0c0c0c;
+  border: 1px solid rgba(245, 197, 24, .28);
   color: #fff;
   text-decoration: none;
-  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
-
-.sponsor-card:hover {
+a.sponsor-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(245, 197, 24, .5);
-  background: linear-gradient(180deg, rgba(245,197,24,.08), rgba(255,255,255,.03));
+  border-color: var(--color-acento);
   box-shadow: var(--sombra-hover);
   text-decoration: none;
 }
-
-.sponsor-logo-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 150px;
-  padding: 1rem;
-  border-radius: 14px;
-  background: radial-gradient(circle at top, rgba(255,255,255,.06), rgba(255,255,255,.01));
-  border: 1px solid rgba(255,255,255,.06);
+.sponsor-lona {
+  position: relative;
+  aspect-ratio: 5 / 2;
+  border-radius: 6px;
+  background: linear-gradient(#fbfbf8, #e9e9e4);
 }
-
 .sponsor-logo {
-  width: 100%;
-  max-height: 120px;
+  position: absolute;
+  inset: 10% 12%;
+  width: 76%;
+  height: 80%;
   object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: .95;
 }
-
-.tier-1 .sponsor-logo {
-  max-height: 140px;
-}
-
-.tier-3 .sponsor-logo {
-  max-height: 96px;
-}
-
 .sponsor-nombre {
-  display: block;
-  margin-top: 1rem;
   font-family: var(--fuente-titulo);
   font-size: 1rem;
-  font-weight: 400;
-  text-transform: uppercase;
   letter-spacing: .04em;
+  text-transform: uppercase;
 }
-
+.sponsor-desc {
+  font-size: .85rem;
+  color: var(--color-texto-sec);
+}
 .sponsor-cta {
-  display: inline-flex;
-  align-self: flex-start;
-  margin-top: .7rem;
-  font-size: .75rem;
+  margin-top: auto;
+  font-size: .72rem;
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--color-acento);
 }
 
-@media (max-width: 900px) {
-  .sponsors-meta { grid-template-columns: 1fr; }
-  .sponsor-tier-cabecera { grid-template-columns: 1fr; }
+/* ---------- ¿Quieres ser patrocinador? ---------- */
+.unete-caja {
+  padding: clamp(1.6rem, 4vw, 2.8rem);
+  border-radius: 18px;
+  border: 1px solid rgba(245, 197, 24, .35);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(245, 197, 24, .14), transparent 45%),
+    #0b0b0b;
+}
+.unete-caja h2 {
+  font-family: var(--fuente-titulo);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: .9rem;
+}
+.unete-caja p:not(.sponsors-label) {
+  max-width: 620px;
+  color: var(--color-texto-sec);
+  margin-bottom: 1.4rem;
+}
+.unete-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
 }
 
-@media (max-width: 600px) {
-  .sponsor-tier { padding: 1rem; }
-  .sponsor-card { min-height: 210px; }
-  .sponsor-logo-wrap { min-height: 130px; }
+/* ---------- Ficha ---------- */
+.ficha {
+  width: min(440px, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgba(245, 197, 24, .5);
+  border-radius: 18px;
+  background: #0b0b0b;
+  color: var(--color-texto);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .7);
+}
+.ficha::backdrop {
+  background: rgba(0, 0, 0, .72);
+  backdrop-filter: blur(4px);
+}
+.ficha-cuerpo {
+  position: relative;
+  display: grid;
+  gap: .6rem;
+  padding: 1.6rem;
+  text-align: center;
+}
+.ficha-cerrar {
+  position: absolute;
+  top: .6rem;
+  right: .7rem;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  color: var(--color-texto);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.ficha-cerrar:hover { background: rgba(255, 255, 255, .14); }
+.ficha-lona {
+  position: relative;
+  aspect-ratio: 5 / 2;
+  margin: 1rem 0 .4rem;
+  border-radius: 8px;
+  background: linear-gradient(#fbfbf8, #e9e9e4);
+}
+.ficha-lona img {
+  position: absolute;
+  inset: 10% 12%;
+  width: 76%;
+  height: 80%;
+  object-fit: contain;
+}
+.ficha-categoria {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+}
+.ficha-nombre {
+  font-family: var(--fuente-titulo);
+  font-weight: 400;
+  font-size: 1.7rem;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.ficha-desc { color: var(--color-texto-sec); }
+.ficha-visitar { justify-self: center; margin-top: .6rem; }
+.ficha-visitar[hidden] { display: none; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.ayuda-tactil { display: none; }
+@media (hover: none) {
+  .ayuda-raton { display: none; }
+  .ayuda-tactil { display: inline; }
+}
+
+@media (max-width: 700px) {
+  .pabellon-escena { height: clamp(380px, 68vh, 620px); }
+  .pabellon-ayuda {
+    top: 1rem;
+    bottom: auto;
+    right: 1rem;
+    max-width: none;
+    border-radius: 12px;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .valla-nombre,
+  .sponsor-card,
+  .pabellon-carga-barra > span { transition: none; }
+  .pabellon-carga-balon { animation: none; }
 }
 </style>

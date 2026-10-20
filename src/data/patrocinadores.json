@@ -61,47 +61,6 @@
   },
   "apoyo": {
     "activo": false,
-    "lista": [
-      {
-        "nombre": "Patrocinador 9",
-        "logo": "/images/patrocinadores/apoyo-1.png",
-        "url": ""
-      },
-      {
-        "nombre": "Patrocinador 10",
-        "logo": "/images/patrocinadores/apoyo-2.png",
-        "url": ""
-      },
-      {
-        "nombre": "Patrocinador 11",
-        "logo": "/images/patrocinadores/apoyo-3.png",
-        "url": ""
-      },
-      {
-        "nombre": "Patrocinador 12",
-        "logo": "/images/patrocinadores/apoyo-4.png",
-        "url": ""
-      },
-      {
-        "nombre": "Patrocinador 13",
-        "logo": "/images/patrocinadores/apoyo-5.png",
-        "url": ""
-      },
-      {
-        "nombre": "Patrocinador 14",
-        "logo": "/images/patrocinadores/apoyo-6.png",
-        "url": ""
-      },
-      {
-        "nombre": "Patrocinador 15",
-        "logo": "/images/patrocinadores/apoyo-7.png",
-        "url": ""
-      },
-      {
-        "nombre": "Patrocinador 16",
-        "logo": "/images/patrocinadores/apoyo-8.png",
-        "url": ""
-      }
-    ]
+    "lista": []
   }
 }
