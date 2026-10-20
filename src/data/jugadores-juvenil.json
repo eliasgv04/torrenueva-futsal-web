@@ -70,5 +70,11 @@
     "nombre": "Héctor",
     "posicion": "Portero",
     "foto": "/images/Plantilla/Hector.jpg"
+  },
+  {
+    "dorsal": 7,
+    "nombre": "Carlos Izquierdo",
+    "posicion": "Ala diestro",
+    "foto": "/images/Plantilla/CarlosIzquierdo.jpg"
   }
 ]
