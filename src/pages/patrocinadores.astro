@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import EscenaPabellon from '../components/EscenaPabellon.astro';
 import datos from '../data/patrocinadores.json';
 
 // Todo sale de src/data/patrocinadores.json: para añadir o quitar un
@@ -63,13 +64,13 @@ const EMAIL = 'torrenuevafutsal2021@gmail.com';
         y pulsa una valla para conocer a cada patrocinador.
       </p>
 
-      <div class="pabellon-escena" data-escena hidden>
-        <div class="pabellon-carga" data-carga role="status">
-          <span class="pabellon-carga-balon" aria-hidden="true"></span>
-          <span>Cargando pabellón…</span>
-          <span class="pabellon-carga-barra" aria-hidden="true"><span data-carga-barra></span></span>
-        </div>
-
+      <EscenaPabellon
+        etiqueta="Pabellón en 3D con las vallas de los patrocinadores"
+        ayudaRaton="Arrastra para mirar · Clic en la pista para moverte · Ctrl + rueda para avanzar"
+        ayudaTactil="Desliza para mirar · Toca la pista para moverte"
+        listaHref="#lista-patrocinadores"
+        aviso="Tu navegador no puede mostrar el pabellón en 3D. Aquí abajo tienes a todos nuestros patrocinadores."
+      >
         <p id="ayuda-teclado" class="visually-hidden">
           Pulsa Intro para ver la ficha. Usa las flechas o W, A, S, D para moverte por la pista.
         </p>
@@ -80,17 +81,7 @@ const EMAIL = 'torrenuevafutsal2021@gmail.com';
             </button>
           ))}
         </div>
-
-        <p class="pabellon-ayuda" aria-hidden="true">
-          <span class="ayuda-raton">Arrastra para mirar · Clic en la pista para moverte · Ctrl + rueda para avanzar</span>
-          <span class="ayuda-tactil">Desliza para mirar · Toca la pista para moverte</span>
-        </p>
-        <a class="pabellon-lista-btn" href="#lista-patrocinadores">Ver lista</a>
-      </div>
-
-      <p class="pabellon-aviso" data-aviso hidden>
-        Tu navegador no puede mostrar el pabellón en 3D. Aquí abajo tienes a todos nuestros patrocinadores.
-      </p>
+      </EscenaPabellon>
     </div>
   </section>
 
@@ -161,6 +152,7 @@ const EMAIL = 'torrenuevafutsal2021@gmail.com';
 
 <script>
   import { prepararLogo } from '../scripts/logos.js';
+  import { arrancarEscena } from '../scripts/pabellon/arranque.js';
 
   interface DatoPatrocinador {
     nombre: string;
@@ -226,71 +218,29 @@ const EMAIL = 'torrenuevafutsal2021@gmail.com';
   });
 
   // Escena 3D
-  const escena = document.querySelector<HTMLElement>('[data-escena]')!;
-  const aviso = document.querySelector<HTMLElement>('[data-aviso]')!;
-  const carga = escena.querySelector<HTMLElement>('[data-carga]')!;
-  const barra = escena.querySelector<HTMLElement>('[data-carga-barra]')!;
-  const botones = [...escena.querySelectorAll<HTMLButtonElement>('.valla-btn')];
-  const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+  const botones = [...document.querySelectorAll<HTMLButtonElement>('.valla-btn')];
   botones.forEach((b, i) => b.addEventListener('click', () => abrirFicha(i)));
 
-  function mostrarVersion2D() {
-    escena.hidden = true;
-    aviso.hidden = false;
-  }
-
-  function webglDisponible() {
-    try {
-      const c = document.createElement('canvas');
-      return Boolean(window.WebGL2RenderingContext && c.getContext('webgl2'));
-    } catch {
-      return false;
-    }
-  }
-
-  async function iniciarEscena() {
-    try {
-      const { iniciarPabellon } = await import('../scripts/pabellon3d.js');
-      const control = await iniciarPabellon({
+  const { escena } = arrancarEscena({
+    hayContenido: datos.patrocinadores.length > 0,
+    cargar: async (ctx) => {
+      const { iniciarPabellon } = await import('../scripts/pabellon/patrocinadores.js');
+      return iniciarPabellon({
         contenedor: escena,
         patrocinadores: datos.patrocinadores,
         escudo: datos.escudo,
         botones,
-        reducirMovimiento,
-        alProgresar: (p: number) => {
-          barra.style.transform = `scaleX(${p})`;
-        },
         alAbrir: abrirFicha,
-        alFallar: mostrarVersion2D,
+        ...ctx,
       });
-      carga.hidden = true;
-      escena.classList.add('is-lista');
+    },
+    alListo: (control) => {
       botones.forEach((b, i) => {
         b.addEventListener('focus', () => control.enfocar(i));
         b.addEventListener('blur', () => control.enfocar(null));
       });
-    } catch (error) {
-      console.warn('No se pudo cargar el pabellón 3D', error);
-      mostrarVersion2D();
-    }
-  }
-
-  if (datos.patrocinadores.length && webglDisponible()) {
-    escena.hidden = false;
-    const observador = new IntersectionObserver(
-      (entradas) => {
-        if (entradas.some((e) => e.isIntersecting)) {
-          observador.disconnect();
-          iniciarEscena();
-        }
-      },
-      { rootMargin: '300px' },
-    );
-    observador.observe(escena);
-  } else {
-    mostrarVersion2D();
-  }
+    },
+  });
 </script>
 
 <style>
@@ -354,63 +304,6 @@ const EMAIL = 'torrenuevafutsal2021@gmail.com';
   color: var(--color-texto-sec);
   margin-bottom: 1.5rem;
 }
-.pabellon-escena {
-  position: relative;
-  height: clamp(420px, 74vh, 760px);
-  border-radius: 18px;
-  overflow: hidden;
-  background: #06080b;
-  border: 1px solid rgba(245, 197, 24, .28);
-  box-shadow: var(--sombra);
-}
-.pabellon-escena[hidden] { display: none; }
-.pabellon-escena :global(.pabellon-lienzo) {
-  display: block;
-  width: 100%;
-  height: 100%;
-  touch-action: pan-y;
-  cursor: grab;
-}
-
-.pabellon-carga {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: .9rem;
-  color: var(--color-texto-sec);
-  font-size: .9rem;
-  letter-spacing: .06em;
-  background: radial-gradient(circle at 50% 40%, #12161c, #06080b 70%);
-}
-.pabellon-carga[hidden] { display: none; }
-.pabellon-carga-balon {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, .15);
-  border-top-color: var(--color-acento);
-  animation: girar 1s linear infinite;
-}
-.pabellon-carga-barra {
-  width: 180px;
-  height: 3px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, .1);
-  overflow: hidden;
-}
-.pabellon-carga-barra > span {
-  display: block;
-  height: 100%;
-  background: var(--color-acento);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .25s ease;
-}
-@keyframes girar { to { transform: rotate(360deg); } }
-
 .pabellon-vallas {
   position: absolute;
   inset: 0;
@@ -418,7 +311,7 @@ const EMAIL = 'torrenuevafutsal2021@gmail.com';
   pointer-events: none;
   visibility: hidden;
 }
-.pabellon-escena.is-lista .pabellon-vallas { visibility: visible; }
+:global(.pabellon-escena.is-lista) .pabellon-vallas { visibility: visible; }
 .valla-btn {
   position: absolute;
   top: 0;
@@ -457,45 +350,6 @@ const EMAIL = 'torrenuevafutsal2021@gmail.com';
   transform: translate(-50%, 0);
 }
 .valla-btn.is-detras .valla-nombre { display: none; }
-
-.pabellon-ayuda,
-.pabellon-lista-btn {
-  position: absolute;
-  z-index: 2;
-  bottom: 1rem;
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-.pabellon-ayuda {
-  left: 1rem;
-  max-width: calc(100% - 10rem);
-  line-height: 1.5;
-  padding: .45rem .8rem;
-  border-radius: 999px;
-  background: rgba(6, 8, 11, .7);
-  color: rgba(255, 255, 255, .8);
-  pointer-events: none;
-}
-.pabellon-lista-btn {
-  right: 1rem;
-  padding: .5rem .9rem;
-  border-radius: 999px;
-  background: rgba(6, 8, 11, .82);
-  border: 1px solid rgba(245, 197, 24, .5);
-  color: var(--color-acento);
-  text-decoration: none;
-}
-.pabellon-lista-btn:hover { background: var(--color-acento); color: #000; text-decoration: none; }
-
-.pabellon-aviso {
-  padding: 1.2rem 1.4rem;
-  border-radius: 12px;
-  border: 1px solid rgba(245, 197, 24, .35);
-  background: rgba(245, 197, 24, .06);
-  color: var(--color-texto);
-}
 
 /* ---------- Lista (también es la versión 2D) ---------- */
 .lista { scroll-margin-top: 90px; }
@@ -664,37 +518,8 @@ a.sponsor-card:hover {
 .ficha-visitar { justify-self: center; margin-top: .6rem; }
 .ficha-visitar[hidden] { display: none; }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
-.ayuda-tactil { display: none; }
-@media (hover: none) {
-  .ayuda-raton { display: none; }
-  .ayuda-tactil { display: inline; }
-}
-
-@media (max-width: 700px) {
-  .pabellon-escena { height: clamp(380px, 68vh, 620px); }
-  .pabellon-ayuda {
-    top: 1rem;
-    bottom: auto;
-    right: 1rem;
-    max-width: none;
-    border-radius: 12px;
-    text-align: center;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .valla-nombre,
-  .sponsor-card,
-  .pabellon-carga-barra > span { transition: none; }
-  .pabellon-carga-balon { animation: none; }
+  .sponsor-card { transition: none; }
 }
 </style>

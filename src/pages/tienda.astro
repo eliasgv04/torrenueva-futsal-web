@@ -1,13 +1,31 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import productos from '../data/tienda.json';
+import EscenaPabellon from '../components/EscenaPabellon.astro';
+import productos from '../data/productos.json';
+import datosPatrocinadores from '../data/patrocinadores.json';
+
+// Todo sale de src/data/productos.json: para añadir o quitar un producto solo hay que
+// editar ese archivo (y, si es una camiseta, generar su modelo con `npm run modelos`).
+const precio = (p: number) => p.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
+
+// El pabellón tiene la misma anchura que en Patrocinadores, que depende de cuántas vallas hay
+const patrocinadores = Object.values(datosPatrocinadores as Record<string, { activo: boolean; lista: unknown[] }>)
+  .filter((c) => c.activo)
+  .flatMap((c) => c.lista);
+
+const datosEscena = JSON.stringify({
+  productos: productos.map((p) => ({ ...p, precioTexto: precio(p.precio) })),
+  patrocinadores: patrocinadores.map(() => ({})),
+  escudo: '/images/Escudo.PNG',
+}).replace(/</g, '\\u003c');
+const EMAIL = 'torrenuevafutsal2021@gmail.com';
 ---
 
 <Layout
   titulo="Tienda oficial del Torrenueva Futsal"
   descripcion="Tienda oficial del Torrenueva Futsal con equipación y camisetas del club. Consulta los productos de muestra y contacta con el equipo."
 >
-  <section class="seccion">
+  <section class="seccion tienda">
     <h1 class="titulo-seccion">Tienda oficial</h1>
 
     <!-- Aviso: tienda de muestra -->
@@ -20,14 +38,55 @@ import productos from '../data/tienda.json';
       </p>
     </div>
 
+    <EscenaPabellon
+      etiqueta="Escaparate en 3D con los productos de la tienda colgados en el pabellón"
+      ayudaRaton="Pasa el ratón por un producto · Clic para verlo de cerca · Arrastra para recorrer"
+      ayudaTactil="Toca un producto para verlo de cerca · Desliza para recorrer"
+      listaHref="#lista-productos"
+      aviso="Tu navegador no puede mostrar el escaparate en 3D. Aquí abajo tienes todos los productos."
+      carga="Colgando la equipación…"
+    >
+      <p id="ayuda-teclado-tienda" class="visually-hidden">
+        Pulsa Intro para ver el producto de cerca y Escape para volver.
+      </p>
+      <div class="tienda-etiquetas">
+        {productos.map((p, i) => (
+          <button type="button" class="producto-btn" data-indice={i} aria-controls="detalle-producto" aria-describedby="ayuda-teclado-tienda">
+            <span class="producto-btn-nombre">{p.nombre}</span>
+            <span class="producto-btn-precio">{precio(p.precio)}</span>
+          </button>
+        ))}
+      </div>
+
+      <aside class="detalle" id="detalle-producto" data-detalle hidden aria-labelledby="detalle-nombre">
+        <p class="detalle-tipo" data-detalle-tipo></p>
+        <h2 class="detalle-nombre" id="detalle-nombre" data-detalle-nombre tabindex="-1"></h2>
+        <p class="detalle-precio" data-detalle-precio></p>
+        <p class="detalle-desc" data-detalle-desc></p>
+        <p class="detalle-aviso">
+          <strong>No disponible para la venta online.</strong>
+          Para adquirirlo contacta directamente con el club:
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+        </p>
+        <p class="detalle-ayuda" aria-hidden="true">Arrastra para girarlo</p>
+        <div class="detalle-acciones">
+          <button type="button" class="boton boton-primario" data-detalle-girar>Ver espalda</button>
+          <button type="button" class="boton boton-contorno" data-detalle-volver>Volver</button>
+        </div>
+      </aside>
+    </EscenaPabellon>
+  </section>
+
+  <section class="seccion lista" id="lista-productos" aria-labelledby="lista-titulo">
+    <h2 id="lista-titulo" class="titulo-seccion">Todos los productos</h2>
     <ul class="cuadricula-3" role="list">
-      {productos.map(p => (
+      {productos.map((p) => (
         <li>
           <article class="tarjeta producto-tarjeta">
             <div class="producto-foto-wrap">
               <img
                 src={p.foto}
-                alt={p.nombre}
+                alt={p.tipo === 'carnet' ? `${p.nombre}: tarjeta amarilla y verde con el escudo del club` : `${p.nombre}, vista delantera y trasera`}
                 class="producto-foto"
                 loading="lazy"
                 width="400"
@@ -38,20 +97,277 @@ import productos from '../data/tienda.json';
               </div>
             </div>
             <div class="tarjeta-cuerpo">
-              <h2 class="producto-nombre">{p.nombre}</h2>
+              <h3 class="producto-nombre">{p.nombre}</h3>
               <p class="producto-desc">{p.descripcion}</p>
-              <p class="producto-precio">
-                {p.precio.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
-              </p>
+              <p class="producto-precio">{precio(p.precio)}</p>
             </div>
           </article>
         </li>
       ))}
     </ul>
   </section>
+
+  <script is:inline type="application/json" id="datos-tienda" set:html={datosEscena}></script>
 </Layout>
 
+<script>
+  import { arrancarEscena } from '../scripts/pabellon/arranque.js';
+
+  interface Producto {
+    nombre: string;
+    descripcion: string;
+    precioTexto: string;
+    tipo: string;
+  }
+
+  const datos: { productos: Producto[]; patrocinadores: object[]; escudo: string } = JSON.parse(
+    document.getElementById('datos-tienda')?.textContent || '{"productos":[]}',
+  );
+
+  const botones = [...document.querySelectorAll<HTMLButtonElement>('.producto-btn')];
+  const detalle = document.querySelector<HTMLElement>('[data-detalle]')!;
+  const detalleTipo = detalle.querySelector<HTMLElement>('[data-detalle-tipo]')!;
+  const detalleNombre = detalle.querySelector<HTMLElement>('[data-detalle-nombre]')!;
+  const detallePrecio = detalle.querySelector<HTMLElement>('[data-detalle-precio]')!;
+  const detalleDesc = detalle.querySelector<HTMLElement>('[data-detalle-desc]')!;
+  const botonGirar = detalle.querySelector<HTMLButtonElement>('[data-detalle-girar]')!;
+  const botonVolver = detalle.querySelector<HTMLButtonElement>('[data-detalle-volver]')!;
+
+  let control: any = null;
+  let abierto: number | null = null;
+  let detras = false;
+
+  const textoGirar = () => {
+    const p = abierto !== null ? datos.productos[abierto] : null;
+    if (detras) return 'Ver delante';
+    return p?.tipo === 'carnet' ? 'Ver trasera' : 'Ver espalda';
+  };
+
+  // Hueco que tapa el panel: a la derecha en escritorio, abajo en el móvil
+  function hueco() {
+    if (detalle.hidden) return { derecha: 0, abajo: 0 };
+    const caja = escena.getBoundingClientRect();
+    const panel = detalle.getBoundingClientRect();
+    if (panel.width > caja.width * 0.8) return { derecha: 0, abajo: caja.bottom - panel.top };
+    return { derecha: caja.right - panel.left, abajo: 0 };
+  }
+
+  function abrirDetalle(i: number) {
+    const p = datos.productos[i];
+    if (!p || !control) return;
+    abierto = i;
+    detras = false;
+    detalleTipo.textContent = p.tipo === 'carnet' ? 'Abonos' : 'Equipación';
+    detalleNombre.textContent = p.nombre;
+    detallePrecio.textContent = p.precioTexto;
+    detalleDesc.textContent = p.descripcion;
+    botonGirar.textContent = textoGirar();
+    detalle.hidden = false;
+    escena.classList.add('is-detalle');
+    botones.forEach((b, k) => b.setAttribute('aria-expanded', String(k === i)));
+    control.abrir(i);
+    detalleNombre.focus({ preventScroll: true });
+  }
+
+  function cerrarDetalle() {
+    if (abierto === null) return;
+    const i = abierto;
+    abierto = null;
+    detalle.hidden = true;
+    escena.classList.remove('is-detalle');
+    botones.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+    control?.cerrar();
+    botones[i]?.focus({ preventScroll: true });
+  }
+
+  botones.forEach((b, i) => b.addEventListener('click', () => abrirDetalle(i)));
+  botonVolver.addEventListener('click', cerrarDetalle);
+  botonGirar.addEventListener('click', () => control?.girar());
+
+  const { escena } = arrancarEscena({
+    hayContenido: datos.productos.length > 0,
+    cargar: async (ctx) => {
+      const { iniciarTienda } = await import('../scripts/pabellon/tienda.js');
+      return iniciarTienda({
+        contenedor: escena,
+        productos: datos.productos,
+        patrocinadores: datos.patrocinadores,
+        escudo: datos.escudo,
+        etiquetas: botones,
+        hueco,
+        alSeleccionar: abrirDetalle,
+        alLado: (lado: boolean) => {
+          detras = lado;
+          botonGirar.textContent = textoGirar();
+        },
+        ...ctx,
+      });
+    },
+    alListo: (c) => {
+      control = c;
+      botones.forEach((b, i) => {
+        b.addEventListener('focus', () => control.enfocar(i));
+        b.addEventListener('blur', () => control.enfocar(null));
+      });
+      new ResizeObserver(() => control.reencuadrar()).observe(detalle);
+      escena.addEventListener('keydown', (e) => {
+        if (abierto === null) return;
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          cerrarDetalle();
+        } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !(e.target instanceof HTMLInputElement)) {
+          e.preventDefault();
+          control.rotar((e.key === 'ArrowLeft' ? -1 : 1) * (Math.PI / 8));
+        }
+      });
+    },
+  });
+</script>
+
 <style>
+.tienda .aviso { margin-bottom: 1.5rem; }
+
+/* ---------- Etiquetas flotantes (nombre y precio) ---------- */
+.tienda-etiquetas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  visibility: hidden;
+}
+:global(.pabellon-escena.is-lista) .tienda-etiquetas { visibility: visible; }
+:global(.pabellon-escena.is-detalle) .tienda-etiquetas,
+:global(.pabellon-escena.is-detalle) .pabellon-ayuda,
+:global(.pabellon-escena.is-detalle) .pabellon-lista-btn { display: none; }
+
+.producto-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  justify-items: center;
+  gap: .1rem;
+  max-width: 11rem;
+  padding: .4rem .8rem .45rem;
+  border-radius: 12px;
+  border: 1px solid rgba(245, 197, 24, .35);
+  background: rgba(6, 8, 11, .82);
+  color: var(--color-texto);
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.producto-btn-nombre {
+  font-family: var(--fuente-titulo);
+  font-size: .82rem;
+  letter-spacing: .04em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.producto-btn-precio {
+  font-family: var(--fuente-titulo);
+  font-size: .95rem;
+  letter-spacing: .03em;
+  color: var(--color-acento);
+}
+.producto-btn:hover,
+.producto-btn:global(.is-activa) {
+  border-color: var(--color-acento);
+  background: rgba(6, 8, 11, .95);
+}
+.producto-btn:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* ---------- Panel de detalle ---------- */
+.detalle {
+  position: absolute;
+  z-index: 4;
+  top: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  width: min(340px, 42%);
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  padding: 1.4rem;
+  overflow-y: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(245, 197, 24, .45);
+  background: rgba(8, 9, 12, .9);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .55);
+}
+.detalle[hidden] { display: none; }
+.detalle-tipo {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--color-acento);
+}
+.detalle-nombre {
+  font-family: var(--fuente-titulo);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.detalle-nombre:focus { outline: none; }
+.detalle-precio {
+  font-family: var(--fuente-titulo);
+  font-size: 1.6rem;
+  letter-spacing: .03em;
+  color: var(--color-acento);
+}
+.detalle-desc { color: var(--color-texto-sec); font-size: .92rem; }
+.detalle-aviso {
+  padding: .75rem .9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 197, 24, .35);
+  background: rgba(245, 197, 24, .06);
+  font-size: .82rem;
+  line-height: 1.5;
+}
+.detalle-aviso a { color: var(--color-acento); word-break: break-all; }
+.detalle-ayuda {
+  margin-top: auto;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .55);
+}
+.detalle-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.detalle-acciones .boton { flex: 1 1 auto; justify-content: center; }
+
+@media (max-width: 700px) {
+  .producto-btn { max-width: 8.5rem; padding: .3rem .6rem .35rem; }
+  .producto-btn-nombre { font-size: .7rem; }
+  .producto-btn-precio { font-size: .82rem; }
+  .detalle {
+    top: auto;
+    left: .6rem;
+    right: .6rem;
+    bottom: .6rem;
+    width: auto;
+    max-height: 52%;
+    padding: 1rem 1.1rem;
+    gap: .4rem;
+  }
+  .detalle-desc { font-size: .85rem; }
+  .detalle-aviso { font-size: .76rem; padding: .55rem .7rem; }
+  .detalle-ayuda { display: none; }
+}
+
+/* ---------- Lista (también es la versión 2D) ---------- */
+.lista { scroll-margin-top: 90px; }
 .producto-tarjeta { display: flex; flex-direction: column; height: 100%; }
 
 .producto-foto-wrap {
@@ -109,5 +425,11 @@ import productos from '../data/tienda.json';
   font-size: 1.35rem;
   letter-spacing: .03em;
   color: var(--color-acento);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .producto-btn,
+  .producto-foto { transition: none; }
+  .tarjeta:hover .producto-foto { transform: none; }
 }
 </style>

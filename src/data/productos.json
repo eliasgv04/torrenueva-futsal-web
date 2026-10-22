@@ -1,0 +1,54 @@
+[
+  {
+    "id": "primera-equipacion",
+    "nombre": "Primera Equipación 26/27",
+    "descripcion": "Con el trazado de nuestras calles y nuestra Casa de la Cultura en la espalda.",
+    "precio": 20.0,
+    "tipo": "camiseta",
+    "manga": "corta",
+    "diseno": "assets/disenos/primera.png",
+    "imagenDelantera": "/tienda/primera-equipacion-delante.webp",
+    "imagenTrasera": "/tienda/primera-equipacion-detras.webp",
+    "modelo3d": "/tienda/primera-equipacion.glb",
+    "foto": "/images/1equipacion.JPG"
+  },
+  {
+    "id": "segunda-equipacion",
+    "nombre": "Segunda Equipación 26/27 · La Borricá",
+    "descripcion": "Homenaje a nuestra emblemática fiesta, con la calavera formando todo el patrón de la camiseta.",
+    "precio": 20.0,
+    "tipo": "camiseta",
+    "manga": "corta",
+    "diseno": "assets/disenos/segunda.png",
+    "imagenDelantera": "/tienda/segunda-equipacion-delante.webp",
+    "imagenTrasera": "/tienda/segunda-equipacion-detras.webp",
+    "modelo3d": "/tienda/segunda-equipacion.glb",
+    "foto": "/images/2equipacion.JPG"
+  },
+  {
+    "id": "camiseta-portero",
+    "nombre": "Camiseta Portero 26/27",
+    "descripcion": "Equipación oficial de portero, con el trazado de nuestras calles y nuestra Casa de la Cultura en la espalda.",
+    "precio": 20.0,
+    "tipo": "camiseta",
+    "manga": "corta",
+    "diseno": "assets/disenos/portero.png",
+    "imagenDelantera": "/tienda/camiseta-portero-delante.webp",
+    "imagenTrasera": "/tienda/camiseta-portero-detras.webp",
+    "modelo3d": "/tienda/camiseta-portero.glb",
+    "foto": "/images/porteroequipacion.JPG"
+  },
+  {
+    "id": "carnet-abonado",
+    "nombre": "Carnet de Abonado 26/27",
+    "descripcion": "Acceso a los partidos como local de nuestros dos equipos, sénior y juvenil.",
+    "precio": 25.0,
+    "tipo": "carnet",
+    "manga": null,
+    "diseno": "public/images/abono.PNG",
+    "imagenDelantera": "/tienda/carnet-abonado-delante.webp",
+    "imagenTrasera": null,
+    "modelo3d": null,
+    "foto": "/images/abono-tienda.PNG"
+  }
+]

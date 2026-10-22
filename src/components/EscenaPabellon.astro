@@ -1,0 +1,153 @@
+---
+// Contenedor común de las escenas 3D del pabellón (Patrocinadores y Tienda): indicador de
+// carga, ayuda, botón "Ver lista" y aviso cuando no hay WebGL. Lo propio de cada página
+// (botones sobre la escena, paneles...) va en el slot.
+interface Props {
+  etiqueta: string;
+  ayudaRaton: string;
+  ayudaTactil: string;
+  listaHref: string;
+  aviso: string;
+  carga?: string;
+}
+const { etiqueta, ayudaRaton, ayudaTactil, listaHref, aviso, carga = 'Cargando pabellón…' } = Astro.props;
+---
+
+<div class="pabellon-escena" data-escena hidden role="region" aria-label={etiqueta}>
+  <div class="pabellon-carga" data-carga role="status">
+    <span class="pabellon-carga-balon" aria-hidden="true"></span>
+    <span>{carga}</span>
+    <span class="pabellon-carga-barra" aria-hidden="true"><span data-carga-barra></span></span>
+  </div>
+
+  <slot />
+
+  <p class="pabellon-ayuda" aria-hidden="true">
+    <span class="ayuda-raton">{ayudaRaton}</span>
+    <span class="ayuda-tactil">{ayudaTactil}</span>
+  </p>
+  <a class="pabellon-lista-btn" href={listaHref}>Ver lista</a>
+</div>
+
+<p class="pabellon-aviso" data-aviso hidden>{aviso}</p>
+
+<style>
+.pabellon-escena {
+  position: relative;
+  height: clamp(420px, 74vh, 760px);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #06080b;
+  border: 1px solid rgba(245, 197, 24, .28);
+  box-shadow: var(--sombra);
+}
+.pabellon-escena[hidden] { display: none; }
+.pabellon-escena :global(.pabellon-lienzo) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.pabellon-carga {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: .9rem;
+  color: var(--color-texto-sec);
+  font-size: .9rem;
+  letter-spacing: .06em;
+  background: radial-gradient(circle at 50% 40%, #12161c, #06080b 70%);
+}
+.pabellon-carga[hidden] { display: none; }
+.pabellon-carga-balon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, .15);
+  border-top-color: var(--color-acento);
+  animation: girar 1s linear infinite;
+}
+.pabellon-carga-barra {
+  width: 180px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .1);
+  overflow: hidden;
+}
+.pabellon-carga-barra > span {
+  display: block;
+  height: 100%;
+  background: var(--color-acento);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+
+.pabellon-ayuda,
+.pabellon-lista-btn {
+  position: absolute;
+  z-index: 2;
+  bottom: 1rem;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.pabellon-ayuda {
+  left: 1rem;
+  max-width: calc(100% - 10rem);
+  line-height: 1.5;
+  padding: .45rem .8rem;
+  border-radius: 999px;
+  background: rgba(6, 8, 11, .7);
+  color: rgba(255, 255, 255, .8);
+  pointer-events: none;
+}
+.pabellon-lista-btn {
+  right: 1rem;
+  padding: .5rem .9rem;
+  border-radius: 999px;
+  background: rgba(6, 8, 11, .82);
+  border: 1px solid rgba(245, 197, 24, .5);
+  color: var(--color-acento);
+  text-decoration: none;
+}
+.pabellon-lista-btn:hover { background: var(--color-acento); color: #000; text-decoration: none; }
+
+.pabellon-aviso {
+  padding: 1.2rem 1.4rem;
+  border-radius: 12px;
+  border: 1px solid rgba(245, 197, 24, .35);
+  background: rgba(245, 197, 24, .06);
+  color: var(--color-texto);
+}
+
+.ayuda-tactil { display: none; }
+@media (hover: none) {
+  .ayuda-raton { display: none; }
+  .ayuda-tactil { display: inline; }
+}
+
+@media (max-width: 700px) {
+  .pabellon-escena { height: clamp(380px, 68vh, 620px); }
+  .pabellon-ayuda {
+    top: 1rem;
+    bottom: auto;
+    right: 1rem;
+    max-width: none;
+    border-radius: 12px;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pabellon-carga-barra > span { transition: none; }
+  .pabellon-carga-balon { animation: none; }
+}
+</style>

@@ -1,0 +1,15 @@
+[
+  {
+    "nombre": "Poti",
+    "foto": "assets/aficionados/Poti.JPG",
+    "recorte": [1071, 1308, 2027, 2264],
+    "cara": "/pabellon/caras/poti.webp",
+    "piel": "#d0a598",
+    "pelo": "#232120",
+    "camiseta": "primera-equipacion",
+    "gesto": 0,
+    "z": 24,
+    "escala": 1.0,
+    "complexion": { "anchura": 2.0, "piernas": 0.78 }
+  }
+]
