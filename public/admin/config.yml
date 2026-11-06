@@ -1,0 +1,194 @@
+# Panel de la web: https://torrenuevafutsal.com/admin/
+# Cada cambio que se guarda aquí es un commit en GitHub y Vercel publica la web en un par de minutos.
+backend:
+  name: github
+  repo: eliasgv04/torrenueva-futsal-web
+  branch: master
+  commit_messages:
+    create: "Publica {{collection}}: {{slug}}"
+    update: "Actualiza {{collection}}: {{slug}}"
+    delete: "Borra {{collection}}: {{slug}}"
+    uploadMedia: "Sube {{path}}"
+    deleteMedia: "Borra {{path}}"
+
+# Fotos: por defecto en public/images. Las del móvil se reducen y se pasan a WebP al subirlas,
+# y el nombre del archivo se limpia (minúsculas, sin acentos ni espacios).
+media_folder: public/images
+public_folder: /images
+media_libraries:
+  default:
+    config:
+      max_file_size: 30000000
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1600
+          height: 1600
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+output:
+  omit_empty_optional_fields: true
+
+collections:
+  # ---------------------------------------------------------------- noticias
+  - name: noticias
+    label: Noticias
+    label_singular: Noticia
+    folder: src/content/noticias
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    slug: "{{titulo}}"
+    summary: "{{fecha}} · {{titulo}}"
+    sortable_fields: [fecha, titulo]
+    media_folder: /public/images/noticias
+    public_folder: /images/noticias
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - name: fecha
+        label: Fecha
+        widget: datetime
+        time_format: false
+        date_format: DD/MM/YYYY
+        format: YYYY-MM-DD
+        default: "{{now}}"
+      - { name: imagen, label: Foto, widget: image }
+      - name: descripcion
+        label: Resumen
+        widget: text
+        hint: Una o dos frases. Sale en la tarjeta de la noticia y al compartirla en redes.
+      - name: autor
+        label: Autor
+        widget: string
+        required: false
+        default: Redacción Torrenueva Futsal
+      - { name: body, label: Texto, widget: markdown }
+
+  # ---------------------------------------------------------------- calendario
+  - name: calendario
+    label: Calendario y resultados
+    files:
+      - name: senior
+        label: Calendario sénior
+        file: src/data/calendario-senior.json
+        fields: &partidos
+          - name: partidos
+            label: Partidos
+            label_singular: Partido
+            widget: list
+            root: true
+            summary: "{{fields.fecha}} · {{fields.rival}} {{fields.resultado}}"
+            fields:
+              - name: fecha
+                label: Fecha
+                widget: datetime
+                time_format: false
+                date_format: DD/MM/YYYY
+                format: YYYY-MM-DD
+              - { name: rival, label: Rival, widget: string }
+              - name: escudo
+                label: Escudo del rival
+                widget: image
+                required: false
+                media_folder: /public/images/escudos
+                public_folder: /images/escudos
+              - name: condicion
+                label: Condición
+                widget: select
+                options: [Local, Visitante]
+              - name: lugar
+                label: Lugar
+                widget: string
+                required: false
+                hint: "Solo en casa: Pabellón Municipal de Torrenueva"
+              - name: resultado
+                label: Resultado
+                widget: string
+                required: false
+                pattern: ['^\d+ - \d+$', 'Escríbelo así: 4 - 2 (primero los goles del Torrenueva)']
+                hint: Déjalo vacío hasta que se juegue. Primero los goles del Torrenueva, por ejemplo 4 - 2.
+      - name: juvenil
+        label: Calendario juvenil
+        file: src/data/calendario-juvenil.json
+        fields: *partidos
+
+  # ---------------------------------------------------------------- plantillas
+  - name: plantillas
+    label: Plantillas
+    media_folder: /public/images/Plantilla
+    public_folder: /images/Plantilla
+    files:
+      - name: jugadores-senior
+        label: Jugadores sénior
+        file: src/data/jugadores-senior.json
+        fields: &jugadores
+          - name: jugadores
+            label: Jugadores
+            label_singular: Jugador
+            widget: list
+            root: true
+            summary: "{{fields.dorsal}} · {{fields.nombre}}"
+            fields:
+              - { name: dorsal, label: Dorsal, widget: number, value_type: int }
+              - { name: nombre, label: Nombre, widget: string }
+              - name: posicion
+                label: Posición
+                widget: select
+                options: [Portero, Cierre, Ala diestro, Ala zurdo, Pívot]
+              - { name: foto, label: Foto, widget: image }
+      - name: jugadores-juvenil
+        label: Jugadores juvenil
+        file: src/data/jugadores-juvenil.json
+        fields: *jugadores
+      - name: tecnicos-senior
+        label: Cuerpo técnico sénior
+        file: src/data/cuerpo-tecnico-senior.json
+        fields: &tecnicos
+          - name: tecnicos
+            label: Cuerpo técnico
+            label_singular: Miembro
+            widget: list
+            root: true
+            summary: "{{fields.cargo}} · {{fields.nombre}}"
+            fields:
+              - { name: nombre, label: Nombre, widget: string }
+              - { name: cargo, label: Cargo, widget: string, hint: "Entrenador, Delegado…" }
+              - { name: foto, label: Foto, widget: image }
+      - name: tecnicos-juvenil
+        label: Cuerpo técnico juvenil
+        file: src/data/cuerpo-tecnico-juvenil.json
+        fields: *tecnicos
+
+  # ---------------------------------------------------------------- patrocinadores
+  - name: patrocinadores
+    label: Patrocinadores
+    media_folder: /public/images/patrocinadores
+    public_folder: /images/patrocinadores
+    files:
+      - name: patrocinadores
+        label: Patrocinadores
+        file: src/data/patrocinadores.json
+        fields:
+          - name: principales
+            label: Patrocinadores principales
+            widget: object
+            fields: &categoria
+              - { name: activo, label: Mostrar esta categoría, widget: boolean, default: true }
+              - name: lista
+                label: Empresas
+                label_singular: Empresa
+                widget: list
+                summary: "{{fields.nombre}}"
+                fields:
+                  - { name: nombre, label: Nombre, widget: string }
+                  - { name: logo, label: Logo, widget: image }
+                  - { name: url, label: Web, widget: string, required: false }
+                  - { name: descripcion, label: Descripción, widget: text, required: false }
+          - { name: colaboradores, label: Colaboradores, widget: object, fields: *categoria }
+          - { name: apoyo, label: Patrocinadores (apoyo), widget: object, fields: *categoria }

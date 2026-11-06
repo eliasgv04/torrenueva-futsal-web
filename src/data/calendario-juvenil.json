@@ -1,1 +1,137 @@
-[]
+[
+  {
+    "fecha": "2026-11-07",
+    "rival": "Manzanares FS",
+    "escudo": "/images/escudos/manzanares.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-11-14",
+    "rival": "CD Ciudad de Puertollano",
+    "escudo": "/images/escudos/CiudadDePuertollano.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-11-21",
+    "rival": "Miguelturra FS",
+    "escudo": "/images/escudos/miguelturra.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-11-28",
+    "rival": "Corraleño FS",
+    "escudo": "/images/escudos/Corraleno.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-12-12",
+    "rival": "Moral FS",
+    "escudo": "/images/escudos/moral.png",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2026-12-19",
+    "rival": "La Solana FS",
+    "escudo": "/images/escudos/lasolana.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-01-16",
+    "rival": "Membrilla FS",
+    "escudo": "/images/escudos/membrilla.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-01-23",
+    "rival": "Carrión FS",
+    "escudo": "/images/escudos/Carrion.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-01-30",
+    "rival": "Daimiel FS",
+    "escudo": "/images/escudos/Daimiel.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-02-13",
+    "rival": "Manzanares FS",
+    "escudo": "/images/escudos/manzanares.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-02-20",
+    "rival": "CD Ciudad de Puertollano",
+    "escudo": "/images/escudos/CiudadDePuertollano.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-02-27",
+    "rival": "Miguelturra FS",
+    "escudo": "/images/escudos/miguelturra.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-03-06",
+    "rival": "Corraleño FS",
+    "escudo": "/images/escudos/Corraleno.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-03-13",
+    "rival": "Moral FS",
+    "escudo": "/images/escudos/moral.png",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-03-20",
+    "rival": "La Solana FS",
+    "escudo": "/images/escudos/lasolana.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-04-03",
+    "rival": "Membrilla FS",
+    "escudo": "/images/escudos/membrilla.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-04-17",
+    "rival": "Carrión FS",
+    "escudo": "/images/escudos/Carrion.PNG",
+    "condicion": "Visitante",
+    "resultado": null
+  },
+  {
+    "fecha": "2027-04-24",
+    "rival": "Daimiel FS",
+    "escudo": "/images/escudos/Daimiel.PNG",
+    "condicion": "Local",
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": null
+  }
+]
