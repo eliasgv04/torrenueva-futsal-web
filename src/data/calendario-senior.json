@@ -34,13 +34,15 @@
     "rival": "Carrión FS",
     "escudo": "/images/escudos/Carrion.PNG",
     "condicion": "Local",
-    "lugar": "Pabellón Municipal de Torrenueva"
+    "lugar": "Pabellón Municipal de Torrenueva",
+    "resultado": "6 - 0"
   },
   {
     "fecha": "2026-11-14",
     "rival": "FS Renacer Argamasilla",
     "escudo": "/images/escudos/Argamasilla.PNG",
-    "condicion": "Visitante"
+    "condicion": "Visitante",
+    "lugar": "3 - 4"
   },
   {
     "fecha": "2026-11-28",
